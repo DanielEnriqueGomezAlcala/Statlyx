@@ -1,0 +1,2 @@
+/Users/danielgomez/Desktop/TFG/data/clean-data/Todas_las_universidades/Tabla.csv
+/Users/danielgomez/Desktop/TFG/data/raw-data/RendimientoAcademico.csv

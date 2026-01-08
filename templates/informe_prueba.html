@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informe de Rendimiento - {{ carrera }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #1f77b4;
+            --secondary-color: #e377c2;
+            --bg-light: #f8f9fa;
+            --text-dark: #333;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+        }
+
+        .container { width: 90%; margin: auto; padding: 20px; }
+
+        /* Estilos de Portada */
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        /* Secciones de Gráficas */
+        .section {
+            margin-bottom: 50px;
+            page-break-inside: avoid; /* Evita que una gráfica se corte entre páginas */
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            text-transform: uppercase;
+            font-size: 1.2em;
+        }
+
+        .graph-container {
+            text-align: center;
+            margin: 20px 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .graph-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .description {
+            background: #fdfdfd;
+            padding: 20px;
+            border-right: 4px solid #ddd;
+            font-style: italic;
+            text-align: justify;
+        }
+
+        /* Tabla de datos */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th { background: var(--primary-color); color: white; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        @media print {
+            .page-break { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Análisis de Rendimiento Académico y Perspectiva de Género</h1>
+        <p style="font-size: 1.4em; color: #555;">Titulación: <strong>{{ carrera }}</strong></p>
+    </header>
+
+    <div class="meta-info">
+        <div><strong>Universidad:</strong> La Laguna</div>
+        <div><strong>Fecha de Creación:</strong> {{ fecha }}</div>
+        <div><strong>Tasa Analizada:</strong> {{ tasa_tipo }}</div>
+    </div>
+
+    <section class="section">
+        <h2>1. Resumen Multidimensional de Tasas</h2>
+        <div class="graph-container">
+            <img src="{{ path_g1 }}" alt="Panel de Control">
+        </div>
+        <div class="description">
+            <strong>Descripción:</strong> Esta visualización facetada presenta la evolución simultánea de la Evaluación, el Éxito y el Rendimiento. 
+            Permite identificar si las variaciones en los resultados finales se deben a la falta de participación en las convocatorias 
+            o a la eficacia en la superación de las asignaturas. En {{ carrera }}, se observa una tendencia 
+            {{ tendencia_g1 }}.
+        </div>
+    </section>
+
+    <section class="section page-break">
+        <h2>2. Análisis de la Brecha de Género (M - H)</h2>
+        <div class="graph-container">
+            <img src="{{ path_g2 }}" alt="Brecha de Género">
+        </div>
+        <div class="description">
+            <strong>Análisis de Desigualdad:</strong> La gráfica muestra la diferencia porcentual neta entre mujeres y hombres. 
+            Los valores positivos indican un desempeño superior del colectivo femenino. Este indicador es crítico para evaluar 
+            la equidad de la titulación y el impacto de las políticas de inclusión a lo largo de los cursos académicos analizados.
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>3. KPI Actual y Contexto Universitario</h2>
+        <div style="display: flex; justify-content: space-around;">
+            <div style="width: 48%;">
+                <img src="{{ path_g3 }}" style="width: 100%;">
+                <p style="font-size: 0.8em; text-align: center;">Estado del Rendimiento (Último curso)</p>
+            </div>
+            <div style="width: 48%;">
+                <img src="{{ path_g4 }}" style="width: 100%;">
+                <p style="font-size: 0.8em; text-align: center;">Comparativa vs Media Institucional</p>
+            </div>
+        </div>
+        <div class="description">
+            <strong>Contextualización:</strong> Mientras que el velocímetro muestra la eficiencia absoluta de {{ carrera }}, 
+            el gráfico comparativo permite entender si la titulación se sitúa por encima o por debajo de la media global 
+            de la universidad, eliminando sesgos por la dificultad general del año académico.
+        </div>
+    </section>
+
+    <footer>
+        <p>Trabajo de Fin de Grado - Generado automáticamente mediante sistema de análisis de datos</p>
+    </footer>
+</div>
+
+</body>
+</html>
