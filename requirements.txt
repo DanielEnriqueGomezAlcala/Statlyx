@@ -1,0 +1,17 @@
+# Análisis de datos
+pandas==2.1.4
+numpy==1.26.2
+
+# Visualización
+plotly==5.18.0
+kaleido==0.2.1
+
+# Dashboard web
+dash==2.14.2
+
+# Generación de reportes
+jinja2==3.1.2
+weasyprint==60.1
+
+# Utilidades
+pathlib2==2.3.7

@@ -2,65 +2,94 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informe de Rendimiento - {{ carrera }}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-        :root {
-            --primary-color: #1f77b4;
-            --secondary-color: #e377c2;
-            --bg-light: #f8f9fa;
-            --text-dark: #333;
+        @page { margin: 2cm; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
-            margin: 0; padding: 0;
+            color: #333;
+            background: white;
         }
 
-        .container { width: 90%; margin: auto; padding: 20px; }
+        .container { 
+            max-width: 100%; 
+            margin: 0 auto; 
+            padding: 30px;
+        }
 
-        /* Estilos de Portada */
+        /* Portada */
         header {
             text-align: center;
-            border-bottom: 3px solid var(--primary-color);
+            padding: 40px 0;
+            border-bottom: 4px solid #1f77b4;
             margin-bottom: 40px;
-            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #1f77b4;
+            margin-bottom: 10px;
+        }
+
+        header .carrera {
+            font-size: 1.5em;
+            color: #666;
+            font-weight: 300;
         }
 
         .meta-info {
             display: flex;
             justify-content: space-between;
-            background: var(--bg-light);
-            padding: 15px;
+            background: #f8f9fa;
+            padding: 20px;
             border-radius: 8px;
-            margin-bottom: 30px;
-            font-size: 0.9em;
+            margin-bottom: 40px;
         }
 
-        /* Secciones de Gráficas */
+        .meta-info div {
+            flex: 1;
+            text-align: center;
+        }
+
+        .meta-info strong {
+            display: block;
+            color: #1f77b4;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        /* Secciones */
         .section {
-            margin-bottom: 50px;
-            page-break-inside: avoid; /* Evita que una gráfica se corte entre páginas */
+            margin-bottom: 60px;
+            page-break-inside: avoid;
         }
 
         h2 {
-            color: var(--primary-color);
-            border-left: 5px solid var(--primary-color);
+            color: #1f77b4;
+            border-left: 5px solid #1f77b4;
             padding-left: 15px;
-            text-transform: uppercase;
-            font-size: 1.2em;
+            margin-bottom: 25px;
+            font-size: 1.8em;
         }
 
         .graph-container {
-            text-align: center;
-            margin: 20px 0;
             background: white;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
         }
 
         .graph-container img {
@@ -69,33 +98,81 @@
         }
 
         .description {
-            background: #fdfdfd;
+            background: #f9f9f9;
             padding: 20px;
-            border-right: 4px solid #ddd;
+            border-left: 4px solid #1f77b4;
+            margin-bottom: 20px;
             font-style: italic;
-            text-align: justify;
+            color: #555;
         }
-
-        /* Tabla de datos */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th { background: var(--primary-color); color: white; }
-        th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
 
         footer {
-            margin-top: 50px;
             text-align: center;
-            font-size: 0.8em;
-            color: #777;
+            padding: 30px 0;
+            border-top: 2px solid #ddd;
+            margin-top: 60px;
+            color: #999;
+            font-size: 0.9em;
         }
 
-        @media print {
-            .page-break { page-break-before: always; }
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .meta-info div {
+            flex: 1;
+            text-align: center;
+        }
+
+        .meta-info strong {
+            display: block;
+            color: #1f77b4;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        /* Secciones */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            color: #1f77b4;
+            border-left: 5px solid #1f77b4;
+            padding-left: 15px;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .graph-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .description {
+            background: #f9f9f9;
+            padding: 20px;
+            border-left: 4px solid #1f77b4;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 2px solid #ddd;
+            margin-top: 60px;
+            color: #999;
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -103,57 +180,70 @@
 
 <div class="container">
     <header>
-        <h1>Análisis de Rendimiento Académico y Perspectiva de Género</h1>
-        <p style="font-size: 1.4em; color: #555;">Titulación: <strong>{{ carrera }}</strong></p>
+        <h1>Informe de Rendimiento Académico</h1>
+        <p class="carrera">{{ carrera }}</p>
     </header>
 
     <div class="meta-info">
-        <div><strong>Universidad:</strong> La Laguna</div>
-        <div><strong>Fecha de Creación:</strong> {{ fecha }}</div>
-        <div><strong>Tasa Analizada:</strong> {{ tasa_tipo }}</div>
+        <div><strong>Universidad:</strong> {{ universidad }}</div>
+        <div><strong>Fecha:</strong> {{ fecha }}</div>
+        <div><strong>Periodo:</strong> {{ periodo }}</div>
     </div>
 
+    <!-- Gráfico 1: Evolución del Rendimiento -->
     <section class="section">
-        <h2>1. Resumen Multidimensional de Tasas</h2>
-        <div class="graph-container">
-            <img src="{{ path_g1 }}" alt="Panel de Control">
-        </div>
+        <h2>1. Evolución del Rendimiento por Género</h2>
         <div class="description">
-            <strong>Descripción:</strong> Esta visualización facetada presenta la evolución simultánea de la Evaluación, el Éxito y el Rendimiento. 
-            Permite identificar si las variaciones en los resultados finales se deben a la falta de participación en las convocatorias 
-            o a la eficacia en la superación de las asignaturas. En {{ carrera }}, se observa una tendencia 
-            {{ tendencia_g1 }}.
+            Visualización de la tendencia del rendimiento académico a lo largo del tiempo, 
+            diferenciada por género para identificar patrones y brechas.
+        </div>
+        <div class="graph-container">
+            <img src="data:image/png;base64,{{ graph1_img }}" alt="Evolución del Rendimiento">
         </div>
     </section>
 
-    <section class="section page-break">
-        <h2>2. Análisis de la Brecha de Género (M - H)</h2>
-        <div class="graph-container">
-            <img src="{{ path_g2 }}" alt="Brecha de Género">
-        </div>
+    <!-- Gráfico 2: Comparación con Media -->
+    <section class="section">
+        <h2>2. Comparación con Media Universitaria</h2>
         <div class="description">
-            <strong>Análisis de Desigualdad:</strong> La gráfica muestra la diferencia porcentual neta entre mujeres y hombres. 
-            Los valores positivos indican un desempeño superior del colectivo femenino. Este indicador es crítico para evaluar 
-            la equidad de la titulación y el impacto de las políticas de inclusión a lo largo de los cursos académicos analizados.
+            Análisis comparativo del rendimiento de la carrera respecto a la media de todas las titulaciones.
+        </div>
+        <div class="graph-container">
+            <img src="data:image/png;base64,{{ graph2_img }}" alt="Comparación con Media">
         </div>
     </section>
 
+    <!-- Gráfico 3: Tabla Resumen -->
     <section class="section">
-        <h2>3. KPI Actual y Contexto Universitario</h2>
-        <div style="display: flex; justify-content: space-around;">
-            <div style="width: 48%;">
-                <img src="{{ path_g3 }}" style="width: 100%;">
-                <p style="font-size: 0.8em; text-align: center;">Estado del Rendimiento (Último curso)</p>
-            </div>
-            <div style="width: 48%;">
-                <img src="{{ path_g4 }}" style="width: 100%;">
-                <p style="font-size: 0.8em; text-align: center;">Comparativa vs Media Institucional</p>
-            </div>
-        </div>
+        <h2>3. Resumen de Indicadores</h2>
         <div class="description">
-            <strong>Contextualización:</strong> Mientras que el velocímetro muestra la eficiencia absoluta de {{ carrera }}, 
-            el gráfico comparativo permite entender si la titulación se sitúa por encima o por debajo de la media global 
-            de la universidad, eliminando sesgos por la dificultad general del año académico.
+            Datos consolidados del último año académico disponible.
+        </div>
+        <div class="graph-container">
+            <img src="data:image/png;base64,{{ graph3_img }}" alt="Tabla Resumen">
+        </div>
+    </section>
+
+    <!-- Gráfico 4: Brecha de Género -->
+    <section class="section">
+        <h2>4. Análisis de Brecha de Género</h2>
+        <div class="description">
+            Evolución de las diferencias de rendimiento entre hombres y mujeres. 
+            Valores positivos indican mejor rendimiento femenino.
+        </div>
+        <div class="graph-container">
+            <img src="data:image/png;base64,{{ graph4_img }}" alt="Brecha de Género">
+        </div>
+    </section>
+
+    <footer>
+        <p>Informe generado automáticamente - Sistema de Análisis de Rendimiento Académico</p>
+        <p>Datos del Sistema Integrado de Información Universitaria (SIIU)</p>
+    </footer>
+</div>
+
+</body>
+</html>
         </div>
     </section>
 

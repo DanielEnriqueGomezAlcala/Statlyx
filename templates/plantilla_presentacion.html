@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Presentación - {{ carrera }}</title>
+    <style>
+        @page { 
+            size: landscape; 
+            margin: 0; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: white;
+            color: #333;
+        }
+
+        .slide {
+            page-break-after: always;
+            padding: 60px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide:last-child {
+            page-break-after: auto;
+        }
+
+        /* Portada */
+        .slide-portada {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .slide-portada h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .slide-portada .universidad {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .slide-portada .carrera {
+            font-size: 2.2em;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px 50px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .slide-portada .fecha {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        /* Slides de contenido */
+        .slide-content {
+            background: white;
+        }
+
+        .slide-content h2 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .slide-content .descripcion {
+            font-size: 1.1em;
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .slide-content img {
+            max-width: 85%;
+            max-height: 55vh;
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        /* Slide final */
+        .slide-final {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .slide-final h2 {
+            font-size: 4em;
+            margin-bottom: 40px;
+        }
+
+        .slide-final .universidad {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .slide-final .footer {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Portada -->
+<div class="slide slide-portada">
+    <h1>📊 Análisis de Rendimiento Académico</h1>
+    <div class="universidad">{{ universidad }}</div>
+    <div class="carrera">{{ carrera }}</div>
+    <div class="fecha">{{ fecha }}</div>
+</div>
+
+<!-- Slide 2: Evolución del Rendimiento -->
+<div class="slide slide-content">
+    <h2>Evolución del Rendimiento</h2>
+    <p class="descripcion">
+        Análisis de la tasa de rendimiento académico a lo largo del tiempo, 
+        diferenciando el desempeño por género.
+    </p>
+    <img src="data:image/png;base64,{{ graph1_img }}" alt="Evolución del Rendimiento">
+</div>
+
+<!-- Slide 3: Comparación con Media -->
+<div class="slide slide-content">
+    <h2>Comparación con Media Universitaria</h2>
+    <p class="descripcion">
+        Posicionamiento de la carrera respecto al promedio de rendimiento 
+        de toda la universidad.
+    </p>
+    <img src="data:image/png;base64,{{ graph2_img }}" alt="Comparación con Media">
+</div>
+
+<!-- Slide 4: Brecha de Género -->
+<div class="slide slide-content">
+    <h2>Brecha de Género</h2>
+    <p class="descripcion">
+        Diferencias en el rendimiento académico entre estudiantes masculinos 
+        y femeninos a lo largo del periodo analizado.
+    </p>
+    <img src="data:image/png;base64,{{ graph4_img }}" alt="Brecha de Género">
+</div>
+
+<!-- Slide 5: Cierre -->
+<div class="slide slide-final">
+    <h2>¡Muchas Gracias!</h2>
+    <div class="universidad">{{ universidad }}</div>
+    <div class="footer">Sistema de Análisis de Rendimiento Académico</div>
+</div>
+
+</body>
+</html>

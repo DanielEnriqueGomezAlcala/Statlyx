@@ -428,7 +428,7 @@
     <bindings xmi:id="_viGKTeyFEfCFTZ3qZhc1dA" keySequence="COMMAND+INSERT" command="_vh7ygeyFEfCFTZ3qZhc1dA"/>
   </bindingTables>
   <bindingTables xmi:id="_vivqh-yFEfCFTZ3qZhc1dA" contributorURI="platform:/fragment/org.eclipse.e4.ui.workbench.renderers.swt.cocoa" bindingContext="_vhwzHeyFEfCFTZ3qZhc1dA">
-    <bindings xmi:id="_BR228OyOEfCaV8CSGIuY3Q" keySequence="M1+W" command="_vivqheyFEfCFTZ3qZhc1dA"/>
+    <bindings xmi:id="_OQue4O1DEfCuQ5hkT5ZBSg" keySequence="M1+W" command="_vivqheyFEfCFTZ3qZhc1dA"/>
   </bindingTables>
   <bindingTables xmi:id="_vngOseyFEfCFTZ3qZhc1dA" bindingContext="_vngOsOyFEfCFTZ3qZhc1dA"/>
   <bindingTables xmi:id="_vng1wOyFEfCFTZ3qZhc1dA" bindingContext="_vngOsuyFEfCFTZ3qZhc1dA"/>
@@ -1243,7 +1243,7 @@
   <addons xmi:id="_vhwzJuyFEfCFTZ3qZhc1dA" elementId="MinMax Addon" contributorURI="platform:/plugin/org.eclipse.ui.workbench" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.MinMaxAddon"/>
   <addons xmi:id="_vhwzJ-yFEfCFTZ3qZhc1dA" elementId="org.eclipse.ui.workbench.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.workbench" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_vhz2YOyFEfCFTZ3qZhc1dA" elementId="SplitterAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon"/>
-  <addons xmi:id="_BRxXYeyOEfCaV8CSGIuY3Q" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
+  <addons xmi:id="_OQpmYe1DEfCuQ5hkT5ZBSg" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
   <addons xmi:id="_dz0JgGOlEeSMMaPQU2nlzw" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <addons xmi:id="_PIzMwOIhEeqv_LafONhFZw" elementId="org.knime.ui.java.addon.0" contributorURI="platform:/plugin/org.knime.ui.java" contributionURI="bundleclass://org.knime.ui.java/org.knime.ui.java.PerspectiveSwitchAddon"/>
   <addons xmi:id="_QJa40OK8EeqdIqprVKVB4Q" elementId="org.knime.ui.java.addon.1" contributorURI="platform:/plugin/org.knime.ui.java" contributionURI="bundleclass://org.knime.ui.java/org.knime.ui.java.AppStartupCompleteAddon"/>
