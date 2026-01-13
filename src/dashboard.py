@@ -1,9 +1,7 @@
-import dash
-from dash import dcc, html, Input, Output, State, ctx
+import streamlit as st
 import pandas as pd
 from pathlib import Path
 import plotly.graph_objects as go
-from datetime import datetime
 
 # Importar funciones de gráficos interactivos
 from functions.charts.interactive import (
@@ -13,11 +11,51 @@ from functions.charts.interactive import (
     crear_brecha_genero
 )
 
-# Inicializar la aplicación Dash
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
-app.title = "Dashboard Rendimiento Académico"
+# Importar funciones de generación de documentos
+from functions.generar_informe import generar_informe_docx
+from functions.generar_presentacion import generar_presentacion_pptx
+
+# Configuración de la página
+st.set_page_config(
+    page_title="Dashboard Rendimiento Académico",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Estilos CSS personalizados
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f5f5f5;
+    }
+    .stButton>button {
+        width: 100%;
+        background-color: #667eea;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        border: none;
+    }
+    .stButton>button:hover {
+        background-color: #5568d3;
+    }
+    h1 {
+        color: #667eea;
+    }
+    h2 {
+        color: #667eea;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+    }
+    h3 {
+        color: #667eea;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 
+@st.cache_data
 def obtener_universidades_disponibles():
     """Obtiene la lista de universidades disponibles"""
     base_path = Path(__file__).parent.parent / "data" / "clean-data"
@@ -45,6 +83,7 @@ def obtener_universidades_disponibles():
     return sorted(universidades, key=lambda x: x['label'])
 
 
+@st.cache_data
 def cargar_datos_universidad(universidad_folder):
     """Carga los datos de una universidad"""
     base_path = Path(__file__).parent.parent / "data" / "clean-data" / universidad_folder / "Tabla.csv"
@@ -54,7 +93,7 @@ def cargar_datos_universidad(universidad_folder):
         df['Valor'] = pd.to_numeric(df['Valor'].replace('???', pd.NA), errors='coerce')
         return df
     except Exception as e:
-        print(f"Error al cargar datos: {e}")
+        st.error(f"Error al cargar datos: {e}")
         return pd.DataFrame()
 
 
@@ -72,402 +111,136 @@ def obtener_carreras_de_universidad(universidad_folder):
             c != 'Todos los ámbitos' and 
             not c.startswith('Total') and
             c != '???'):
-            carreras_filtradas.append({'label': c, 'value': c})
+            carreras_filtradas.append(c)
     
-    return sorted(carreras_filtradas, key=lambda x: x['label'])
+    return sorted(carreras_filtradas)
 
 
-# Layout de la aplicación
-app.layout = html.Div([
-    # Header
-    html.Div([
-        html.H1("Dashboard de Rendimiento Académico", 
-               style={'margin': '0', 'color': 'white'}),
-        html.P("Análisis de Rendimiento Universitario",
-              style={'margin': '10px 0 0 0', 'color': '#e0e0e0'})
-    ], style={'padding': '30px', 'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-             'borderRadius': '10px', 'marginBottom': '30px', 'textAlign': 'center'}),
+# Header
+st.markdown("""
+    <div style='padding: 30px; background: #667eea; 
+         border-radius: 10px; margin-bottom: 30px; text-align: center;'>
+        <h1 style='margin: 0; color: white;'>Dashboard de Rendimiento Académico</h1>
+        <p style='margin: 10px 0 0 0; color: #e0e0e0; font-size: 1.1em;'>
+            Análisis de Rendimiento Universitario
+        </p>
+    </div>
+""", unsafe_allow_html=True)
+
+# Sidebar para controles
+with st.sidebar:
+    st.header("Selección de Datos")
     
-    # Controles
-    html.Div([
-        html.Div([
-            html.Label("Universidad:", style={'fontWeight': 'bold', 'marginBottom': '8px', 'display': 'block'}),
-            dcc.Dropdown(
-                id='dropdown-universidad',
-                options=obtener_universidades_disponibles(),
-                placeholder="Seleccione una universidad..."
-            )
-        ], style={'flex': '1', 'marginRight': '15px'}),
+    # Obtener universidades
+    universidades = obtener_universidades_disponibles()
+    universidades_dict = {u['label']: u['value'] for u in universidades}
+    
+    # Selector de universidad
+    universidad_label = st.selectbox(
+        "Universidad",
+        options=["Seleccione una universidad..."] + list(universidades_dict.keys()),
+        key="universidad"
+    )
+    
+    # Selector de carrera
+    if universidad_label and universidad_label != "Seleccione una universidad...":
+        universidad_value = universidades_dict[universidad_label]
+        carreras = obtener_carreras_de_universidad(universidad_value)
         
-        html.Div([
-            html.Label("Carrera:", style={'fontWeight': 'bold', 'marginBottom': '8px', 'display': 'block'}),
-            dcc.Dropdown(
-                id='dropdown-carrera',
-                placeholder="Primero seleccione una universidad..."
-            )
-        ], style={'flex': '1'})
-    ], style={'display': 'flex', 'marginBottom': '30px', 'padding': '20px', 
-             'background': 'white', 'borderRadius': '10px', 'boxShadow': '0 2px 8px rgba(0,0,0,0.1)'}),
-    
-    # Mensaje inicial
-    html.Div(id='mensaje-inicial', children=[
-        html.Div("Seleccione una universidad y carrera para visualizar los gráficos", 
-                style={'fontSize': '1.2em', 'color': '#666', 'textAlign': 'center', 'padding': '40px'})
-    ]),
-    
-    # Gráficos
-    html.Div(id='graficos-container', style={'display': 'none'}, children=[
-        # Gráfico 1: Evolución del Rendimiento
-        html.Div([
-            html.H3("Evolución del Rendimiento por Género", 
-                   style={'color': '#667eea', 'borderBottom': '3px solid #667eea', 'paddingBottom': '10px'}),
-            dcc.Graph(id='graph-rendimiento')
-        ], style={'background': 'white', 'padding': '20px', 'borderRadius': '10px', 
-                 'boxShadow': '0 2px 8px rgba(0,0,0,0.1)', 'marginBottom': '20px'}),
-        
-        # Gráfico 2: Comparación con Media
-        html.Div([
-            html.H3("Comparación con Media Universitaria", 
-                   style={'color': '#667eea', 'borderBottom': '3px solid #667eea', 'paddingBottom': '10px'}),
-            dcc.Graph(id='graph-comparacion')
-        ], style={'background': 'white', 'padding': '20px', 'borderRadius': '10px', 
-                 'boxShadow': '0 2px 8px rgba(0,0,0,0.1)', 'marginBottom': '20px'}),
-        
-        # Gráfico 3: Tabla Resumen
-        html.Div([
-            html.H3("Resumen de Indicadores", 
-                   style={'color': '#667eea', 'borderBottom': '3px solid #667eea', 'paddingBottom': '10px'}),
-            dcc.Graph(id='graph-tabla')
-        ], style={'background': 'white', 'padding': '20px', 'borderRadius': '10px', 
-                 'boxShadow': '0 2px 8px rgba(0,0,0,0.1)', 'marginBottom': '20px'}),
-        
-        # Gráfico 4: Brecha de Género
-        html.Div([
-            html.H3("Brecha de Género", 
-                   style={'color': '#667eea', 'borderBottom': '3px solid #667eea', 'paddingBottom': '10px'}),
-            dcc.Graph(id='graph-brecha')
-        ], style={'background': 'white', 'padding': '20px', 'borderRadius': '10px', 
-                 'boxShadow': '0 2px 8px rgba(0,0,0,0.1)', 'marginBottom': '30px'}),
-        
-        # Botones de generar documentos
-        html.Div([
-            html.Div([
-                html.Button(
-                    "Generar Informe PDF",
-                    id='btn-generar-informe',
-                    n_clicks=0,
-                    style={
-                        'fontSize': '1.1em',
-                        'padding': '15px 40px',
-                        'background': '#667eea',
-                        'color': 'white',
-                        'border': 'none',
-                        'borderRadius': '8px',
-                        'cursor': 'pointer',
-                        'fontWeight': 'bold',
-                        'marginRight': '15px'
-                    }
-                ),
-                html.Button(
-                    "Generar Presentación PDF",
-                    id='btn-generar-presentacion',
-                    n_clicks=0,
-                    style={
-                        'fontSize': '1.1em',
-                        'padding': '15px 40px',
-                        'background': '#764ba2',
-                        'color': 'white',
-                        'border': 'none',
-                        'borderRadius': '8px',
-                        'cursor': 'pointer',
-                        'fontWeight': 'bold'
-                    }
-                )
-            ], style={'display': 'flex', 'justifyContent': 'center', 'gap': '15px'}),
-            html.Div(id='output-informe', style={'marginTop': '15px', 'textAlign': 'center'}),
-            html.Div(id='output-presentacion', style={'marginTop': '15px', 'textAlign': 'center'})
-        ], style={'textAlign': 'center', 'marginTop': '20px'})
-    ]),
-    
-    # Footer
-    html.Div([
-        html.P("Sistema de Análisis de Rendimiento Académico - Versión 1.0",
-              style={'margin': '0', 'color': '#999', 'fontSize': '0.9em'})
-    ], style={'textAlign': 'center', 'marginTop': '50px', 'padding': '20px', 
-             'borderTop': '1px solid #ddd'})
-    
-], style={'maxWidth': '1200px', 'margin': '0 auto', 'padding': '30px', 
-         'fontFamily': 'Arial, sans-serif', 'background': '#f5f5f5'})
-
-
-# Callback para actualizar carreras
-@app.callback(
-    Output('dropdown-carrera', 'options'),
-    Output('dropdown-carrera', 'value'),
-    Input('dropdown-universidad', 'value')
-)
-def actualizar_carreras(universidad):
-    if not universidad:
-        return [], None
-    
-    carreras = obtener_carreras_de_universidad(universidad)
-    return carreras, None
-
-
-# Callback para actualizar gráficos
-@app.callback(
-    Output('graficos-container', 'style'),
-    Output('mensaje-inicial', 'style'),
-    Output('graph-rendimiento', 'figure'),
-    Output('graph-comparacion', 'figure'),
-    Output('graph-tabla', 'figure'),
-    Output('graph-brecha', 'figure'),
-    Input('dropdown-carrera', 'value'),
-    State('dropdown-universidad', 'value')
-)
-def actualizar_graficos(carrera, universidad):
-    # Figura vacía por defecto
-    fig_vacia = go.Figure()
-    fig_vacia.update_layout(height=400)
-    
-    if not universidad or not carrera:
-        return (
-            {'display': 'none'}, 
-            {'display': 'block'},
-            fig_vacia, fig_vacia, fig_vacia, fig_vacia
+        carrera = st.selectbox(
+            "Carrera",
+            options=["Seleccione una carrera..."] + carreras,
+            key="carrera"
         )
+    else:
+        carrera = st.selectbox(
+            "Carrera",
+            options=["Primero seleccione una universidad..."],
+            disabled=True
+        )
+    
+    st.markdown("---")
+
+# Contenido principal
+if universidad_label == "Seleccione una universidad..." or carrera == "Seleccione una carrera...":
+    st.info("Por favor, seleccione una universidad y una carrera en el panel lateral para visualizar los gráficos.")
+
+else:
+    universidad_value = universidades_dict[universidad_label]
     
     try:
         # Cargar datos
-        df = cargar_datos_universidad(universidad)
+        df = cargar_datos_universidad(universidad_value)
         df_filtrado = df[df['Carrera'].isin([carrera, 'Todos los ámbitos'])].copy()
         
         if df_filtrado.empty:
-            raise ValueError("No hay datos disponibles")
-        
-        # Crear gráficos
-        fig1 = crear_lineas_rendimiento(df_filtrado, carrera)
-        fig2 = crear_comparacion_media(df_filtrado, carrera)
-        fig3 = crear_tabla_resumen(df_filtrado, carrera)
-        fig4 = crear_brecha_genero(df_filtrado, carrera)
-        
-        return (
-            {'display': 'block'}, 
-            {'display': 'none'},
-            fig1, fig2, fig3, fig4
-        )
-        
-    except Exception as e:
-        print(f"Error: {e}")
-        return (
-            {'display': 'none'}, 
-            {'display': 'block'},
-            fig_vacia, fig_vacia, fig_vacia, fig_vacia
-        )
-
-
-# Callback para generar informe PDF
-@app.callback(
-    Output('output-informe', 'children'),
-    Input('btn-generar-informe', 'n_clicks'),
-    State('dropdown-carrera', 'value'),
-    State('dropdown-universidad', 'value'),
-    prevent_initial_call=True
-)
-def generar_informe(n_clicks, carrera, universidad):
-    if not universidad or not carrera:
-        return html.Div("Seleccione una universidad y carrera", 
-                       style={'color': '#f59e0b', 'padding': '10px'})
+            st.error("No hay datos disponibles para la selección actual.")
+        else:
+            # Mostrar información de la selección
+            st.success(f"**Universidad:** {universidad_label} | **Carrera:** {carrera}")
+            
+            # Crear tabs para organizar mejor el contenido
+            tab1, tab2, tab3, tab4 = st.tabs([
+                "Evolución del Rendimiento",
+                "Comparación con Media",
+                "Resumen de Indicadores",
+                "Brecha de Género"
+            ])
+            
+            with tab1:
+                st.subheader("Evolución del Rendimiento por Género")
+                fig1 = crear_lineas_rendimiento(df_filtrado, carrera)
+                st.plotly_chart(fig1, use_container_width=True)
+            
+            with tab2:
+                st.subheader("Comparación con Media Universitaria")
+                fig2 = crear_comparacion_media(df_filtrado, carrera)
+                st.plotly_chart(fig2, use_container_width=True)
+            
+            with tab3:
+                st.subheader("Resumen de Indicadores")
+                fig3 = crear_tabla_resumen(df_filtrado, carrera)
+                st.plotly_chart(fig3, use_container_width=True)
+            
+            with tab4:
+                st.subheader("Brecha de Género")
+                fig4 = crear_brecha_genero(df_filtrado, carrera)
+                st.plotly_chart(fig4, use_container_width=True)
+            
+            # Sección de generación de documentos
+            st.markdown("---")
+            st.subheader("Generación de Documentos")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                if st.button("Generar Informe DOCX", use_container_width=True):
+                    with st.spinner("Generando informe..."):
+                        success, message, docx_path = generar_informe_docx(
+                            carrera, universidad_value, df_filtrado
+                        )
+                        
+                        if success:
+                            st.success("Informe DOCX generado exitosamente")
+                            st.info(f"Guardado en: {docx_path}")
+                        else:
+                            st.error(f"Error: {message}")
+            
+            with col2:
+                if st.button("Generar Presentación PPTX", use_container_width=True):
+                    with st.spinner("Generando presentación..."):
+                        success, message, pptx_path = generar_presentacion_pptx(
+                            carrera, universidad_value, df_filtrado
+                        )
+                        
+                        if success:
+                            st.success("Presentación PPTX generada exitosamente")
+                            st.info(f"Guardado en: {pptx_path}")
+                        else:
+                            st.error(f"Error: {message}")
     
-    try:
-        # Cargar datos
-        df = cargar_datos_universidad(universidad)
-        df_filtrado = df[df['Carrera'].isin([carrera, 'Todos los ámbitos'])].copy()
-        
-        # Crear directorios de salida
-        output_dir_graph = Path(__file__).parent.parent / "output" / "graph"
-        output_dir_graph.mkdir(parents=True, exist_ok=True)
-        
-        # Crear y guardar gráficos como imágenes
-        fig1 = crear_lineas_rendimiento(df_filtrado, carrera)
-        fig2 = crear_comparacion_media(df_filtrado, carrera)
-        fig3 = crear_tabla_resumen(df_filtrado, carrera)
-        fig4 = crear_brecha_genero(df_filtrado, carrera)
-        
-        # Guardar como imágenes PNG
-        carrera_file = carrera.replace(' ', '_').replace('/', '_')
-        img1_path = output_dir_graph / f"rendimiento_{carrera_file}.png"
-        img2_path = output_dir_graph / f"comparacion_{carrera_file}.png"
-        img3_path = output_dir_graph / f"tabla_{carrera_file}.png"
-        img4_path = output_dir_graph / f"brecha_{carrera_file}.png"
-        
-        fig1.write_image(str(img1_path), width=1200, height=600)
-        fig2.write_image(str(img2_path), width=1200, height=600)
-        fig3.write_image(str(img3_path), width=1200, height=400)
-        fig4.write_image(str(img4_path), width=1200, height=600)
-        
-        # Generar HTML con imágenes en base64
-        import base64
-        
-        def img_to_base64(img_path):
-            with open(img_path, 'rb') as f:
-                return base64.b64encode(f.read()).decode()
-        
-        img1_base64 = img_to_base64(img1_path)
-        img2_base64 = img_to_base64(img2_path)
-        img3_base64 = img_to_base64(img3_path)
-        img4_base64 = img_to_base64(img4_path)
-        
-        # Cargar y renderizar plantilla
-        from jinja2 import Template
-        
-        template_path = Path(__file__).parent.parent / "templates" / "informe_prueba.html"
-        with open(template_path, 'r', encoding='utf-8') as f:
-            template_content = f.read()
-        
-        template = Template(template_content)
-        
-        html_content = template.render(
-            carrera=carrera,
-            universidad=universidad.replace('_', ' '),
-            fecha=datetime.now().strftime('%d/%m/%Y'),
-            periodo=f"{df_filtrado['Anio'].min()} - {df_filtrado['Anio'].max()}",
-            graph1_img=img1_base64,
-            graph2_img=img2_base64,
-            graph3_img=img3_base64,
-            graph4_img=img4_base64
-        )
-        
-        # Guardar HTML
-        output_dir_html = Path(__file__).parent.parent / "output" / "informe_html"
-        output_dir_html.mkdir(parents=True, exist_ok=True)
-        
-        html_path = output_dir_html / f"informe_{carrera_file}.html"
-        with open(html_path, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        
-        # Generar PDF
-        from weasyprint import HTML
-        output_dir_pdf = Path(__file__).parent.parent / "output" / "informe_pdf"
-        output_dir_pdf.mkdir(parents=True, exist_ok=True)
-        
-        pdf_path = output_dir_pdf / f"Informe_{carrera_file}.pdf"
-        HTML(string=html_content).write_pdf(str(pdf_path))
-        
-        return html.Div([
-            html.Div("Informe PDF generado exitosamente", 
-                    style={'fontSize': '1.1em', 'fontWeight': 'bold', 'color': '#10b981', 'marginBottom': '10px'}),
-            html.P(f"Guardado en: {pdf_path}", 
-                  style={'fontSize': '0.85em', 'color': '#666', 'marginTop': '5px'})
-        ], style={'background': '#d1fae5', 'padding': '15px', 'borderRadius': '8px'})
-        
     except Exception as e:
-        import traceback
-        error_detail = traceback.format_exc()
-        print(f"Error detallado: {error_detail}")
-        return html.Div(f"Error: {str(e)}", 
-                       style={'color': '#ef4444', 'background': '#fee2e2', 
-                             'padding': '15px', 'borderRadius': '8px'})
+        st.error(f"Error al procesar los datos: {str(e)}")
 
-
-# Callback para generar presentación PDF
-@app.callback(
-    Output('output-presentacion', 'children'),
-    Input('btn-generar-presentacion', 'n_clicks'),
-    State('dropdown-carrera', 'value'),
-    State('dropdown-universidad', 'value'),
-    prevent_initial_call=True
-)
-def generar_presentacion(n_clicks, carrera, universidad):
-    if not universidad or not carrera:
-        return html.Div("Seleccione una universidad y carrera", 
-                       style={'color': '#f59e0b', 'padding': '10px'})
-    
-    try:
-        # Cargar datos
-        df = cargar_datos_universidad(universidad)
-        df_filtrado = df[df['Carrera'].isin([carrera, 'Todos los ámbitos'])].copy()
-        
-        # Crear directorios de salida
-        output_dir_graph = Path(__file__).parent.parent / "output" / "graph"
-        output_dir_graph.mkdir(parents=True, exist_ok=True)
-        
-        # Crear y guardar gráficos como imágenes
-        fig1 = crear_lineas_rendimiento(df_filtrado, carrera)
-        fig2 = crear_comparacion_media(df_filtrado, carrera)
-        fig4 = crear_brecha_genero(df_filtrado, carrera)
-        
-        # Guardar como imágenes PNG
-        carrera_file = carrera.replace(' ', '_').replace('/', '_')
-        img1_path = output_dir_graph / f"pres_rendimiento_{carrera_file}.png"
-        img2_path = output_dir_graph / f"pres_comparacion_{carrera_file}.png"
-        img4_path = output_dir_graph / f"pres_brecha_{carrera_file}.png"
-        
-        fig1.write_image(str(img1_path), width=1400, height=700)
-        fig2.write_image(str(img2_path), width=1400, height=700)
-        fig4.write_image(str(img4_path), width=1400, height=700)
-        
-        # Generar HTML con imágenes en base64
-        import base64
-        
-        def img_to_base64(img_path):
-            with open(img_path, 'rb') as f:
-                return base64.b64encode(f.read()).decode()
-        
-        img1_base64 = img_to_base64(img1_path)
-        img2_base64 = img_to_base64(img2_path)
-        img4_base64 = img_to_base64(img4_path)
-        
-        # Cargar y renderizar plantilla
-        from jinja2 import Template
-        
-        template_path = Path(__file__).parent.parent / "templates" / "plantilla_presentacion.html"
-        with open(template_path, 'r', encoding='utf-8') as f:
-            template_content = f.read()
-        
-        template = Template(template_content)
-        
-        html_content = template.render(
-            carrera=carrera,
-            universidad=universidad.replace('_', ' '),
-            fecha=datetime.now().strftime('%d/%m/%Y'),
-            graph1_img=img1_base64,
-            graph2_img=img2_base64,
-            graph4_img=img4_base64
-        )
-        
-        # Guardar HTML
-        output_dir_html = Path(__file__).parent.parent / "output" / "informe_html"
-        output_dir_html.mkdir(parents=True, exist_ok=True)
-        
-        html_path = output_dir_html / f"presentacion_{carrera_file}.html"
-        with open(html_path, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        
-        # Generar PDF
-        from weasyprint import HTML
-        output_dir_pdf = Path(__file__).parent.parent / "output" / "informe_pdf"
-        output_dir_pdf.mkdir(parents=True, exist_ok=True)
-        
-        pdf_path = output_dir_pdf / f"Presentacion_{carrera_file}.pdf"
-        HTML(string=html_content).write_pdf(str(pdf_path))
-        
-        return html.Div([
-            html.Div("Presentación PDF generada exitosamente", 
-                    style={'fontSize': '1.1em', 'fontWeight': 'bold', 'color': '#764ba2', 'marginBottom': '10px'}),
-            html.P(f"📁 Guardado en: {pdf_path}", 
-                  style={'fontSize': '0.85em', 'color': '#666', 'marginTop': '5px'})
-        ], style={'background': '#f3e8ff', 'padding': '15px', 'borderRadius': '8px'})
-        
-    except Exception as e:
-        import traceback
-        error_detail = traceback.format_exc()
-        print(f"Error detallado: {error_detail}")
-        return html.Div(f"Error: {str(e)}", 
-                       style={'color': '#ef4444', 'background': '#fee2e2', 
-                             'padding': '15px', 'borderRadius': '8px'})
-
-
-# Ejecutar servidor
-if __name__ == '__main__':    
-    app.run(debug=True, host='127.0.0.1', port=8050)
+# Footer
+st.markdown("---")
