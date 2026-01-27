@@ -1,0 +1,511 @@
+Anio,Tasa,Curso,Cuatrimestre,Asignatura,Valor,Convocatoria,Tipo,Itinerario
+2019-2020,Exito,Primero,Primero,Programación I,62.19,Enero,Obligatoria,General
+2019-2020,Rendimiento,Primero,Primero,Programación I,57.58,Enero,Obligatoria,General
+2019-2020,Abandono,Primero,Primero,Programación I,18.66,Enero,Obligatoria,General
+2019-2020,Exito,Primero,Primero,Cálculo,41.19,Enero,Obligatoria,General
+2019-2020,Rendimiento,Primero,Primero,Cálculo,41.09,Enero,Obligatoria,General
+2019-2020,Abandono,Primero,Primero,Cálculo,30.05,Enero,Obligatoria,General
+2019-2020,Exito,Primero,Segundo,Álgebra Lineal,47.22,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Primero,Segundo,Álgebra Lineal,40.8,Mayo,Obligatoria,General
+2019-2020,Abandono,Primero,Segundo,Álgebra Lineal,21.62,Mayo,Obligatoria,General
+2019-2020,Exito,Primero,Segundo,Física para Informática,54.16,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Primero,Segundo,Física para Informática,47.8,Mayo,Obligatoria,General
+2019-2020,Abandono,Primero,Segundo,Física para Informática,22.44,Mayo,Obligatoria,General
+2019-2020,Exito,Primero,Primero,Fundamentos de Computadores,57.55,Enero,Obligatoria,General
+2019-2020,Rendimiento,Primero,Primero,Fundamentos de Computadores,47.65,Enero,Obligatoria,General
+2019-2020,Abandono,Primero,Primero,Fundamentos de Computadores,23.41,Enero,Obligatoria,General
+2019-2020,Exito,Primero,Segundo,Estructura de Computadores,60.86,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Primero,Segundo,Estructura de Computadores,52.18,Mayo,Obligatoria,General
+2019-2020,Abandono,Primero,Segundo,Estructura de Computadores,15.26,Mayo,Obligatoria,General
+2019-2020,Exito,Primero,Primero,Lógica y Discreta,52.92,Enero,Obligatoria,General
+2019-2020,Rendimiento,Primero,Primero,Lógica y Discreta,46.76,Enero,Obligatoria,General
+2019-2020,Abandono,Primero,Primero,Lógica y Discreta,20.27,Enero,Obligatoria,General
+2019-2020,Exito,Primero,Segundo,Empresa y Economía,80.98,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Primero,Segundo,Empresa y Economía,74.28,Mayo,Obligatoria,General
+2019-2020,Abandono,Primero,Segundo,Empresa y Economía,10.99,Mayo,Obligatoria,General
+2019-2020,Exito,Segundo,Primero,Estructura de Datos,65.89,Enero,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Primero,Estructura de Datos,63.73,Enero,Obligatoria,General
+2019-2020,Abandono,Segundo,Primero,Estructura de Datos,15.31,Enero,Obligatoria,General
+2019-2020,Exito,Segundo,Segundo,Sistemas Operativos,66.67,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Segundo,Sistemas Operativos,63.38,Mayo,Obligatoria,General
+2019-2020,Abandono,Segundo,Segundo,Sistemas Operativos,19.41,Mayo,Obligatoria,General
+2019-2020,Exito,Segundo,Segundo,Bases de Datos,71.1,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Segundo,Bases de Datos,70.64,Mayo,Obligatoria,General
+2019-2020,Abandono,Segundo,Segundo,Bases de Datos,16.18,Mayo,Obligatoria,General
+2019-2020,Exito,Segundo,Primero,Estadística,62.59,Enero,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Primero,Estadística,52.81,Enero,Obligatoria,General
+2019-2020,Abandono,Segundo,Primero,Estadística,21.07,Enero,Obligatoria,General
+2019-2020,Exito,Segundo,Segundo,Redes de Computadores,74.33,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Segundo,Redes de Computadores,70.08,Mayo,Obligatoria,General
+2019-2020,Abandono,Segundo,Segundo,Redes de Computadores,11.34,Mayo,Obligatoria,General
+2019-2020,Exito,Segundo,Primero,Tecnología de la Programación,79.47,Enero,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Primero,Tecnología de la Programación,78.71,Enero,Obligatoria,General
+2019-2020,Abandono,Segundo,Primero,Tecnología de la Programación,11.66,Enero,Obligatoria,General
+2019-2020,Exito,Segundo,Primero,Interacción Persona-Ordenador,76.22,Enero,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Primero,Interacción Persona-Ordenador,67.08,Enero,Obligatoria,General
+2019-2020,Abandono,Segundo,Primero,Interacción Persona-Ordenador,9.41,Enero,Obligatoria,General
+2019-2020,Exito,Segundo,Segundo,Arquitectura de Computadores,58.93,Mayo,Obligatoria,General
+2019-2020,Rendimiento,Segundo,Segundo,Arquitectura de Computadores,51.83,Mayo,Obligatoria,General
+2019-2020,Abandono,Segundo,Segundo,Arquitectura de Computadores,15.32,Mayo,Obligatoria,General
+2019-2020,Exito,Tercero,Primero,Ingeniería del Software,90.18,Enero,Obligatoria,General
+2019-2020,Rendimiento,Tercero,Primero,Ingeniería del Software,87.05,Enero,Obligatoria,General
+2019-2020,Abandono,Tercero,Primero,Ingeniería del Software,5.58,Enero,Obligatoria,General
+2019-2020,Exito,Tercero,Segundo,Inteligencia Artificial,78.38,Junio,Obligatoria,Itinerario 1
+2019-2020,Rendimiento,Tercero,Segundo,Inteligencia Artificial,73.47,Junio,Obligatoria,Itinerario 1
+2019-2020,Abandono,Tercero,Segundo,Inteligencia Artificial,10.39,Junio,Obligatoria,Itinerario 1
+2019-2020,Exito,Tercero,Primero,Sistemas Inteligentes,76.69,Enero,Obligatoria,Itinerario 1
+2019-2020,Rendimiento,Tercero,Primero,Sistemas Inteligentes,74.23,Enero,Obligatoria,Itinerario 1
+2019-2020,Abandono,Tercero,Primero,Sistemas Inteligentes,10.75,Enero,Obligatoria,Itinerario 1
+2019-2020,Exito,Tercero,Primero,Seguridad Informática,82.19,Enero,Obligatoria,Itinerario 3
+2019-2020,Rendimiento,Tercero,Primero,Seguridad Informática,79.38,Enero,Obligatoria,Itinerario 3
+2019-2020,Abandono,Tercero,Primero,Seguridad Informática,6.74,Enero,Obligatoria,Itinerario 3
+2019-2020,Exito,Tercero,Segundo,Sistemas Distribuidos,73.25,Junio,Obligatoria,General
+2019-2020,Rendimiento,Tercero,Segundo,Sistemas Distribuidos,65.44,Junio,Obligatoria,General
+2019-2020,Abandono,Tercero,Segundo,Sistemas Distribuidos,12.96,Junio,Obligatoria,General
+2019-2020,Exito,Tercero,Primero,Diseño de Algoritmos,66.97,Enero,Obligatoria,General
+2019-2020,Rendimiento,Tercero,Primero,Diseño de Algoritmos,61.02,Enero,Obligatoria,General
+2019-2020,Abandono,Tercero,Primero,Diseño de Algoritmos,15.71,Enero,Obligatoria,General
+2019-2020,Exito,Tercero,Segundo,Compiladores,65.84,Junio,Obligatoria,Itinerario 1
+2019-2020,Rendimiento,Tercero,Segundo,Compiladores,56.12,Junio,Obligatoria,Itinerario 1
+2019-2020,Abandono,Tercero,Segundo,Compiladores,17.64,Junio,Obligatoria,Itinerario 1
+2019-2020,Exito,Tercero,Segundo,Ingeniería Web,88.73,Junio,Obligatoria,Itinerario 2
+2019-2020,Rendimiento,Tercero,Segundo,Ingeniería Web,83.74,Junio,Obligatoria,Itinerario 2
+2019-2020,Abandono,Tercero,Segundo,Ingeniería Web,4.03,Junio,Obligatoria,Itinerario 2
+2019-2020,Exito,Tercero,Primero,Gráficos por Computador,85.76,Enero,Optativa,Itinerario 4
+2019-2020,Rendimiento,Tercero,Primero,Gráficos por Computador,79.78,Enero,Optativa,Itinerario 4
+2019-2020,Abandono,Tercero,Primero,Gráficos por Computador,5.86,Enero,Optativa,Itinerario 4
+2019-2020,Exito,Cuarto,Primero,Desarrollo Web Avanzado,95.66,Enero,Optativa,Itinerario 2
+2019-2020,Rendimiento,Cuarto,Primero,Desarrollo Web Avanzado,93.85,Enero,Optativa,Itinerario 2
+2019-2020,Abandono,Cuarto,Primero,Desarrollo Web Avanzado,1.77,Enero,Optativa,Itinerario 2
+2019-2020,Exito,Cuarto,Primero,Gestión de Proyectos,92.73,Enero,Obligatoria,General
+2019-2020,Rendimiento,Cuarto,Primero,Gestión de Proyectos,86.89,Enero,Obligatoria,General
+2019-2020,Abandono,Cuarto,Primero,Gestión de Proyectos,4.15,Enero,Obligatoria,General
+2019-2020,Exito,Cuarto,Segundo,Machine Learning,92.5,Mayo,Optativa,Itinerario 1
+2019-2020,Rendimiento,Cuarto,Segundo,Machine Learning,92.06,Mayo,Optativa,Itinerario 1
+2019-2020,Abandono,Cuarto,Segundo,Machine Learning,2.95,Mayo,Optativa,Itinerario 1
+2019-2020,Exito,Cuarto,Primero,Deep Learning,87.7,Enero,Optativa,Itinerario 1
+2019-2020,Rendimiento,Cuarto,Primero,Deep Learning,77.71,Enero,Optativa,Itinerario 1
+2019-2020,Abandono,Cuarto,Primero,Deep Learning,4.81,Enero,Optativa,Itinerario 1
+2019-2020,Exito,Cuarto,Segundo,Ciberseguridad Avanzada,83.92,Mayo,Optativa,Itinerario 3
+2019-2020,Rendimiento,Cuarto,Segundo,Ciberseguridad Avanzada,83.5,Mayo,Optativa,Itinerario 3
+2019-2020,Abandono,Cuarto,Segundo,Ciberseguridad Avanzada,6.63,Mayo,Optativa,Itinerario 3
+2019-2020,Exito,Cuarto,Primero,Robótica,85.66,Enero,Optativa,Itinerario 5
+2019-2020,Rendimiento,Cuarto,Primero,Robótica,78.7,Enero,Optativa,Itinerario 5
+2019-2020,Abandono,Cuarto,Primero,Robótica,8.12,Enero,Optativa,Itinerario 5
+2019-2020,Exito,Cuarto,Primero,Ética e Ingeniería,95.37,Enero,Optativa,General
+2019-2020,Rendimiento,Cuarto,Primero,Ética e Ingeniería,88.87,Enero,Optativa,General
+2019-2020,Abandono,Cuarto,Primero,Ética e Ingeniería,2.43,Enero,Optativa,General
+2019-2020,Exito,Cuarto,Segundo,Prácticas Externas,97.18,Junio,Obligatoria,General
+2019-2020,Rendimiento,Cuarto,Segundo,Prácticas Externas,89.73,Junio,Obligatoria,General
+2019-2020,Abandono,Cuarto,Segundo,Prácticas Externas,1.52,Junio,Obligatoria,General
+2019-2020,Exito,Cuarto,Segundo,Trabajo Fin de Grado,93.56,Junio,Obligatoria,General
+2019-2020,Rendimiento,Cuarto,Segundo,Trabajo Fin de Grado,88.84,Junio,Obligatoria,General
+2019-2020,Abandono,Cuarto,Segundo,Trabajo Fin de Grado,2.15,Junio,Obligatoria,General
+2020-2021,Exito,Primero,Primero,Programación I,61.38,Enero,Obligatoria,General
+2020-2021,Rendimiento,Primero,Primero,Programación I,53.59,Enero,Obligatoria,General
+2020-2021,Abandono,Primero,Primero,Programación I,18.38,Enero,Obligatoria,General
+2020-2021,Exito,Primero,Primero,Cálculo,42.34,Enero,Obligatoria,General
+2020-2021,Rendimiento,Primero,Primero,Cálculo,42.34,Enero,Obligatoria,General
+2020-2021,Abandono,Primero,Primero,Cálculo,28.67,Enero,Obligatoria,General
+2020-2021,Exito,Primero,Segundo,Álgebra Lineal,48.09,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Primero,Segundo,Álgebra Lineal,45.48,Mayo,Obligatoria,General
+2020-2021,Abandono,Primero,Segundo,Álgebra Lineal,19.41,Mayo,Obligatoria,General
+2020-2021,Exito,Primero,Segundo,Física para Informática,52.75,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Primero,Segundo,Física para Informática,45.42,Mayo,Obligatoria,General
+2020-2021,Abandono,Primero,Segundo,Física para Informática,20.28,Mayo,Obligatoria,General
+2020-2021,Exito,Primero,Primero,Fundamentos de Computadores,64.42,Enero,Obligatoria,General
+2020-2021,Rendimiento,Primero,Primero,Fundamentos de Computadores,56.43,Enero,Obligatoria,General
+2020-2021,Abandono,Primero,Primero,Fundamentos de Computadores,18.91,Enero,Obligatoria,General
+2020-2021,Exito,Primero,Segundo,Estructura de Computadores,64.85,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Primero,Segundo,Estructura de Computadores,61.8,Mayo,Obligatoria,General
+2020-2021,Abandono,Primero,Segundo,Estructura de Computadores,18.78,Mayo,Obligatoria,General
+2020-2021,Exito,Primero,Primero,Lógica y Discreta,53.8,Enero,Obligatoria,General
+2020-2021,Rendimiento,Primero,Primero,Lógica y Discreta,45.16,Enero,Obligatoria,General
+2020-2021,Abandono,Primero,Primero,Lógica y Discreta,15.07,Enero,Obligatoria,General
+2020-2021,Exito,Primero,Segundo,Empresa y Economía,78.22,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Primero,Segundo,Empresa y Economía,72.38,Mayo,Obligatoria,General
+2020-2021,Abandono,Primero,Segundo,Empresa y Economía,9.14,Mayo,Obligatoria,General
+2020-2021,Exito,Segundo,Primero,Estructura de Datos,64.38,Enero,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Primero,Estructura de Datos,55.74,Enero,Obligatoria,General
+2020-2021,Abandono,Segundo,Primero,Estructura de Datos,20.88,Enero,Obligatoria,General
+2020-2021,Exito,Segundo,Segundo,Sistemas Operativos,68.89,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Segundo,Sistemas Operativos,68.51,Mayo,Obligatoria,General
+2020-2021,Abandono,Segundo,Segundo,Sistemas Operativos,17.3,Mayo,Obligatoria,General
+2020-2021,Exito,Segundo,Segundo,Bases de Datos,74.85,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Segundo,Bases de Datos,74.03,Mayo,Obligatoria,General
+2020-2021,Abandono,Segundo,Segundo,Bases de Datos,14.71,Mayo,Obligatoria,General
+2020-2021,Exito,Segundo,Primero,Estadística,57.22,Enero,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Primero,Estadística,52.35,Enero,Obligatoria,General
+2020-2021,Abandono,Segundo,Primero,Estadística,14.27,Enero,Obligatoria,General
+2020-2021,Exito,Segundo,Segundo,Redes de Computadores,67.99,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Segundo,Redes de Computadores,59.14,Mayo,Obligatoria,General
+2020-2021,Abandono,Segundo,Segundo,Redes de Computadores,17.26,Mayo,Obligatoria,General
+2020-2021,Exito,Segundo,Primero,Tecnología de la Programación,75.52,Enero,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Primero,Tecnología de la Programación,75.02,Enero,Obligatoria,General
+2020-2021,Abandono,Segundo,Primero,Tecnología de la Programación,11.89,Enero,Obligatoria,General
+2020-2021,Exito,Segundo,Primero,Interacción Persona-Ordenador,81.66,Enero,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Primero,Interacción Persona-Ordenador,73.3,Enero,Obligatoria,General
+2020-2021,Abandono,Segundo,Primero,Interacción Persona-Ordenador,8.98,Enero,Obligatoria,General
+2020-2021,Exito,Segundo,Segundo,Arquitectura de Computadores,61.62,Mayo,Obligatoria,General
+2020-2021,Rendimiento,Segundo,Segundo,Arquitectura de Computadores,61.56,Mayo,Obligatoria,General
+2020-2021,Abandono,Segundo,Segundo,Arquitectura de Computadores,18.14,Mayo,Obligatoria,General
+2020-2021,Exito,Tercero,Primero,Ingeniería del Software,89.0,Enero,Obligatoria,General
+2020-2021,Rendimiento,Tercero,Primero,Ingeniería del Software,79.03,Enero,Obligatoria,General
+2020-2021,Abandono,Tercero,Primero,Ingeniería del Software,4.44,Enero,Obligatoria,General
+2020-2021,Exito,Tercero,Segundo,Inteligencia Artificial,77.64,Junio,Obligatoria,Itinerario 1
+2020-2021,Rendimiento,Tercero,Segundo,Inteligencia Artificial,73.46,Junio,Obligatoria,Itinerario 1
+2020-2021,Abandono,Tercero,Segundo,Inteligencia Artificial,13.21,Junio,Obligatoria,Itinerario 1
+2020-2021,Exito,Tercero,Primero,Sistemas Inteligentes,75.69,Enero,Obligatoria,Itinerario 1
+2020-2021,Rendimiento,Tercero,Primero,Sistemas Inteligentes,67.6,Enero,Obligatoria,Itinerario 1
+2020-2021,Abandono,Tercero,Primero,Sistemas Inteligentes,12.42,Enero,Obligatoria,Itinerario 1
+2020-2021,Exito,Tercero,Primero,Seguridad Informática,80.32,Enero,Obligatoria,Itinerario 3
+2020-2021,Rendimiento,Tercero,Primero,Seguridad Informática,72.43,Enero,Obligatoria,Itinerario 3
+2020-2021,Abandono,Tercero,Primero,Seguridad Informática,6.04,Enero,Obligatoria,Itinerario 3
+2020-2021,Exito,Tercero,Segundo,Sistemas Distribuidos,71.89,Junio,Obligatoria,General
+2020-2021,Rendimiento,Tercero,Segundo,Sistemas Distribuidos,62.74,Junio,Obligatoria,General
+2020-2021,Abandono,Tercero,Segundo,Sistemas Distribuidos,14.37,Junio,Obligatoria,General
+2020-2021,Exito,Tercero,Primero,Diseño de Algoritmos,73.88,Enero,Obligatoria,General
+2020-2021,Rendimiento,Tercero,Primero,Diseño de Algoritmos,70.68,Enero,Obligatoria,General
+2020-2021,Abandono,Tercero,Primero,Diseño de Algoritmos,12.61,Enero,Obligatoria,General
+2020-2021,Exito,Tercero,Segundo,Compiladores,58.57,Junio,Obligatoria,Itinerario 1
+2020-2021,Rendimiento,Tercero,Segundo,Compiladores,51.93,Junio,Obligatoria,Itinerario 1
+2020-2021,Abandono,Tercero,Segundo,Compiladores,23.22,Junio,Obligatoria,Itinerario 1
+2020-2021,Exito,Tercero,Segundo,Ingeniería Web,86.18,Junio,Obligatoria,Itinerario 2
+2020-2021,Rendimiento,Tercero,Segundo,Ingeniería Web,80.95,Junio,Obligatoria,Itinerario 2
+2020-2021,Abandono,Tercero,Segundo,Ingeniería Web,6.3,Junio,Obligatoria,Itinerario 2
+2020-2021,Exito,Tercero,Primero,Gráficos por Computador,85.6,Enero,Optativa,Itinerario 4
+2020-2021,Rendimiento,Tercero,Primero,Gráficos por Computador,82.7,Enero,Optativa,Itinerario 4
+2020-2021,Abandono,Tercero,Primero,Gráficos por Computador,8.23,Enero,Optativa,Itinerario 4
+2020-2021,Exito,Cuarto,Primero,Desarrollo Web Avanzado,96.53,Enero,Optativa,Itinerario 2
+2020-2021,Rendimiento,Cuarto,Primero,Desarrollo Web Avanzado,94.63,Enero,Optativa,Itinerario 2
+2020-2021,Abandono,Cuarto,Primero,Desarrollo Web Avanzado,1.58,Enero,Optativa,Itinerario 2
+2020-2021,Exito,Cuarto,Primero,Gestión de Proyectos,95.17,Enero,Obligatoria,General
+2020-2021,Rendimiento,Cuarto,Primero,Gestión de Proyectos,91.35,Enero,Obligatoria,General
+2020-2021,Abandono,Cuarto,Primero,Gestión de Proyectos,2.81,Enero,Obligatoria,General
+2020-2021,Exito,Cuarto,Segundo,Machine Learning,90.2,Mayo,Optativa,Itinerario 1
+2020-2021,Rendimiento,Cuarto,Segundo,Machine Learning,87.27,Mayo,Optativa,Itinerario 1
+2020-2021,Abandono,Cuarto,Segundo,Machine Learning,4.44,Mayo,Optativa,Itinerario 1
+2020-2021,Exito,Cuarto,Primero,Deep Learning,87.71,Enero,Optativa,Itinerario 1
+2020-2021,Rendimiento,Cuarto,Primero,Deep Learning,78.31,Enero,Optativa,Itinerario 1
+2020-2021,Abandono,Cuarto,Primero,Deep Learning,3.86,Enero,Optativa,Itinerario 1
+2020-2021,Exito,Cuarto,Segundo,Ciberseguridad Avanzada,89.05,Mayo,Optativa,Itinerario 3
+2020-2021,Rendimiento,Cuarto,Segundo,Ciberseguridad Avanzada,79.47,Mayo,Optativa,Itinerario 3
+2020-2021,Abandono,Cuarto,Segundo,Ciberseguridad Avanzada,3.51,Mayo,Optativa,Itinerario 3
+2020-2021,Exito,Cuarto,Primero,Robótica,92.8,Enero,Optativa,Itinerario 5
+2020-2021,Rendimiento,Cuarto,Primero,Robótica,84.75,Enero,Optativa,Itinerario 5
+2020-2021,Abandono,Cuarto,Primero,Robótica,2.39,Enero,Optativa,Itinerario 5
+2020-2021,Exito,Cuarto,Primero,Ética e Ingeniería,94.43,Enero,Optativa,General
+2020-2021,Rendimiento,Cuarto,Primero,Ética e Ingeniería,88.35,Enero,Optativa,General
+2020-2021,Abandono,Cuarto,Primero,Ética e Ingeniería,2.52,Enero,Optativa,General
+2020-2021,Exito,Cuarto,Segundo,Prácticas Externas,100.0,Junio,Obligatoria,General
+2020-2021,Rendimiento,Cuarto,Segundo,Prácticas Externas,97.22,Junio,Obligatoria,General
+2020-2021,Abandono,Cuarto,Segundo,Prácticas Externas,0.0,Junio,Obligatoria,General
+2020-2021,Exito,Cuarto,Segundo,Trabajo Fin de Grado,99.1,Junio,Obligatoria,General
+2020-2021,Rendimiento,Cuarto,Segundo,Trabajo Fin de Grado,95.6,Junio,Obligatoria,General
+2020-2021,Abandono,Cuarto,Segundo,Trabajo Fin de Grado,0.3,Junio,Obligatoria,General
+2021-2022,Exito,Primero,Primero,Programación I,67.68,Enero,Obligatoria,General
+2021-2022,Rendimiento,Primero,Primero,Programación I,65.25,Enero,Obligatoria,General
+2021-2022,Abandono,Primero,Primero,Programación I,10.73,Enero,Obligatoria,General
+2021-2022,Exito,Primero,Primero,Cálculo,47.53,Enero,Obligatoria,General
+2021-2022,Rendimiento,Primero,Primero,Cálculo,45.53,Enero,Obligatoria,General
+2021-2022,Abandono,Primero,Primero,Cálculo,29.64,Enero,Obligatoria,General
+2021-2022,Exito,Primero,Segundo,Álgebra Lineal,53.03,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Primero,Segundo,Álgebra Lineal,47.6,Mayo,Obligatoria,General
+2021-2022,Abandono,Primero,Segundo,Álgebra Lineal,18.57,Mayo,Obligatoria,General
+2021-2022,Exito,Primero,Segundo,Física para Informática,51.67,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Primero,Segundo,Física para Informática,50.3,Mayo,Obligatoria,General
+2021-2022,Abandono,Primero,Segundo,Física para Informática,22.97,Mayo,Obligatoria,General
+2021-2022,Exito,Primero,Primero,Fundamentos de Computadores,64.9,Enero,Obligatoria,General
+2021-2022,Rendimiento,Primero,Primero,Fundamentos de Computadores,63.05,Enero,Obligatoria,General
+2021-2022,Abandono,Primero,Primero,Fundamentos de Computadores,15.11,Enero,Obligatoria,General
+2021-2022,Exito,Primero,Segundo,Estructura de Computadores,57.26,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Primero,Segundo,Estructura de Computadores,54.81,Mayo,Obligatoria,General
+2021-2022,Abandono,Primero,Segundo,Estructura de Computadores,22.05,Mayo,Obligatoria,General
+2021-2022,Exito,Primero,Primero,Lógica y Discreta,57.65,Enero,Obligatoria,General
+2021-2022,Rendimiento,Primero,Primero,Lógica y Discreta,57.38,Enero,Obligatoria,General
+2021-2022,Abandono,Primero,Primero,Lógica y Discreta,15.68,Enero,Obligatoria,General
+2021-2022,Exito,Primero,Segundo,Empresa y Economía,87.8,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Primero,Segundo,Empresa y Economía,86.86,Mayo,Obligatoria,General
+2021-2022,Abandono,Primero,Segundo,Empresa y Economía,5.54,Mayo,Obligatoria,General
+2021-2022,Exito,Segundo,Primero,Estructura de Datos,67.53,Enero,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Primero,Estructura de Datos,63.19,Enero,Obligatoria,General
+2021-2022,Abandono,Segundo,Primero,Estructura de Datos,10.29,Enero,Obligatoria,General
+2021-2022,Exito,Segundo,Segundo,Sistemas Operativos,66.17,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Segundo,Sistemas Operativos,59.84,Mayo,Obligatoria,General
+2021-2022,Abandono,Segundo,Segundo,Sistemas Operativos,10.32,Mayo,Obligatoria,General
+2021-2022,Exito,Segundo,Segundo,Bases de Datos,79.15,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Segundo,Bases de Datos,72.37,Mayo,Obligatoria,General
+2021-2022,Abandono,Segundo,Segundo,Bases de Datos,9.72,Mayo,Obligatoria,General
+2021-2022,Exito,Segundo,Primero,Estadística,64.42,Enero,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Primero,Estadística,64.35,Enero,Obligatoria,General
+2021-2022,Abandono,Segundo,Primero,Estadística,11.06,Enero,Obligatoria,General
+2021-2022,Exito,Segundo,Segundo,Redes de Computadores,70.96,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Segundo,Redes de Computadores,62.23,Mayo,Obligatoria,General
+2021-2022,Abandono,Segundo,Segundo,Redes de Computadores,16.97,Mayo,Obligatoria,General
+2021-2022,Exito,Segundo,Primero,Tecnología de la Programación,78.03,Enero,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Primero,Tecnología de la Programación,72.44,Enero,Obligatoria,General
+2021-2022,Abandono,Segundo,Primero,Tecnología de la Programación,12.19,Enero,Obligatoria,General
+2021-2022,Exito,Segundo,Primero,Interacción Persona-Ordenador,91.32,Enero,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Primero,Interacción Persona-Ordenador,87.9,Enero,Obligatoria,General
+2021-2022,Abandono,Segundo,Primero,Interacción Persona-Ordenador,3.8,Enero,Obligatoria,General
+2021-2022,Exito,Segundo,Segundo,Arquitectura de Computadores,65.7,Mayo,Obligatoria,General
+2021-2022,Rendimiento,Segundo,Segundo,Arquitectura de Computadores,57.54,Mayo,Obligatoria,General
+2021-2022,Abandono,Segundo,Segundo,Arquitectura de Computadores,18.03,Mayo,Obligatoria,General
+2021-2022,Exito,Tercero,Primero,Ingeniería del Software,89.06,Enero,Obligatoria,General
+2021-2022,Rendimiento,Tercero,Primero,Ingeniería del Software,83.0,Enero,Obligatoria,General
+2021-2022,Abandono,Tercero,Primero,Ingeniería del Software,4.46,Enero,Obligatoria,General
+2021-2022,Exito,Tercero,Segundo,Inteligencia Artificial,82.92,Junio,Obligatoria,Itinerario 1
+2021-2022,Rendimiento,Tercero,Segundo,Inteligencia Artificial,76.69,Junio,Obligatoria,Itinerario 1
+2021-2022,Abandono,Tercero,Segundo,Inteligencia Artificial,7.21,Junio,Obligatoria,Itinerario 1
+2021-2022,Exito,Tercero,Primero,Sistemas Inteligentes,87.74,Enero,Obligatoria,Itinerario 1
+2021-2022,Rendimiento,Tercero,Primero,Sistemas Inteligentes,84.62,Enero,Obligatoria,Itinerario 1
+2021-2022,Abandono,Tercero,Primero,Sistemas Inteligentes,4.75,Enero,Obligatoria,Itinerario 1
+2021-2022,Exito,Tercero,Primero,Seguridad Informática,89.01,Enero,Obligatoria,Itinerario 3
+2021-2022,Rendimiento,Tercero,Primero,Seguridad Informática,86.46,Enero,Obligatoria,Itinerario 3
+2021-2022,Abandono,Tercero,Primero,Seguridad Informática,4.33,Enero,Obligatoria,Itinerario 3
+2021-2022,Exito,Tercero,Segundo,Sistemas Distribuidos,72.76,Junio,Obligatoria,General
+2021-2022,Rendimiento,Tercero,Segundo,Sistemas Distribuidos,65.66,Junio,Obligatoria,General
+2021-2022,Abandono,Tercero,Segundo,Sistemas Distribuidos,14.5,Junio,Obligatoria,General
+2021-2022,Exito,Tercero,Primero,Diseño de Algoritmos,73.54,Enero,Obligatoria,General
+2021-2022,Rendimiento,Tercero,Primero,Diseño de Algoritmos,71.56,Enero,Obligatoria,General
+2021-2022,Abandono,Tercero,Primero,Diseño de Algoritmos,11.88,Enero,Obligatoria,General
+2021-2022,Exito,Tercero,Segundo,Compiladores,73.5,Junio,Obligatoria,Itinerario 1
+2021-2022,Rendimiento,Tercero,Segundo,Compiladores,68.34,Junio,Obligatoria,Itinerario 1
+2021-2022,Abandono,Tercero,Segundo,Compiladores,12.35,Junio,Obligatoria,Itinerario 1
+2021-2022,Exito,Tercero,Segundo,Ingeniería Web,90.1,Junio,Obligatoria,Itinerario 2
+2021-2022,Rendimiento,Tercero,Segundo,Ingeniería Web,82.53,Junio,Obligatoria,Itinerario 2
+2021-2022,Abandono,Tercero,Segundo,Ingeniería Web,3.71,Junio,Obligatoria,Itinerario 2
+2021-2022,Exito,Tercero,Primero,Gráficos por Computador,94.8,Enero,Optativa,Itinerario 4
+2021-2022,Rendimiento,Tercero,Primero,Gráficos por Computador,85.34,Enero,Optativa,Itinerario 4
+2021-2022,Abandono,Tercero,Primero,Gráficos por Computador,1.64,Enero,Optativa,Itinerario 4
+2021-2022,Exito,Cuarto,Primero,Desarrollo Web Avanzado,95.14,Enero,Optativa,Itinerario 2
+2021-2022,Rendimiento,Cuarto,Primero,Desarrollo Web Avanzado,92.75,Enero,Optativa,Itinerario 2
+2021-2022,Abandono,Cuarto,Primero,Desarrollo Web Avanzado,1.83,Enero,Optativa,Itinerario 2
+2021-2022,Exito,Cuarto,Primero,Gestión de Proyectos,95.81,Enero,Obligatoria,General
+2021-2022,Rendimiento,Cuarto,Primero,Gestión de Proyectos,91.26,Enero,Obligatoria,General
+2021-2022,Abandono,Cuarto,Primero,Gestión de Proyectos,1.53,Enero,Obligatoria,General
+2021-2022,Exito,Cuarto,Segundo,Machine Learning,93.53,Mayo,Optativa,Itinerario 1
+2021-2022,Rendimiento,Cuarto,Segundo,Machine Learning,88.55,Mayo,Optativa,Itinerario 1
+2021-2022,Abandono,Cuarto,Segundo,Machine Learning,2.01,Mayo,Optativa,Itinerario 1
+2021-2022,Exito,Cuarto,Primero,Deep Learning,90.24,Enero,Optativa,Itinerario 1
+2021-2022,Rendimiento,Cuarto,Primero,Deep Learning,89.01,Enero,Optativa,Itinerario 1
+2021-2022,Abandono,Cuarto,Primero,Deep Learning,5.04,Enero,Optativa,Itinerario 1
+2021-2022,Exito,Cuarto,Segundo,Ciberseguridad Avanzada,94.01,Mayo,Optativa,Itinerario 3
+2021-2022,Rendimiento,Cuarto,Segundo,Ciberseguridad Avanzada,93.12,Mayo,Optativa,Itinerario 3
+2021-2022,Abandono,Cuarto,Segundo,Ciberseguridad Avanzada,2.97,Mayo,Optativa,Itinerario 3
+2021-2022,Exito,Cuarto,Primero,Robótica,89.38,Enero,Optativa,Itinerario 5
+2021-2022,Rendimiento,Cuarto,Primero,Robótica,89.0,Enero,Optativa,Itinerario 5
+2021-2022,Abandono,Cuarto,Primero,Robótica,3.53,Enero,Optativa,Itinerario 5
+2021-2022,Exito,Cuarto,Primero,Ética e Ingeniería,96.75,Enero,Optativa,General
+2021-2022,Rendimiento,Cuarto,Primero,Ética e Ingeniería,93.06,Enero,Optativa,General
+2021-2022,Abandono,Cuarto,Primero,Ética e Ingeniería,1.7,Enero,Optativa,General
+2021-2022,Exito,Cuarto,Segundo,Prácticas Externas,100.0,Junio,Obligatoria,General
+2021-2022,Rendimiento,Cuarto,Segundo,Prácticas Externas,90.46,Junio,Obligatoria,General
+2021-2022,Abandono,Cuarto,Segundo,Prácticas Externas,0.0,Junio,Obligatoria,General
+2021-2022,Exito,Cuarto,Segundo,Trabajo Fin de Grado,98.75,Junio,Obligatoria,General
+2021-2022,Rendimiento,Cuarto,Segundo,Trabajo Fin de Grado,94.25,Junio,Obligatoria,General
+2021-2022,Abandono,Cuarto,Segundo,Trabajo Fin de Grado,0.68,Junio,Obligatoria,General
+2022-2023,Exito,Primero,Primero,Programación I,66.58,Enero,Obligatoria,General
+2022-2023,Rendimiento,Primero,Primero,Programación I,66.51,Enero,Obligatoria,General
+2022-2023,Abandono,Primero,Primero,Programación I,14.71,Enero,Obligatoria,General
+2022-2023,Exito,Primero,Primero,Cálculo,45.67,Enero,Obligatoria,General
+2022-2023,Rendimiento,Primero,Primero,Cálculo,35.78,Enero,Obligatoria,General
+2022-2023,Abandono,Primero,Primero,Cálculo,25.11,Enero,Obligatoria,General
+2022-2023,Exito,Primero,Segundo,Álgebra Lineal,49.39,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Primero,Segundo,Álgebra Lineal,47.27,Mayo,Obligatoria,General
+2022-2023,Abandono,Primero,Segundo,Álgebra Lineal,28.38,Mayo,Obligatoria,General
+2022-2023,Exito,Primero,Segundo,Física para Informática,55.32,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Primero,Segundo,Física para Informática,48.21,Mayo,Obligatoria,General
+2022-2023,Abandono,Primero,Segundo,Física para Informática,14.56,Mayo,Obligatoria,General
+2022-2023,Exito,Primero,Primero,Fundamentos de Computadores,56.54,Enero,Obligatoria,General
+2022-2023,Rendimiento,Primero,Primero,Fundamentos de Computadores,49.94,Enero,Obligatoria,General
+2022-2023,Abandono,Primero,Primero,Fundamentos de Computadores,13.68,Enero,Obligatoria,General
+2022-2023,Exito,Primero,Segundo,Estructura de Computadores,64.11,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Primero,Segundo,Estructura de Computadores,56.03,Mayo,Obligatoria,General
+2022-2023,Abandono,Primero,Segundo,Estructura de Computadores,12.83,Mayo,Obligatoria,General
+2022-2023,Exito,Primero,Primero,Lógica y Discreta,59.69,Enero,Obligatoria,General
+2022-2023,Rendimiento,Primero,Primero,Lógica y Discreta,50.25,Enero,Obligatoria,General
+2022-2023,Abandono,Primero,Primero,Lógica y Discreta,19.7,Enero,Obligatoria,General
+2022-2023,Exito,Primero,Segundo,Empresa y Economía,86.98,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Primero,Segundo,Empresa y Economía,81.65,Mayo,Obligatoria,General
+2022-2023,Abandono,Primero,Segundo,Empresa y Economía,5.55,Mayo,Obligatoria,General
+2022-2023,Exito,Segundo,Primero,Estructura de Datos,69.27,Enero,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Primero,Estructura de Datos,61.71,Enero,Obligatoria,General
+2022-2023,Abandono,Segundo,Primero,Estructura de Datos,15.9,Enero,Obligatoria,General
+2022-2023,Exito,Segundo,Segundo,Sistemas Operativos,66.31,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Segundo,Sistemas Operativos,60.02,Mayo,Obligatoria,General
+2022-2023,Abandono,Segundo,Segundo,Sistemas Operativos,17.66,Mayo,Obligatoria,General
+2022-2023,Exito,Segundo,Segundo,Bases de Datos,74.94,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Segundo,Bases de Datos,67.29,Mayo,Obligatoria,General
+2022-2023,Abandono,Segundo,Segundo,Bases de Datos,7.84,Mayo,Obligatoria,General
+2022-2023,Exito,Segundo,Primero,Estadística,58.59,Enero,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Primero,Estadística,58.39,Enero,Obligatoria,General
+2022-2023,Abandono,Segundo,Primero,Estadística,12.83,Enero,Obligatoria,General
+2022-2023,Exito,Segundo,Segundo,Redes de Computadores,70.4,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Segundo,Redes de Computadores,61.77,Mayo,Obligatoria,General
+2022-2023,Abandono,Segundo,Segundo,Redes de Computadores,11.43,Mayo,Obligatoria,General
+2022-2023,Exito,Segundo,Primero,Tecnología de la Programación,77.2,Enero,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Primero,Tecnología de la Programación,70.97,Enero,Obligatoria,General
+2022-2023,Abandono,Segundo,Primero,Tecnología de la Programación,7.55,Enero,Obligatoria,General
+2022-2023,Exito,Segundo,Primero,Interacción Persona-Ordenador,79.51,Enero,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Primero,Interacción Persona-Ordenador,75.18,Enero,Obligatoria,General
+2022-2023,Abandono,Segundo,Primero,Interacción Persona-Ordenador,6.68,Enero,Obligatoria,General
+2022-2023,Exito,Segundo,Segundo,Arquitectura de Computadores,65.29,Mayo,Obligatoria,General
+2022-2023,Rendimiento,Segundo,Segundo,Arquitectura de Computadores,59.9,Mayo,Obligatoria,General
+2022-2023,Abandono,Segundo,Segundo,Arquitectura de Computadores,15.53,Mayo,Obligatoria,General
+2022-2023,Exito,Tercero,Primero,Ingeniería del Software,86.23,Enero,Obligatoria,General
+2022-2023,Rendimiento,Tercero,Primero,Ingeniería del Software,84.37,Enero,Obligatoria,General
+2022-2023,Abandono,Tercero,Primero,Ingeniería del Software,7.58,Enero,Obligatoria,General
+2022-2023,Exito,Tercero,Segundo,Inteligencia Artificial,78.71,Junio,Obligatoria,Itinerario 1
+2022-2023,Rendimiento,Tercero,Segundo,Inteligencia Artificial,69.1,Junio,Obligatoria,Itinerario 1
+2022-2023,Abandono,Tercero,Segundo,Inteligencia Artificial,12.33,Junio,Obligatoria,Itinerario 1
+2022-2023,Exito,Tercero,Primero,Sistemas Inteligentes,78.48,Enero,Obligatoria,Itinerario 1
+2022-2023,Rendimiento,Tercero,Primero,Sistemas Inteligentes,76.12,Enero,Obligatoria,Itinerario 1
+2022-2023,Abandono,Tercero,Primero,Sistemas Inteligentes,7.11,Enero,Obligatoria,Itinerario 1
+2022-2023,Exito,Tercero,Primero,Seguridad Informática,83.92,Enero,Obligatoria,Itinerario 3
+2022-2023,Rendimiento,Tercero,Primero,Seguridad Informática,74.36,Enero,Obligatoria,Itinerario 3
+2022-2023,Abandono,Tercero,Primero,Seguridad Informática,6.45,Enero,Obligatoria,Itinerario 3
+2022-2023,Exito,Tercero,Segundo,Sistemas Distribuidos,78.04,Junio,Obligatoria,General
+2022-2023,Rendimiento,Tercero,Segundo,Sistemas Distribuidos,76.82,Junio,Obligatoria,General
+2022-2023,Abandono,Tercero,Segundo,Sistemas Distribuidos,7.57,Junio,Obligatoria,General
+2022-2023,Exito,Tercero,Primero,Diseño de Algoritmos,70.44,Enero,Obligatoria,General
+2022-2023,Rendimiento,Tercero,Primero,Diseño de Algoritmos,67.58,Enero,Obligatoria,General
+2022-2023,Abandono,Tercero,Primero,Diseño de Algoritmos,17.67,Enero,Obligatoria,General
+2022-2023,Exito,Tercero,Segundo,Compiladores,69.13,Junio,Obligatoria,Itinerario 1
+2022-2023,Rendimiento,Tercero,Segundo,Compiladores,67.13,Junio,Obligatoria,Itinerario 1
+2022-2023,Abandono,Tercero,Segundo,Compiladores,14.11,Junio,Obligatoria,Itinerario 1
+2022-2023,Exito,Tercero,Segundo,Ingeniería Web,85.04,Junio,Obligatoria,Itinerario 2
+2022-2023,Rendimiento,Tercero,Segundo,Ingeniería Web,78.54,Junio,Obligatoria,Itinerario 2
+2022-2023,Abandono,Tercero,Segundo,Ingeniería Web,8.26,Junio,Obligatoria,Itinerario 2
+2022-2023,Exito,Tercero,Primero,Gráficos por Computador,85.1,Enero,Optativa,Itinerario 4
+2022-2023,Rendimiento,Tercero,Primero,Gráficos por Computador,80.14,Enero,Optativa,Itinerario 4
+2022-2023,Abandono,Tercero,Primero,Gráficos por Computador,5.88,Enero,Optativa,Itinerario 4
+2022-2023,Exito,Cuarto,Primero,Desarrollo Web Avanzado,93.43,Enero,Optativa,Itinerario 2
+2022-2023,Rendimiento,Cuarto,Primero,Desarrollo Web Avanzado,87.07,Enero,Optativa,Itinerario 2
+2022-2023,Abandono,Cuarto,Primero,Desarrollo Web Avanzado,3.3,Enero,Optativa,Itinerario 2
+2022-2023,Exito,Cuarto,Primero,Gestión de Proyectos,87.24,Enero,Obligatoria,General
+2022-2023,Rendimiento,Cuarto,Primero,Gestión de Proyectos,81.28,Enero,Obligatoria,General
+2022-2023,Abandono,Cuarto,Primero,Gestión de Proyectos,7.45,Enero,Obligatoria,General
+2022-2023,Exito,Cuarto,Segundo,Machine Learning,87.4,Mayo,Optativa,Itinerario 1
+2022-2023,Rendimiento,Cuarto,Segundo,Machine Learning,79.32,Mayo,Optativa,Itinerario 1
+2022-2023,Abandono,Cuarto,Segundo,Machine Learning,6.45,Mayo,Optativa,Itinerario 1
+2022-2023,Exito,Cuarto,Primero,Deep Learning,83.25,Enero,Optativa,Itinerario 1
+2022-2023,Rendimiento,Cuarto,Primero,Deep Learning,80.74,Enero,Optativa,Itinerario 1
+2022-2023,Abandono,Cuarto,Primero,Deep Learning,7.31,Enero,Optativa,Itinerario 1
+2022-2023,Exito,Cuarto,Segundo,Ciberseguridad Avanzada,86.69,Mayo,Optativa,Itinerario 3
+2022-2023,Rendimiento,Cuarto,Segundo,Ciberseguridad Avanzada,79.28,Mayo,Optativa,Itinerario 3
+2022-2023,Abandono,Cuarto,Segundo,Ciberseguridad Avanzada,5.69,Mayo,Optativa,Itinerario 3
+2022-2023,Exito,Cuarto,Primero,Robótica,85.35,Enero,Optativa,Itinerario 5
+2022-2023,Rendimiento,Cuarto,Primero,Robótica,76.98,Enero,Optativa,Itinerario 5
+2022-2023,Abandono,Cuarto,Primero,Robótica,5.24,Enero,Optativa,Itinerario 5
+2022-2023,Exito,Cuarto,Primero,Ética e Ingeniería,96.18,Enero,Optativa,General
+2022-2023,Rendimiento,Cuarto,Primero,Ética e Ingeniería,86.46,Enero,Optativa,General
+2022-2023,Abandono,Cuarto,Primero,Ética e Ingeniería,1.35,Enero,Optativa,General
+2022-2023,Exito,Cuarto,Segundo,Prácticas Externas,97.37,Junio,Obligatoria,General
+2022-2023,Rendimiento,Cuarto,Segundo,Prácticas Externas,88.29,Junio,Obligatoria,General
+2022-2023,Abandono,Cuarto,Segundo,Prácticas Externas,1.46,Junio,Obligatoria,General
+2022-2023,Exito,Cuarto,Segundo,Trabajo Fin de Grado,100.0,Junio,Obligatoria,General
+2022-2023,Rendimiento,Cuarto,Segundo,Trabajo Fin de Grado,92.29,Junio,Obligatoria,General
+2022-2023,Abandono,Cuarto,Segundo,Trabajo Fin de Grado,0.0,Junio,Obligatoria,General
+2023-2024,Exito,Primero,Primero,Programación I,67.56,Enero,Obligatoria,General
+2023-2024,Rendimiento,Primero,Primero,Programación I,62.24,Enero,Obligatoria,General
+2023-2024,Abandono,Primero,Primero,Programación I,17.23,Enero,Obligatoria,General
+2023-2024,Exito,Primero,Primero,Cálculo,43.97,Enero,Obligatoria,General
+2023-2024,Rendimiento,Primero,Primero,Cálculo,43.1,Enero,Obligatoria,General
+2023-2024,Abandono,Primero,Primero,Cálculo,30.14,Enero,Obligatoria,General
+2023-2024,Exito,Primero,Segundo,Álgebra Lineal,48.44,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Primero,Segundo,Álgebra Lineal,43.87,Mayo,Obligatoria,General
+2023-2024,Abandono,Primero,Segundo,Álgebra Lineal,28.04,Mayo,Obligatoria,General
+2023-2024,Exito,Primero,Segundo,Física para Informática,59.33,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Primero,Segundo,Física para Informática,49.61,Mayo,Obligatoria,General
+2023-2024,Abandono,Primero,Segundo,Física para Informática,14.06,Mayo,Obligatoria,General
+2023-2024,Exito,Primero,Primero,Fundamentos de Computadores,61.46,Enero,Obligatoria,General
+2023-2024,Rendimiento,Primero,Primero,Fundamentos de Computadores,58.12,Enero,Obligatoria,General
+2023-2024,Abandono,Primero,Primero,Fundamentos de Computadores,17.38,Enero,Obligatoria,General
+2023-2024,Exito,Primero,Segundo,Estructura de Computadores,67.36,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Primero,Segundo,Estructura de Computadores,64.16,Mayo,Obligatoria,General
+2023-2024,Abandono,Primero,Segundo,Estructura de Computadores,15.31,Mayo,Obligatoria,General
+2023-2024,Exito,Primero,Primero,Lógica y Discreta,61.34,Enero,Obligatoria,General
+2023-2024,Rendimiento,Primero,Primero,Lógica y Discreta,61.34,Enero,Obligatoria,General
+2023-2024,Abandono,Primero,Primero,Lógica y Discreta,13.47,Enero,Obligatoria,General
+2023-2024,Exito,Primero,Segundo,Empresa y Economía,88.52,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Primero,Segundo,Empresa y Economía,84.75,Mayo,Obligatoria,General
+2023-2024,Abandono,Primero,Segundo,Empresa y Economía,6.31,Mayo,Obligatoria,General
+2023-2024,Exito,Segundo,Primero,Estructura de Datos,75.32,Enero,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Primero,Estructura de Datos,74.66,Enero,Obligatoria,General
+2023-2024,Abandono,Segundo,Primero,Estructura de Datos,9.22,Enero,Obligatoria,General
+2023-2024,Exito,Segundo,Segundo,Sistemas Operativos,64.52,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Segundo,Sistemas Operativos,56.39,Mayo,Obligatoria,General
+2023-2024,Abandono,Segundo,Segundo,Sistemas Operativos,16.86,Mayo,Obligatoria,General
+2023-2024,Exito,Segundo,Segundo,Bases de Datos,73.32,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Segundo,Bases de Datos,65.41,Mayo,Obligatoria,General
+2023-2024,Abandono,Segundo,Segundo,Bases de Datos,12.91,Mayo,Obligatoria,General
+2023-2024,Exito,Segundo,Primero,Estadística,66.54,Enero,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Primero,Estadística,64.3,Enero,Obligatoria,General
+2023-2024,Abandono,Segundo,Primero,Estadística,13.75,Enero,Obligatoria,General
+2023-2024,Exito,Segundo,Segundo,Redes de Computadores,79.41,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Segundo,Redes de Computadores,73.61,Mayo,Obligatoria,General
+2023-2024,Abandono,Segundo,Segundo,Redes de Computadores,10.44,Mayo,Obligatoria,General
+2023-2024,Exito,Segundo,Primero,Tecnología de la Programación,80.41,Enero,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Primero,Tecnología de la Programación,77.4,Enero,Obligatoria,General
+2023-2024,Abandono,Segundo,Primero,Tecnología de la Programación,7.59,Enero,Obligatoria,General
+2023-2024,Exito,Segundo,Primero,Interacción Persona-Ordenador,85.64,Enero,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Primero,Interacción Persona-Ordenador,77.54,Enero,Obligatoria,General
+2023-2024,Abandono,Segundo,Primero,Interacción Persona-Ordenador,8.36,Enero,Obligatoria,General
+2023-2024,Exito,Segundo,Segundo,Arquitectura de Computadores,70.33,Mayo,Obligatoria,General
+2023-2024,Rendimiento,Segundo,Segundo,Arquitectura de Computadores,68.05,Mayo,Obligatoria,General
+2023-2024,Abandono,Segundo,Segundo,Arquitectura de Computadores,12.33,Mayo,Obligatoria,General
+2023-2024,Exito,Tercero,Primero,Ingeniería del Software,87.64,Enero,Obligatoria,General
+2023-2024,Rendimiento,Tercero,Primero,Ingeniería del Software,85.31,Enero,Obligatoria,General
+2023-2024,Abandono,Tercero,Primero,Ingeniería del Software,3.91,Enero,Obligatoria,General
+2023-2024,Exito,Tercero,Segundo,Inteligencia Artificial,84.34,Junio,Obligatoria,Itinerario 1
+2023-2024,Rendimiento,Tercero,Segundo,Inteligencia Artificial,74.42,Junio,Obligatoria,Itinerario 1
+2023-2024,Abandono,Tercero,Segundo,Inteligencia Artificial,6.2,Junio,Obligatoria,Itinerario 1
+2023-2024,Exito,Tercero,Primero,Sistemas Inteligentes,81.1,Enero,Obligatoria,Itinerario 1
+2023-2024,Rendimiento,Tercero,Primero,Sistemas Inteligentes,73.44,Enero,Obligatoria,Itinerario 1
+2023-2024,Abandono,Tercero,Primero,Sistemas Inteligentes,5.86,Enero,Obligatoria,Itinerario 1
+2023-2024,Exito,Tercero,Primero,Seguridad Informática,80.41,Enero,Obligatoria,Itinerario 3
+2023-2024,Rendimiento,Tercero,Primero,Seguridad Informática,79.41,Enero,Obligatoria,Itinerario 3
+2023-2024,Abandono,Tercero,Primero,Seguridad Informática,6.38,Enero,Obligatoria,Itinerario 3
+2023-2024,Exito,Tercero,Segundo,Sistemas Distribuidos,78.45,Junio,Obligatoria,General
+2023-2024,Rendimiento,Tercero,Segundo,Sistemas Distribuidos,71.34,Junio,Obligatoria,General
+2023-2024,Abandono,Tercero,Segundo,Sistemas Distribuidos,12.85,Junio,Obligatoria,General
+2023-2024,Exito,Tercero,Primero,Diseño de Algoritmos,71.33,Enero,Obligatoria,General
+2023-2024,Rendimiento,Tercero,Primero,Diseño de Algoritmos,71.14,Enero,Obligatoria,General
+2023-2024,Abandono,Tercero,Primero,Diseño de Algoritmos,15.99,Enero,Obligatoria,General
+2023-2024,Exito,Tercero,Segundo,Compiladores,68.67,Junio,Obligatoria,Itinerario 1
+2023-2024,Rendimiento,Tercero,Segundo,Compiladores,59.77,Junio,Obligatoria,Itinerario 1
+2023-2024,Abandono,Tercero,Segundo,Compiladores,14.61,Junio,Obligatoria,Itinerario 1
+2023-2024,Exito,Tercero,Segundo,Ingeniería Web,89.87,Junio,Obligatoria,Itinerario 2
+2023-2024,Rendimiento,Tercero,Segundo,Ingeniería Web,80.0,Junio,Obligatoria,Itinerario 2
+2023-2024,Abandono,Tercero,Segundo,Ingeniería Web,3.59,Junio,Obligatoria,Itinerario 2
+2023-2024,Exito,Tercero,Primero,Gráficos por Computador,87.14,Enero,Optativa,Itinerario 4
+2023-2024,Rendimiento,Tercero,Primero,Gráficos por Computador,77.61,Enero,Optativa,Itinerario 4
+2023-2024,Abandono,Tercero,Primero,Gráficos por Computador,4.29,Enero,Optativa,Itinerario 4
+2023-2024,Exito,Cuarto,Primero,Desarrollo Web Avanzado,93.37,Enero,Optativa,Itinerario 2
+2023-2024,Rendimiento,Cuarto,Primero,Desarrollo Web Avanzado,92.65,Enero,Optativa,Itinerario 2
+2023-2024,Abandono,Cuarto,Primero,Desarrollo Web Avanzado,2.06,Enero,Optativa,Itinerario 2
+2023-2024,Exito,Cuarto,Primero,Gestión de Proyectos,91.49,Enero,Obligatoria,General
+2023-2024,Rendimiento,Cuarto,Primero,Gestión de Proyectos,86.91,Enero,Obligatoria,General
+2023-2024,Abandono,Cuarto,Primero,Gestión de Proyectos,4.89,Enero,Obligatoria,General
+2023-2024,Exito,Cuarto,Segundo,Machine Learning,89.28,Mayo,Optativa,Itinerario 1
+2023-2024,Rendimiento,Cuarto,Segundo,Machine Learning,84.16,Mayo,Optativa,Itinerario 1
+2023-2024,Abandono,Cuarto,Segundo,Machine Learning,5.92,Mayo,Optativa,Itinerario 1
+2023-2024,Exito,Cuarto,Primero,Deep Learning,93.35,Enero,Optativa,Itinerario 1
+2023-2024,Rendimiento,Cuarto,Primero,Deep Learning,87.77,Enero,Optativa,Itinerario 1
+2023-2024,Abandono,Cuarto,Primero,Deep Learning,3.16,Enero,Optativa,Itinerario 1
+2023-2024,Exito,Cuarto,Segundo,Ciberseguridad Avanzada,92.09,Mayo,Optativa,Itinerario 3
+2023-2024,Rendimiento,Cuarto,Segundo,Ciberseguridad Avanzada,86.68,Mayo,Optativa,Itinerario 3
+2023-2024,Abandono,Cuarto,Segundo,Ciberseguridad Avanzada,4.48,Mayo,Optativa,Itinerario 3
+2023-2024,Exito,Cuarto,Primero,Robótica,90.93,Enero,Optativa,Itinerario 5
+2023-2024,Rendimiento,Cuarto,Primero,Robótica,84.54,Enero,Optativa,Itinerario 5
+2023-2024,Abandono,Cuarto,Primero,Robótica,4.16,Enero,Optativa,Itinerario 5
+2023-2024,Exito,Cuarto,Primero,Ética e Ingeniería,93.37,Enero,Optativa,General
+2023-2024,Rendimiento,Cuarto,Primero,Ética e Ingeniería,89.05,Enero,Optativa,General
+2023-2024,Abandono,Cuarto,Primero,Ética e Ingeniería,2.28,Enero,Optativa,General
+2023-2024,Exito,Cuarto,Segundo,Prácticas Externas,100.0,Junio,Obligatoria,General
+2023-2024,Rendimiento,Cuarto,Segundo,Prácticas Externas,95.02,Junio,Obligatoria,General
+2023-2024,Abandono,Cuarto,Segundo,Prácticas Externas,0.0,Junio,Obligatoria,General
+2023-2024,Exito,Cuarto,Segundo,Trabajo Fin de Grado,100.0,Junio,Obligatoria,General
+2023-2024,Rendimiento,Cuarto,Segundo,Trabajo Fin de Grado,92.84,Junio,Obligatoria,General
+2023-2024,Abandono,Cuarto,Segundo,Trabajo Fin de Grado,0.0,Junio,Obligatoria,General

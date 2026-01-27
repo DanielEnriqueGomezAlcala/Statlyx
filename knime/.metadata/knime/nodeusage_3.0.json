@@ -11,7 +11,7 @@
         "createdVia": {
         }
     },
-    "uptime": 1755618,
+    "uptime": 2175900,
     "workflowsOpened": 0,
     "remoteWorkflowsOpened": 0,
     "workflowsCreated": 0,
@@ -22,9 +22,9 @@
     "webUIPerspectiveSwitches": 0,
     "javaUIPerspectiveSwitches": 0,
     "lastUsedPerspective": "none (classic)",
-    "launches": 4,
+    "launches": 5,
     "lastApplicationID": "org.knime.product.KNIME_APPLICATION",
-    "timeSinceLastStart": 858198,
+    "timeSinceLastStart": 3857032,
     "crashes": 0,
     "properlyShutDown": true
 }
