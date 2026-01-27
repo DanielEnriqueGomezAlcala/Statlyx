@@ -1,246 +1,280 @@
 import streamlit as st
 import pandas as pd
-from pathlib import Path
 import plotly.graph_objects as go
+from pathlib import Path
+from datetime import datetime
+from docxtpl import DocxTemplate, InlineImage
+from docx.shared import Inches
+import tempfile
+import io
+import sys
+sys.path.append(str(Path(__file__).parent))
+from functions.generate_docx import escribir_informe
 
-# Importar funciones de gráficos interactivos
-from functions.charts.interactive import (
-    crear_lineas_rendimiento,
-    crear_comparacion_media,
-    crear_tabla_resumen,
-    crear_brecha_genero
-)
+from charts.interactive.line_chart import grafico_lineas_interactivo as line_chart
+from functions.generate_docx import escribir_informe
 
-# Importar funciones de generación de documentos
-from functions.generar_informe import generar_informe_docx
-from functions.generar_presentacion import generar_presentacion_pptx
+st.set_page_config(page_title="Dashboard de Análisis Académico", layout="wide")
 
-# Configuración de la página
-st.set_page_config(
-    page_title="Dashboard Rendimiento Académico",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.title("Dashboard de Análisis de Rendimiento Académico")
 
-# Estilos CSS personalizados
-st.markdown("""
-    <style>
-    .main {
-        background-color: #f5f5f5;
-    }
-    .stButton>button {
-        width: 100%;
-        background-color: #667eea;
-        color: white;
-        font-weight: bold;
-        border-radius: 8px;
-        padding: 0.5rem 1rem;
-        border: none;
-    }
-    .stButton>button:hover {
-        background-color: #5568d3;
-    }
-    h1 {
-        color: #667eea;
-    }
-    h2 {
-        color: #667eea;
-        border-bottom: 3px solid #667eea;
-        padding-bottom: 10px;
-    }
-    h3 {
-        color: #667eea;
-    }
-    </style>
-""", unsafe_allow_html=True)
+# Subir archivo CSV en la pestaña principal
+st.header("Cargar Datos")
+uploaded_file = st.file_uploader("Subir archivo CSV", type=['csv'], help="Sube tu archivo CSV con los datos académicos")
 
-
-@st.cache_data
-def obtener_universidades_disponibles():
-    """Obtiene la lista de universidades disponibles"""
-    base_path = Path(__file__).parent.parent / "data" / "clean-data"
-    universidades = []
+if uploaded_file is not None:
+    # Leer CSV
+    dataset = pd.read_csv(uploaded_file, sep=",")
     
-    excluir = {
-        '???', 'Fuente:_Sistema_Integrado_de_Información_Universitaria_(SIIU).',
-        'Notas:', 'Todas_las_universidades', 
-        'Universidades_Privadas', 'Universidades_Públicas',
-        'Universidades_Privadas_No_Presenciales', 
-        'Universidades_Privadas_Presenciales',
-        'Universidades_Públicas_No_Presenciales',
-        'Universidades_Públicas_Presenciales',
-        '.DS_Store'
-    }
+    # Validar columnas requeridas
+    columnas_requeridas = ['Tasa', 'Curso', 'Asignatura', 'Valor', 'Convocatoria', 'Tipo']
+    columnas_faltantes = [col for col in columnas_requeridas if col not in dataset.columns]
     
-    for item in base_path.iterdir():
-        if item.is_dir() and not item.name.startswith('.') and not item.name.startswith('~'):
-            if item.name not in excluir:
-                csv_file = item / "Tabla.csv"
-                if csv_file.exists():
-                    nombre_legible = item.name.replace('_', ' ')
-                    universidades.append({'label': nombre_legible, 'value': item.name})
+    if columnas_faltantes:
+        st.error(f"Error: El archivo CSV no contiene las siguientes columnas obligatorias: {', '.join(columnas_faltantes)}")
+        st.warning("Por favor, asegúrate de que tu archivo CSV contenga todas las columnas requeridas:")
+        st.write("- **Tasa**: Tipo de tasa (Éxito, Rendimiento, etc.)")
+        st.write("- **Curso**: Curso de la titulación (Primero, Segundo, etc.)")
+        st.write("- **Asignatura**: Nombre de la asignatura")
+        st.write("- **Valor**: Valor numérico de la métrica")
+        st.write("- **Convocatoria**: Convocatoria (Enero, Junio, Julio)")
+        st.write("- **Tipo**: Tipología de la asignatura (Obligatorias, Optativas, etc.)")
+        st.stop()
     
-    return sorted(universidades, key=lambda x: x['label'])
-
-
-@st.cache_data
-def cargar_datos_universidad(universidad_folder):
-    """Carga los datos de una universidad"""
-    base_path = Path(__file__).parent.parent / "data" / "clean-data" / universidad_folder / "Tabla.csv"
+    dataset = dataset[dataset['Valor'] != '???']
     
-    try:
-        df = pd.read_csv(base_path, sep=';', encoding='utf-8')
-        df['Valor'] = pd.to_numeric(df['Valor'].replace('???', pd.NA), errors='coerce')
-        return df
-    except Exception as e:
-        st.error(f"Error al cargar datos: {e}")
-        return pd.DataFrame()
-
-
-def obtener_carreras_de_universidad(universidad_folder):
-    """Obtiene las carreras disponibles de una universidad"""
-    df = cargar_datos_universidad(universidad_folder)
-    if df.empty:
-        return []
+    st.success("Archivo cargado exitosamente")
     
-    carreras = df['Carrera'].unique()
-    carreras_filtradas = []
+    # Filtros en el sidebar
+    st.sidebar.header("Filtros")
     
-    for c in carreras:
-        if (c != universidad_folder.replace('_', ' ') and 
-            c != 'Todos los ámbitos' and 
-            not c.startswith('Total') and
-            c != '???'):
-            carreras_filtradas.append(c)
-    
-    return sorted(carreras_filtradas)
-
-
-# Header
-st.markdown("""
-    <div style='padding: 30px; background: #667eea; 
-         border-radius: 10px; margin-bottom: 30px; text-align: center;'>
-        <h1 style='margin: 0; color: white;'>Dashboard de Rendimiento Académico</h1>
-        <p style='margin: 10px 0 0 0; color: #e0e0e0; font-size: 1.1em;'>
-            Análisis de Rendimiento Universitario
-        </p>
-    </div>
-""", unsafe_allow_html=True)
-
-# Sidebar para controles
-with st.sidebar:
-    st.header("Selección de Datos")
-    
-    # Obtener universidades
-    universidades = obtener_universidades_disponibles()
-    universidades_dict = {u['label']: u['value'] for u in universidades}
-    
-    # Selector de universidad
-    universidad_label = st.selectbox(
-        "Universidad",
-        options=["Seleccione una universidad..."] + list(universidades_dict.keys()),
-        key="universidad"
+    # Filtro por convocatoria
+    convocatorias_disponibles = ['Curso completo']
+    if 'Convocatoria' in dataset.columns:
+        convocatorias_disponibles = ['Curso completo'] + list(dataset['Convocatoria'].unique())
+    convocatoria = st.sidebar.selectbox(
+        "Convocatoria",
+        options=convocatorias_disponibles
     )
     
-    # Selector de carrera
-    if universidad_label and universidad_label != "Seleccione una universidad...":
-        universidad_value = universidades_dict[universidad_label]
-        carreras = obtener_carreras_de_universidad(universidad_value)
+    # Filtro por asignatura
+    asignaturas_disponibles = ['Todas']
+    if 'Asignatura' in dataset.columns:
+        asignaturas_disponibles = ['Todas'] + sorted(list(dataset['Asignatura'].unique()))
+    asignatura = st.sidebar.selectbox(
+        "Asignatura",
+        options=asignaturas_disponibles
+    )
+    
+    # Filtro por curso/cuatrimestre
+    cursos_disponibles = ['Todos']
+    if 'Curso' in dataset.columns:
+        cursos_disponibles = ['Todos', 'Primero', 'Segundo', 'Tercero', 'Cuarto']
+    curso = st.sidebar.selectbox(
+        "Curso de la titulación",
+        options=cursos_disponibles
+    )
+
+    # Filtro por tipología
+    tipologias_disponibles = ['Todas']
+    if 'Tipo' in dataset.columns:
+        tipologias_disponibles = ['Todas'] + sorted(list(dataset['Tipo'].unique()))
+    tipologia = st.sidebar.selectbox(
+        "Tipología de la asignatura",
+        options=tipologias_disponibles
+    )  
+
+    # Filtro por Itinerario
+    itinerarios_disponibles = ['Todos']
+    if 'Itinerario' in dataset.columns:
+        itinerarios_disponibles = ['Todos'] + sorted(list(dataset['Itinerario'].unique()))
+    itinerario = st.sidebar.selectbox(
+        "Itinerario",
+        options=itinerarios_disponibles
+    )  
+    
+    # Filtro por rango de años
+    st.sidebar.subheader("Rango de Años")
+    if 'Anio' in dataset.columns:
+        # Obtener años académicos únicos y ordenarlos
+        anios_academicos = sorted(dataset['Anio'].unique())
         
-        carrera = st.selectbox(
-            "Carrera",
-            options=["Seleccione una carrera..."] + carreras,
-            key="carrera"
+        # Multiselect para seleccionar años académicos
+        anios_seleccionados = st.sidebar.multiselect(
+            "Seleccionar años académicos",
+            options=anios_academicos,
+            default=anios_academicos,
+            help="Selecciona uno o más años académicos para filtrar"
         )
     else:
-        carrera = st.selectbox(
-            "Carrera",
-            options=["Primero seleccione una universidad..."],
-            disabled=True
-        )
+        anios_seleccionados = None
     
-    st.markdown("---")
-
-# Contenido principal
-if universidad_label == "Seleccione una universidad..." or carrera == "Seleccione una carrera...":
-    st.info("Por favor, seleccione una universidad y una carrera en el panel lateral para visualizar los gráficos.")
-
-else:
-    universidad_value = universidades_dict[universidad_label]
+    # Aplicar filtros
+    df_filtered = dataset.copy()
     
-    try:
-        # Cargar datos
-        df = cargar_datos_universidad(universidad_value)
-        df_filtrado = df[df['Carrera'].isin([carrera, 'Todos los ámbitos'])].copy()
-        
-        if df_filtrado.empty:
-            st.error("No hay datos disponibles para la selección actual.")
+    if convocatoria != 'Curso completo' and 'Convocatoria' in dataset.columns:
+        df_filtered = df_filtered[df_filtered['Convocatoria'] == convocatoria]
+    
+    if asignatura != 'Todas' and 'Asignatura' in dataset.columns:
+        df_filtered = df_filtered[df_filtered['Asignatura'] == asignatura]
+    
+    if curso != 'Todos' and 'Curso' in dataset.columns:
+        df_filtered = df_filtered[df_filtered['Curso'] == curso]
+    
+    if itinerario != 'Todos' and 'Itinerario' in dataset.columns:
+        df_filtered = df_filtered[df_filtered['Itinerario'] == itinerario]
+    
+    if anios_seleccionados is not None and len(anios_seleccionados) > 0 and 'Anio' in df_filtered.columns:
+        df_filtered = df_filtered[df_filtered['Anio'].isin(anios_seleccionados)]
+    
+    # Mostrar métricas
+    st.header("Métricas Generales")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        if 'Valor' in df_filtered.columns:
+            df_filtered['Valor'] = pd.to_numeric(df_filtered['Valor'], errors='coerce')
+            promedio = df_filtered['Valor'].mean()
+            st.metric("Promedio", f"{promedio:.2f}%")
         else:
-            # Mostrar información de la selección
-            st.success(f"**Universidad:** {universidad_label} | **Carrera:** {carrera}")
-            
-            # Crear tabs para organizar mejor el contenido
-            tab1, tab2, tab3, tab4 = st.tabs([
-                "Evolución del Rendimiento",
-                "Comparación con Media",
-                "Resumen de Indicadores",
-                "Brecha de Género"
-            ])
-            
-            with tab1:
-                st.subheader("Evolución del Rendimiento por Género")
-                fig1 = crear_lineas_rendimiento(df_filtrado, carrera)
-                st.plotly_chart(fig1, use_container_width=True)
-            
-            with tab2:
-                st.subheader("Comparación con Media Universitaria")
-                fig2 = crear_comparacion_media(df_filtrado, carrera)
-                st.plotly_chart(fig2, use_container_width=True)
-            
-            with tab3:
-                st.subheader("Resumen de Indicadores")
-                fig3 = crear_tabla_resumen(df_filtrado, carrera)
-                st.plotly_chart(fig3, use_container_width=True)
-            
-            with tab4:
-                st.subheader("Brecha de Género")
-                fig4 = crear_brecha_genero(df_filtrado, carrera)
-                st.plotly_chart(fig4, use_container_width=True)
-            
-            # Sección de generación de documentos
-            st.markdown("---")
-            st.subheader("Generación de Documentos")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("Generar Informe DOCX", use_container_width=True):
-                    with st.spinner("Generando informe..."):
-                        success, message, docx_path = generar_informe_docx(
-                            carrera, universidad_value, df_filtrado
-                        )
-                        
-                        if success:
-                            st.success("Informe DOCX generado exitosamente")
-                            st.info(f"Guardado en: {docx_path}")
-                        else:
-                            st.error(f"Error: {message}")
-            
-            with col2:
-                if st.button("Generar Presentación PPTX", use_container_width=True):
-                    with st.spinner("Generando presentación..."):
-                        success, message, pptx_path = generar_presentacion_pptx(
-                            carrera, universidad_value, df_filtrado
-                        )
-                        
-                        if success:
-                            st.success("Presentación PPTX generada exitosamente")
-                            st.info(f"Guardado en: {pptx_path}")
-                        else:
-                            st.error(f"Error: {message}")
+            st.metric("Promedio", "N/A")
     
-    except Exception as e:
-        st.error(f"Error al procesar los datos: {str(e)}")
+    with col2:
+        if 'Valor' in df_filtered.columns:
+            maximo = df_filtered['Valor'].max()
+            st.metric("Máximo", f"{maximo:.2f}%")
+        else:
+            st.metric("Máximo", "N/A")
+    
+    with col3:
+        if 'Valor' in df_filtered.columns:
+            minimo = df_filtered['Valor'].min()
+            st.metric("Mínimo", f"{minimo:.2f}%")
+        else:
+            st.metric("Mínimo", "N/A")
+    
+    with col4:
+        st.metric("Registros", len(df_filtered))
+    
+    # Tabs para diferentes visualizaciones
+    tab1, tab2 = st.tabs(["Gráficos", "Tabla de Datos"])
+    
+    with tab1:
+        st.subheader("Evolución Temporal")
+        
+        if 'Anio' in df_filtered.columns and 'Valor' in df_filtered.columns:
+            # Preparar datos para gráfico
+            if 'Tasa' in df_filtered.columns:
+                tasa_seleccionada = st.selectbox("Seleccionar Tasa", options=df_filtered['Tasa'].unique())
+                df_grafico = df_filtered[df_filtered['Tasa'] == tasa_seleccionada].copy()
+            else:
+                df_grafico = df_filtered.copy()
+            
+            df_grafico['Valor'] = pd.to_numeric(df_grafico['Valor'], errors='coerce')
+            
+            # Agrupar por año
+            df_agrupado = df_grafico.groupby('Anio')['Valor'].mean().reset_index()
+            
+            # Crear gráfico
+            fig = line_chart(df_agrupado)
+            
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("No hay datos suficientes para mostrar el gráfico de evolución temporal")
+    
+    with tab2:
+        st.subheader("Datos Filtrados")
+        st.dataframe(df_filtered, use_container_width=True, height=400)
+    
+    # Sección de generación de informes
+    st.header("Generación de Informes")
+    
+    col_inf1, col_inf2 = st.columns(2)
+    
+    with col_inf1:
+        formato_informe = st.selectbox("Formato del informe", ["DOCX", "PDF"])
+    
+    with col_inf2:
+        nombre_informe = st.text_input("Nombre del informe", value="informe_academico")
+    
+    # Campo obligatorio para el nombre de la universidad
+    nombre_universidad = st.text_input(
+        "Nombre de la Universidad *", 
+        placeholder="Ej: Universidad de La Laguna",
+        help="Este campo es obligatorio para generar el informe"
+    )
+    
+    # Campo obligatorio para el nombre de la titulación
+    nombre_titulacion = st.text_input(
+        "Nombre de la Titulación *",
+        placeholder="Ej: Grado en Ingeniería Informática",
+        help="Este campo es obligatorio para generar el informe"
+    )
+    
+    # Validar que los campos obligatorios no estén vacíos
+    if st.button("Generar y Descargar Informe", type="primary"):
+        if not nombre_universidad or nombre_universidad.strip() == "":
+            st.error("Por favor, ingresa el nombre de la Universidad antes de generar el informe.")
+        elif not nombre_titulacion or nombre_titulacion.strip() == "":
+            st.error("Por favor, ingresa el nombre de la Titulación antes de generar el informe.")
+        else:
+            with st.spinner("Generando informe..."):
+                try:
+                    # Preparar datos para el informe
+                    # Filtros para incluir en el documento
+                    anios_str = ', '.join(anios_seleccionados) if anios_seleccionados and len(anios_seleccionados) > 0 else 'Todos'
+                    filtros_aplicados = {
+                        'convocatoria': convocatoria,
+                        'asignatura': asignatura,
+                        'curso': curso,
+                        'tipologia': tipologia,
+                        'itinerario': itinerario if itinerario != 'Todos' else 'N/A',
+                        'anios_academicos': anios_str,
+                    }
+                    
+                    # Llamar a la función escribir_informe
+                    exito, mensaje, docx_buffer, filename = escribir_informe(
+                        carrera=nombre_titulacion,
+                        universidad=nombre_universidad,
+                        df=df_filtered,
+                        nombre_informe=nombre_informe,
+                        filtros_aplicados=filtros_aplicados
+                    )
+                    
+                    if exito:
+                        st.success("✅ Informe generado exitosamente")
+                        
+                        st.download_button(
+                            label="⬇️ Descargar Informe DOCX",
+                            data=docx_buffer,
+                            file_name=filename,
+                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        )
+                    else:
+                        st.error(f"❌ Error al generar el informe: {mensaje}")
+                    
+                except Exception as e:
+                    st.error(f"❌ Error al generar el informe: {str(e)}")
+                    import traceback
+                    st.error(traceback.format_exc())
+                    
+else:
+    st.info("👆 Por favor, sube un archivo CSV para comenzar el análisis")
+    
+    # Mostrar ejemplo de estructura esperada
+    st.subheader("📝 Estructura esperada del CSV")
+    st.markdown("""
+    El archivo CSV debe contener al menos las siguientes columnas:
+    - **Anio**: Año de la cohorte
+    - **Valor**: Valor de la métrica
+    - **Tasa**: Tipo de tasa
+    - **Convocatoria**: Enero, Mayo, Junio/Julio
+    - **Asignatura**: Nombre de la asignatura
+    - **Curso**: Primero, Segundo, Tercero, Cuarto
+    - **Tipologia**: Obligatorias, Optativas, Itinerario
+    """)
 
 # Footer
 st.markdown("---")
+st.markdown("*Dashboard desarrollado para análisis de rendimiento académico*")
