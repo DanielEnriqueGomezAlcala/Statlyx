@@ -1,280 +1,454 @@
-import streamlit as st
-import pandas as pd
+import dash
+from dash import dcc, html, Input, Output, State
+import dash_mantine_components as dmc
+from dash_iconify import DashIconify
 import plotly.graph_objects as go
-from pathlib import Path
-from datetime import datetime
-from docxtpl import DocxTemplate, InlineImage
-from docx.shared import Inches
+import pandas as pd
 import tempfile
+import base64
 import io
-import sys
-sys.path.append(str(Path(__file__).parent))
-from functions.generate_docx import escribir_informe
+import os
+from datetime import datetime
 
-from charts.interactive.line_chart import grafico_lineas_interactivo as line_chart
-from functions.generate_docx import escribir_informe
 
-st.set_page_config(page_title="Dashboard de Análisis Académico", layout="wide")
+from graphs.dinamic.table import crear_tabla_datos
+from graphs.dinamic.line import crear_grafica_lineas
 
-st.title("Dashboard de Análisis de Rendimiento Académico")
 
-# Subir archivo CSV en la pestaña principal
-st.header("Cargar Datos")
-uploaded_file = st.file_uploader("Subir archivo CSV", type=['csv'], help="Sube tu archivo CSV con los datos académicos")
+from functions.write_word import rellenar_plantilla
 
-if uploaded_file is not None:
-    # Leer CSV
-    dataset = pd.read_csv(uploaded_file, sep=",")
-    
-    # Validar columnas requeridas
-    columnas_requeridas = ['Tasa', 'Curso', 'Asignatura', 'Valor', 'Convocatoria', 'Tipo']
-    columnas_faltantes = [col for col in columnas_requeridas if col not in dataset.columns]
-    
-    if columnas_faltantes:
-        st.error(f"Error: El archivo CSV no contiene las siguientes columnas obligatorias: {', '.join(columnas_faltantes)}")
-        st.warning("Por favor, asegúrate de que tu archivo CSV contenga todas las columnas requeridas:")
-        st.write("- **Tasa**: Tipo de tasa (Éxito, Rendimiento, etc.)")
-        st.write("- **Curso**: Curso de la titulación (Primero, Segundo, etc.)")
-        st.write("- **Asignatura**: Nombre de la asignatura")
-        st.write("- **Valor**: Valor numérico de la métrica")
-        st.write("- **Convocatoria**: Convocatoria (Enero, Junio, Julio)")
-        st.write("- **Tipo**: Tipología de la asignatura (Obligatorias, Optativas, etc.)")
-        st.stop()
-    
-    dataset = dataset[dataset['Valor'] != '???']
-    
-    st.success("Archivo cargado exitosamente")
-    
-    # Filtros en el sidebar
-    st.sidebar.header("Filtros")
-    
-    # Filtro por convocatoria
-    convocatorias_disponibles = ['Curso completo']
-    if 'Convocatoria' in dataset.columns:
-        convocatorias_disponibles = ['Curso completo'] + list(dataset['Convocatoria'].unique())
-    convocatoria = st.sidebar.selectbox(
-        "Convocatoria",
-        options=convocatorias_disponibles
-    )
-    
-    # Filtro por asignatura
-    asignaturas_disponibles = ['Todas']
-    if 'Asignatura' in dataset.columns:
-        asignaturas_disponibles = ['Todas'] + sorted(list(dataset['Asignatura'].unique()))
-    asignatura = st.sidebar.selectbox(
-        "Asignatura",
-        options=asignaturas_disponibles
-    )
-    
-    # Filtro por curso/cuatrimestre
-    cursos_disponibles = ['Todos']
-    if 'Curso' in dataset.columns:
-        cursos_disponibles = ['Todos', 'Primero', 'Segundo', 'Tercero', 'Cuarto']
-    curso = st.sidebar.selectbox(
-        "Curso de la titulación",
-        options=cursos_disponibles
-    )
+# Inicializar la app
+app = dash.Dash(__name__)
 
-    # Filtro por tipología
-    tipologias_disponibles = ['Todas']
-    if 'Tipo' in dataset.columns:
-        tipologias_disponibles = ['Todas'] + sorted(list(dataset['Tipo'].unique()))
-    tipologia = st.sidebar.selectbox(
-        "Tipología de la asignatura",
-        options=tipologias_disponibles
-    )  
+# Colores personalizados
+COLORS = {
+    'primary': '#5C068C',
+    'secondary': '#7D3C98',
+    'light': '#D5D8DC',
+    'background': '#f8f9fa'
+}
 
-    # Filtro por Itinerario
-    itinerarios_disponibles = ['Todos']
-    if 'Itinerario' in dataset.columns:
-        itinerarios_disponibles = ['Todos'] + sorted(list(dataset['Itinerario'].unique()))
-    itinerario = st.sidebar.selectbox(
-        "Itinerario",
-        options=itinerarios_disponibles
-    )  
-    
-    # Filtro por rango de años
-    st.sidebar.subheader("Rango de Años")
-    if 'Anio' in dataset.columns:
-        # Obtener años académicos únicos y ordenarlos
-        anios_academicos = sorted(dataset['Anio'].unique())
-        
-        # Multiselect para seleccionar años académicos
-        anios_seleccionados = st.sidebar.multiselect(
-            "Seleccionar años académicos",
-            options=anios_academicos,
-            default=anios_academicos,
-            help="Selecciona uno o más años académicos para filtrar"
-        )
-    else:
-        anios_seleccionados = None
-    
-    # Aplicar filtros
-    df_filtered = dataset.copy()
-    
-    if convocatoria != 'Curso completo' and 'Convocatoria' in dataset.columns:
-        df_filtered = df_filtered[df_filtered['Convocatoria'] == convocatoria]
-    
-    if asignatura != 'Todas' and 'Asignatura' in dataset.columns:
-        df_filtered = df_filtered[df_filtered['Asignatura'] == asignatura]
-    
-    if curso != 'Todos' and 'Curso' in dataset.columns:
-        df_filtered = df_filtered[df_filtered['Curso'] == curso]
-    
-    if itinerario != 'Todos' and 'Itinerario' in dataset.columns:
-        df_filtered = df_filtered[df_filtered['Itinerario'] == itinerario]
-    
-    if anios_seleccionados is not None and len(anios_seleccionados) > 0 and 'Anio' in df_filtered.columns:
-        df_filtered = df_filtered[df_filtered['Anio'].isin(anios_seleccionados)]
-    
-    # Mostrar métricas
-    st.header("Métricas Generales")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        if 'Valor' in df_filtered.columns:
-            df_filtered['Valor'] = pd.to_numeric(df_filtered['Valor'], errors='coerce')
-            promedio = df_filtered['Valor'].mean()
-            st.metric("Promedio", f"{promedio:.2f}%")
-        else:
-            st.metric("Promedio", "N/A")
-    
-    with col2:
-        if 'Valor' in df_filtered.columns:
-            maximo = df_filtered['Valor'].max()
-            st.metric("Máximo", f"{maximo:.2f}%")
-        else:
-            st.metric("Máximo", "N/A")
-    
-    with col3:
-        if 'Valor' in df_filtered.columns:
-            minimo = df_filtered['Valor'].min()
-            st.metric("Mínimo", f"{minimo:.2f}%")
-        else:
-            st.metric("Mínimo", "N/A")
-    
-    with col4:
-        st.metric("Registros", len(df_filtered))
-    
-    # Tabs para diferentes visualizaciones
-    tab1, tab2 = st.tabs(["Gráficos", "Tabla de Datos"])
-    
-    with tab1:
-        st.subheader("Evolución Temporal")
-        
-        if 'Anio' in df_filtered.columns and 'Valor' in df_filtered.columns:
-            # Preparar datos para gráfico
-            if 'Tasa' in df_filtered.columns:
-                tasa_seleccionada = st.selectbox("Seleccionar Tasa", options=df_filtered['Tasa'].unique())
-                df_grafico = df_filtered[df_filtered['Tasa'] == tasa_seleccionada].copy()
-            else:
-                df_grafico = df_filtered.copy()
+# Layout del dashboard
+app.layout = dmc.MantineProvider(
+    theme={"colorScheme": "light", "primaryColor": "violet"},
+    children=[
+        dmc.Container([
+            # Header
+            dmc.Paper([
+                dmc.Group([
+                    dmc.Group([
+                        html.Img(src='/assets/logo.jpeg', height='40px'),
+                    ], gap="xs"),
+                    dmc.Group([
+                        dmc.Tabs([
+                            dmc.TabsList([
+                                dmc.TabsTab("Subir archivo", value="upload"),
+                                dmc.TabsTab("Filtros", value="filters"),
+                                dmc.TabsTab("Métricas", value="metrics"),
+                                dmc.TabsTab("Generar informe", value="report"),
+                            ])
+                        ], id="navigation-tabs", value="upload", color="violet")
+                    ], style={'marginLeft': 'auto'})
+                ], justify="space-between", style={'padding': '20px'})
+            ], shadow="xs", radius="md", style={'marginBottom': '20px'}),
             
-            df_grafico['Valor'] = pd.to_numeric(df_grafico['Valor'], errors='coerce')
-            
-            # Agrupar por año
-            df_agrupado = df_grafico.groupby('Anio')['Valor'].mean().reset_index()
-            
-            # Crear gráfico
-            fig = line_chart(df_agrupado)
-            
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.info("No hay datos suficientes para mostrar el gráfico de evolución temporal")
-    
-    with tab2:
-        st.subheader("Datos Filtrados")
-        st.dataframe(df_filtered, use_container_width=True, height=400)
-    
-    # Sección de generación de informes
-    st.header("Generación de Informes")
-    
-    col_inf1, col_inf2 = st.columns(2)
-    
-    with col_inf1:
-        formato_informe = st.selectbox("Formato del informe", ["DOCX", "PDF"])
-    
-    with col_inf2:
-        nombre_informe = st.text_input("Nombre del informe", value="informe_academico")
-    
-    # Campo obligatorio para el nombre de la universidad
-    nombre_universidad = st.text_input(
-        "Nombre de la Universidad *", 
-        placeholder="Ej: Universidad de La Laguna",
-        help="Este campo es obligatorio para generar el informe"
-    )
-    
-    # Campo obligatorio para el nombre de la titulación
-    nombre_titulacion = st.text_input(
-        "Nombre de la Titulación *",
-        placeholder="Ej: Grado en Ingeniería Informática",
-        help="Este campo es obligatorio para generar el informe"
-    )
-    
-    # Validar que los campos obligatorios no estén vacíos
-    if st.button("Generar y Descargar Informe", type="primary"):
-        if not nombre_universidad or nombre_universidad.strip() == "":
-            st.error("Por favor, ingresa el nombre de la Universidad antes de generar el informe.")
-        elif not nombre_titulacion or nombre_titulacion.strip() == "":
-            st.error("Por favor, ingresa el nombre de la Titulación antes de generar el informe.")
-        else:
-            with st.spinner("Generando informe..."):
-                try:
-                    # Preparar datos para el informe
-                    # Filtros para incluir en el documento
-                    anios_str = ', '.join(anios_seleccionados) if anios_seleccionados and len(anios_seleccionados) > 0 else 'Todos'
-                    filtros_aplicados = {
-                        'convocatoria': convocatoria,
-                        'asignatura': asignatura,
-                        'curso': curso,
-                        'tipologia': tipologia,
-                        'itinerario': itinerario if itinerario != 'Todos' else 'N/A',
-                        'anios_academicos': anios_str,
-                    }
-                    
-                    # Llamar a la función escribir_informe
-                    exito, mensaje, docx_buffer, filename = escribir_informe(
-                        carrera=nombre_titulacion,
-                        universidad=nombre_universidad,
-                        df=df_filtered,
-                        nombre_informe=nombre_informe,
-                        filtros_aplicados=filtros_aplicados
-                    )
-                    
-                    if exito:
-                        st.success("✅ Informe generado exitosamente")
+            # Subir archivo
+
+            dmc.Center([
+                dmc.Paper([
+                    html.Div(id="upload-section"),
+                    dmc.Stack([
+                        dmc.Title("Subir archivo", order=4),
+                        dmc.Text("Sube un archivo CSV", c="dimmed", size="sm"),
+                        dcc.Upload(
+                            id='upload-data',
+                            children=dmc.Stack([
+                                DashIconify(icon="material-symbols:upload", width=50, color=COLORS['primary']),
+                                dmc.Button(
+                                    "Subir archivo",
+                                    leftSection=DashIconify(icon="material-symbols:upload"),
+                                    color=COLORS['primary'],
+                                    variant="filled"
+                                ),
+                                dmc.Text("Arrastra y suelta el archivo aquí o haz clic", size="xs", c="dimmed")
+                            ], align="center", gap="xs"),
+                            style={
+                                'width': '100%',
+                                'height': '180px',
+                                'borderWidth': '2px',
+                                'borderStyle': 'dashed',
+                                'borderRadius': '10px',
+                                'borderColor': COLORS['light'],
+                                'textAlign': 'center',
+                                'display': 'flex',
+                                'alignItems': 'center',
+                                'justifyContent': 'center',
+                                'cursor': 'pointer'
+                            },
+                            multiple=False
+                        ),
+                        html.Div(id='upload-status', style={'marginTop': '10px'})
+                    ], gap="sm", style={'padding': '20px'})
+                ], shadow="xs", radius="md", style={'marginBottom': '20px', 'width': '80%'})
+            ]),
+
+            # Filtros
+
+            dmc.Center([
+                dmc.Paper([
+                    html.Div(id="filters-section"),
+                    dmc.Stack([
+                        dmc.Title("Filtros", order=4),
+                        dmc.Text("Configura los filtros para el análisis de datos", c="dimmed", size="sm"),
+
+                        dmc.Stack([
+                            dmc.YearPickerInput(
+                                id="year-picker",
+                                minDate=None,
+                                maxDate=None,
+                                leftSection=DashIconify(icon="fa:calendar"),
+                                type="range",
+                                label="Selecciona rango de años",
+                                placeholder="Selecciona años",
+                            ),
+
+                            dmc.MultiSelect(
+                                label="Selecciona tipos de asignatura",
+                                placeholder="Selecciona los tipos",
+                                id="tipo-multi-select",
+                                value=[],
+                                data=[],
+                                clearable=True,
+                                searchable=True,
+                                leftSection=DashIconify(icon="mdi:filter"),
+                            ),
+
+                            dmc.MultiSelect(
+                                label="Selecciona asignaturas",
+                                placeholder="Selecciona las asignaturas",
+                                id="asignatura-multi-select",
+                                value=[],
+                                data=[],
+                                clearable=True,
+                                searchable=True,
+                                leftSection=DashIconify(icon="mdi:book-open-variant"),
+                            ),
+
+                            dmc.MultiSelect(
+                                label="Selecciona cursos",
+                                placeholder="Selecciona los cursos",
+                                id="curso-multi-select",
+                                value=[],
+                                data=[],
+                                clearable=True,
+                                searchable=True,
+                                leftSection=DashIconify(icon="mdi:school"),
+                            ),
+                        ]),
                         
-                        st.download_button(
-                            label="⬇️ Descargar Informe DOCX",
-                            data=docx_buffer,
-                            file_name=filename,
-                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        html.Div(id='filter-status', style={'marginTop': '10px'})
+                    ], gap="sm", style={'padding': '20px'})
+                ], shadow="xs", radius="md", style={'marginBottom': '20px', 'width': '80%'})
+            ]),
+            
+            # Metricas y visualizaciones
+            dmc.Center([
+                dmc.Paper([
+                    html.Div(id="metrics-section"),
+                    dmc.Stack([
+                        dmc.Title("Metricas", order=4),
+                        dmc.Tabs([
+                                dmc.TabsList(
+                                    [
+                                        dmc.TabsTab("Tabla de datos", value="table"),
+                                        dmc.TabsTab("Gráfico de lineas", value="general"),
+                                    ]
+                                ),
+                                dmc.TabsPanel(
+                                    dcc.Graph(id='data-table-graph'), value="table"
+                                ),
+                                dmc.TabsPanel(
+                                    dmc.Stack([
+                                        dmc.Select(
+                                            label="Selecciona eje X para el gráfico",
+                                            placeholder="Selecciona el eje X",
+                                            id="eje-x-select",
+                                            value="Anio",
+                                            data=[
+                                                {'value': 'Anio', 'label': 'Año'},
+                                                {'value': 'Curso', 'label': 'Curso'},
+                                                {'value': 'Cuatrimestre', 'label': 'Cuatrimestre'},
+                                                {'value': 'Asignatura', 'label': 'Asignatura'},
+                                            ],
+                                            clearable=False,
+                                            searchable=False,
+                                            leftSection=DashIconify(icon="mdi:chart-line"),
+                                            style={'width': '300px'}
+                                        ),
+                                        dcc.Graph(id='data-line-graph')
+                                    ], gap="md")
+                                    , value="general"
+                                ),
+                            ],
+                            color=COLORS['primary'],
+                            orientation="horizontal", 
+                            variant="pills",
+                            value="table"
                         )
-                    else:
-                        st.error(f"❌ Error al generar el informe: {mensaje}")
-                    
-                except Exception as e:
-                    st.error(f"❌ Error al generar el informe: {str(e)}")
-                    import traceback
-                    st.error(traceback.format_exc())
-                    
-else:
-    st.info("👆 Por favor, sube un archivo CSV para comenzar el análisis")
-    
-    # Mostrar ejemplo de estructura esperada
-    st.subheader("📝 Estructura esperada del CSV")
-    st.markdown("""
-    El archivo CSV debe contener al menos las siguientes columnas:
-    - **Anio**: Año de la cohorte
-    - **Valor**: Valor de la métrica
-    - **Tasa**: Tipo de tasa
-    - **Convocatoria**: Enero, Mayo, Junio/Julio
-    - **Asignatura**: Nombre de la asignatura
-    - **Curso**: Primero, Segundo, Tercero, Cuarto
-    - **Tipologia**: Obligatorias, Optativas, Itinerario
-    """)
+                        
+                    ], gap="sm", style={'padding': '20px'})
+                ], shadow="xs", radius="md", style={'marginBottom': '20px', 'width': '80%'})
+            ]),
 
-# Footer
-st.markdown("---")
-st.markdown("*Dashboard desarrollado para análisis de rendimiento académico*")
+            # Generar informe
+            dmc.Center([
+                dmc.Paper([
+                    html.Div(id="report-section"),
+                    dmc.Stack([
+                        dmc.Title("Generar informe", order=4),
+                        dmc.TextInput(
+                            placeholder="Universidad de La Laguna",
+                            label="Nombre de la institución",
+                            id="institution-input",
+                            description="Escribe el nombre de la institución educativa para que aparezca en el informe generado.",
+                            size="sm",
+                            radius="sm",
+                            variant="default",
+                            required=True,
+                        ),
+                        dmc.TextInput(
+                            placeholder="Ingeniería Informática",
+                            label="Nombre de la titulación",
+                            id="degree-input",
+                            description="Escribe el nombre de la titulación para que aparezca en el informe generado.",
+                            size="sm",
+                            radius="sm",
+                            variant="default",
+                            required=True,
+                        ),
+                        dmc.Center(
+                            style={'margin': '10px'},
+                            children = [
+                            dmc.Group([
+                                dmc.Button(
+                                    "Generar informe Word",
+                                    leftSection=DashIconify(icon="mdi:download"),
+                                    color=COLORS['primary'],
+                                    variant="filled",
+                                    id="generate-report-word-button",
+                                    disabled=True
+                                ),
+                            ]),
+                        ])
+                    ], gap="sm", style={'padding': '20px'})
+                ], shadow="xs", radius="md", style={'marginBottom': '20px', 'width': '80%'})
+            ]),
+            
+
+            # Download component para descargar datos
+            dcc.Download(id="download-report-word"),
+            
+            
+            # Store para guardar los datos
+            dcc.Store(id='stored-data'),
+            dcc.Store(id='filtered-data'),
+            dcc.Store(id='scroll-trigger')
+            
+        ], fluid=True, style={'backgroundColor': COLORS['background'], 'padding': '20px', 'minHeight': '100vh'}),
+    ]
+)
+
+######################################## Callbacks ########################################
+
+# Clientside callback para hacer scroll a la sección seleccionada
+app.clientside_callback(
+    """
+    function(tab_value) {
+        if (tab_value) {
+            const sectionId = tab_value + '-section';
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        return tab_value;
+    }
+    """,
+    Output('scroll-trigger', 'data'),
+    Input('navigation-tabs', 'value')
+)
+
+# Callback para manejar la carga de archivos
+@app.callback(
+    [Output('stored-data', 'data'),
+     Output('upload-status', 'children'),
+     Output('year-picker', 'minDate'),
+     Output('year-picker', 'maxDate'),
+     Output('tipo-multi-select', 'data'),
+     Output('asignatura-multi-select', 'data'),
+     Output('curso-multi-select', 'data')],
+    Input('upload-data', 'contents'),
+    State('upload-data', 'filename')
+)
+def handle_upload(contents, filename):
+    if contents is None:
+        # No hay archivo subido
+        return None, dmc.Alert(
+            "Por favor, sube un archivo CSV para comenzar", 
+            color="gray", 
+            title="Sin archivo"
+        ), None, None, [], [], []
+    
+    # Procesar archivo subido
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string)
+    try:
+        df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+        
+        # Extraer años del dataframe si existe la columna 'Anio'
+        min_year = None
+        max_year = None
+        
+        if 'Anio' in df.columns:
+            df[["start_year", "end_year"]] = df["Anio"].str.split("-", expand=True).astype(int)
+            min_year_int = int(df["start_year"].min())
+            max_year_int = int(df["end_year"].max())
+            
+            # El year picker espera objetos datetime
+            min_year = datetime(min_year_int, 1, 1)
+            max_year = datetime(max_year_int, 12, 31)
+        
+        # Extraer tipos únicos si existe la columna 'Tipo'
+        tipos_data = []
+        if 'Tipo' in df.columns:
+            tipos_unicos = sorted(df['Tipo'].dropna().unique())
+            tipos_data = [{'value': tipo, 'label': tipo} for tipo in tipos_unicos]
+        
+        # Extraer asignaturas únicas si existe la columna 'Asignatura'
+        asignaturas_data = []
+        if 'Asignatura' in df.columns:
+            asignaturas_unicas = sorted(df['Asignatura'].dropna().unique())
+            asignaturas_data = [{'value': asig, 'label': asig} for asig in asignaturas_unicas]
+        
+        # Extraer cursos únicos si existe la columna 'Curso'
+        cursos_data = []
+        if 'Curso' in df.columns:
+            cursos_unicos = sorted(df['Curso'].dropna().unique())
+            cursos_data = [{'value': curso, 'label': curso} for curso in cursos_unicos]
+        
+        status = dmc.Alert(
+            f"Archivo '{filename}' cargado exitosamente ({len(df)} filas)", 
+            color="green", 
+            title="Éxito"
+        )
+    except Exception as e:
+        return None, dmc.Alert(f"Error al cargar el archivo: {str(e)}", color="red", title="Error"), None, None, [], [], []
+    
+    return df.to_json(date_format='iso', orient='split'), status, min_year, max_year, tipos_data, asignaturas_data, cursos_data
+
+# Callback para aplicar filtros a los datos
+@app.callback(
+    Output('filtered-data', 'data'),
+    [Input('stored-data', 'data'),
+     Input('year-picker', 'value'),
+     Input('tipo-multi-select', 'value'),
+     Input('asignatura-multi-select', 'value'),
+     Input('curso-multi-select', 'value')]
+)
+def update_filter(stored_data, year_range, tipos, asignaturas, cursos):
+    if stored_data is None:
+        return None
+    
+    df = pd.read_json(io.StringIO(stored_data), orient='split')
+    
+    # Aplicar filtros si existen
+    df_filtered = df.copy()
+    
+    # Validar que year_range sea una lista válida con dos elementos
+    if year_range and isinstance(year_range, list) and len(year_range) == 2 and year_range[0] and year_range[1]:
+        df_filtered[["start_year", "end_year"]] = df_filtered["Anio"].str.split("-", expand=True).astype(int)
+        # Parsear las fechas del YearPickerInput
+        start_year = pd.to_datetime(year_range[0]).year
+        end_year = pd.to_datetime(year_range[1]).year
+        df_filtered = df_filtered[
+            (df_filtered["start_year"] >= start_year) & 
+            (df_filtered["end_year"] <= end_year)
+        ]
+    
+    if tipos and len(tipos) > 0:
+        df_filtered = df_filtered[df_filtered['Tipo'].isin(tipos)]
+    
+    if asignaturas and len(asignaturas) > 0:
+        df_filtered = df_filtered[df_filtered['Asignatura'].isin(asignaturas)]
+    
+    if cursos and len(cursos) > 0:
+        df_filtered = df_filtered[df_filtered['Curso'].isin(cursos)]
+    
+    return df_filtered.to_json(date_format='iso', orient='split')
+
+@app.callback(
+    Output('data-table-graph', 'figure'),
+    Input('filtered-data', 'data')
+)
+def update_table(filtered_data):
+    if filtered_data is None:
+        return go.Figure()
+    
+    df_filtered = pd.read_json(io.StringIO(filtered_data), orient='split')
+    df_filtered = df_filtered.head(100)  # Limitar a 100 filas para la tabla
+
+    # Crear la tabla con los datos filtrados
+    return crear_tabla_datos(df_filtered)
+
+@app.callback(
+    Output('data-line-graph', 'figure'),
+    [Input('filtered-data', 'data'),
+     Input('eje-x-select', 'value')]
+)
+def update_line_chart(filtered_data, eje_x):
+    if filtered_data is None:
+        return go.Figure()
+    
+    df_filtered = pd.read_json(io.StringIO(filtered_data), orient='split')
+    
+    # Crear el gráfico de líneas con el eje X seleccionado
+    return crear_grafica_lineas(df_filtered, eje_x)
+
+# Callback para habilitar/deshabilitar botones según los inputs
+@app.callback(
+    [Output('generate-report-word-button', 'disabled')],
+    [Input('institution-input', 'value'),
+     Input('degree-input', 'value'),
+     Input('filtered-data', 'data')]
+)
+def toggle_report_buttons(institucion, titulacion, filtered_data):
+    # Deshabilitar si falta institución, titulación o no hay datos
+    disabled = not (institucion and titulacion and filtered_data)
+    return [disabled]
+
+@app.callback(
+    Output("download-report-word", "data"),
+    Input("generate-report-word-button", "n_clicks"),
+    [State('filtered-data', 'data'),
+     State('institution-input', 'value'),
+     State('degree-input', 'value')],
+    prevent_initial_call=True
+)
+def generate_report(n_clicks, filtered_data, institucion, titulacion):
+    if not filtered_data or not institucion or not titulacion:
+        return dash.no_update
+    
+    df = pd.read_json(io.StringIO(filtered_data), orient='split')
+    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePrueba.docx')
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        
+    
+    # Generar el documento Word
+    buffer = rellenar_plantilla(df, ruta_plantilla, institucion=institucion, titulacion=titulacion)
+    
+    # Retornar el documento Word para descarga
+    return dcc.send_bytes(buffer.getvalue(), f"informe_{institucion or 'dashboard'}_{datetime.now().strftime('%Y%m%d')}.docx")
+
+if __name__ == '__main__':
+    app.run(debug=True, port=8050)
