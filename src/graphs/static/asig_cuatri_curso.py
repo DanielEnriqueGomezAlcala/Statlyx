@@ -1,0 +1,62 @@
+import plotly.graph_objects as go
+
+COLORES = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f']
+
+def create_static_graph_asignatura_cuatrimestre_curso(df, titulo_grafica):
+    fig = go.Figure()
+    
+    asignaturas = df['Asignatura'].unique()
+    
+    for i, asignatura in enumerate(asignaturas):
+        datos_asig = df[df['Asignatura'] == asignatura]
+        color_actual = COLORES[i % len(COLORES)]
+        
+        fig.add_trace(go.Scatter(
+            x=datos_asig['Anio'],
+            y=datos_asig['Valor'],
+            mode='lines+markers',
+            name=asignatura,
+            line=dict(color=color_actual, width=4),
+            marker=dict(size=12, color=color_actual),
+            hovertemplate='<b>%s</b><br>Año: %%{x}<br>Valor: %%{y:.2f}%%<extra></extra>' % asignatura
+        ))
+
+    fig.update_layout(
+        showlegend=True,
+        font=dict(size=18, color='black'), 
+        
+        title=dict(
+            text=titulo_grafica,
+            x=0.5,
+            font=dict(size=28, color='black')
+        ),
+        plot_bgcolor='white',
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=1.02,
+            font=dict(size=24)
+        ),
+        margin=dict(r=250, t=100)
+    )
+
+    fig.update_xaxes(
+        tickangle=-90,
+        showgrid=False,
+        linecolor='black',
+        ticks='outside',
+        tickfont=dict(size=20)
+    )
+
+    fig.update_yaxes(
+        range=[0, 105],
+        showgrid=True,
+        gridcolor='lightgray',
+        linecolor='black',
+        ticksuffix="%",
+        tickformat=".2f",
+        tickfont=dict(size=20)
+    )
+
+    return fig

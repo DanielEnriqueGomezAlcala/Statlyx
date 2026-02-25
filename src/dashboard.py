@@ -12,10 +12,8 @@ from datetime import datetime
 
 
 from graphs.dinamic.table import crear_tabla_datos
-from graphs.dinamic.line import crear_grafica_lineas
 
-
-from functions.write_word import rellenar_plantilla
+from functions.write_word import write_word
 
 # Inicializar la app
 app = dash.Dash(__name__)
@@ -156,45 +154,20 @@ app.layout = dmc.MantineProvider(
                 dmc.Paper([
                     html.Div(id="metrics-section"),
                     dmc.Stack([
-                        dmc.Title("Metricas", order=4),
-                        dmc.Tabs([
-                                dmc.TabsList(
-                                    [
-                                        dmc.TabsTab("Tabla de datos", value="table"),
-                                        dmc.TabsTab("Gráfico de lineas", value="general"),
-                                    ]
-                                ),
-                                dmc.TabsPanel(
-                                    dcc.Graph(id='data-table-graph'), value="table"
-                                ),
-                                dmc.TabsPanel(
-                                    dmc.Stack([
-                                        dmc.Select(
-                                            label="Selecciona eje X para el gráfico",
-                                            placeholder="Selecciona el eje X",
-                                            id="eje-x-select",
-                                            value="Anio",
-                                            data=[
-                                                {'value': 'Anio', 'label': 'Año'},
-                                                {'value': 'Curso', 'label': 'Curso'},
-                                                {'value': 'Cuatrimestre', 'label': 'Cuatrimestre'},
-                                                {'value': 'Asignatura', 'label': 'Asignatura'},
-                                            ],
-                                            clearable=False,
-                                            searchable=False,
-                                            leftSection=DashIconify(icon="mdi:chart-line"),
-                                            style={'width': '300px'}
-                                        ),
-                                        dcc.Graph(id='data-line-graph')
-                                    ], gap="md")
-                                    , value="general"
-                                ),
-                            ],
-                            color=COLORS['primary'],
-                            orientation="horizontal", 
-                            variant="pills",
-                            value="table"
-                        )
+                        dmc.Title("Métricas - Tabla de Datos", order=4),
+                        
+                        # Contenedor relativo para que el overlay sepa qué área cubrir
+                        html.Div([
+                            dmc.LoadingOverlay(
+                                visible=False, # Esto se puede controlar con un callback si quieres
+                                zIndex=1000,
+                                overlayProps={"blur": 2},
+                            ),
+                            dcc.Graph(
+                                id='data-table-graph',
+                                config={'displayModeBar': False}
+                            )
+                        ], style={"position": "relative"}) # ¡Importante!
                         
                     ], gap="sm", style={'padding': '20px'})
                 ], shadow="xs", radius="md", style={'marginBottom': '20px', 'width': '80%'})
@@ -205,7 +178,99 @@ app.layout = dmc.MantineProvider(
                 dmc.Paper([
                     html.Div(id="report-section"),
                     dmc.Stack([
-                        dmc.Title("Generar informe", order=4),
+                        dmc.Title("Generar informe", order=4),                    
+                        dmc.Divider(label="Previsualización de gráficos", labelPosition="center", mt="md"),
+                        
+                        # TABS DE PREVISUALIZACIÓN DE GRÁFICOS
+                        dmc.Tabs([
+                            dmc.TabsList([
+                                dmc.TabsTab("Gráfico por cuatrimestre por curso", value="preview-cuatrimestre-curso"),
+                                dmc.TabsTab("Comparativa por itinerario", value="preview-lineas"),
+                                dmc.TabsTab("Comparativa top y bottom", value="preview-circular"),
+                                dmc.TabsTab("Comparativa por tipología", value="preview-table"),
+                            ], grow=True), # 'grow=True' hace que las pestañas ocupen todo el ancho disponible por igual
+                            
+                            # Panel: Barras
+                            dmc.TabsPanel(
+                                dmc.Stack([
+                                    dmc.Text("Ejemplos de visualización por Cuatrimestre y Curso", size="sm", c="dimmed", ta="center", mt="md"),
+                                    
+                                    dmc.SimpleGrid(
+                                        cols={"base": 1, "sm": 2}, 
+                                        spacing="md",
+                                        verticalSpacing="md",
+                                        children=[
+                                            dmc.Card([
+                                                dmc.CardSection(
+                                                    html.Img(
+                                                        src="./assets/Primero_Exito_Primero_General.png",
+                                                        style={"width": "100%", "height": "auto", "borderRadius": "8px"}
+                                                    )
+                                                ),
+                                                dmc.Text("Comparativa Tasa de Éxito", size="xs", ta="center", mt="sm")
+                                            ], withBorder=True, shadow="sm", radius="md"),
+
+                                            dmc.Card([
+                                                dmc.CardSection(
+                                                    html.Img(
+                                                        src="./assets/Primero_Rendimiento_Primero_General.png",
+                                                        style={"width": "100%", "height": "auto", "borderRadius": "8px"}
+                                                    )
+                                                ),
+                                                dmc.Text("Comparativa Tasa de Rendimiento", size="xs", ta="center", mt="sm")
+                                            ], withBorder=True, shadow="sm", radius="md"),
+                                        ],
+                                    ),
+                                ], gap="md", p="md"),
+                                value="preview-cuatrimestre-curso"
+                            ),
+                            
+                            # Panel: Líneas
+                            dmc.TabsPanel(
+                                dmc.Card([
+                                    dcc.Graph(
+                                        figure=go.Figure(data=[go.Scatter(x=[2021, 2022, 2023], y=[5, 15, 10], mode='lines+markers')]).update_layout(
+                                            margin=dict(l=10, r=10, t=10, b=10), height=300, showlegend=False
+                                        ),
+                                        config={'displayModeBar': False}
+                                    )
+                                ], withBorder=True, shadow="sm", radius="md", mt="md"),
+                                value="preview-lineas"
+                            ),
+                            
+                            # Panel: Circular
+                            dmc.TabsPanel(
+                                dmc.Card([
+                                    dcc.Graph(
+                                        figure=go.Figure(data=[go.Pie(labels=['A', 'B', 'C'], values=[30, 20, 50])]).update_layout(
+                                            margin=dict(l=10, r=10, t=10, b=10), height=300, showlegend=False
+                                        ),
+                                        config={'displayModeBar': False}
+                                    )
+                                ], withBorder=True, shadow="sm", radius="md", mt="md"),
+                                value="preview-circular"
+                            )
+                        ], value="preview-cuatrimestre-curso", color="violet", style={"marginTop": "10px", "marginBottom": "20px"}),
+
+                        # Selector de gráficos
+                        dmc.MultiSelect(
+                            label="Selecciona los gráficos a incluir en el informe",
+                            description="Los gráficos seleccionados se insertarán en la plantilla de Word.",
+                            id="chart-selector",
+                            data=[
+                                {"value": "cuatrimestre-curso", "label": "Gráfico de asignaturas por cuatrimestre y curso"},
+                                {"value": "itinerario", "label": "Comparativa por itinerario"},
+                                {"value": "tipologia", "label": "Comparativa por tipología"}
+                            ],
+                            value=[],
+                            clearable=True,
+                            searchable=True,
+                            leftSection=DashIconify(icon="mdi:chart-multiple"),
+                        ),
+
+                        dmc.Divider(style={"marginTop": "10px", "marginBottom": "10px"}),
+
+                        # Inputs de texto
                         dmc.TextInput(
                             placeholder="Universidad de La Laguna",
                             label="Nombre de la institución",
@@ -400,20 +465,6 @@ def update_table(filtered_data):
     # Crear la tabla con los datos filtrados
     return crear_tabla_datos(df_filtered)
 
-@app.callback(
-    Output('data-line-graph', 'figure'),
-    [Input('filtered-data', 'data'),
-     Input('eje-x-select', 'value')]
-)
-def update_line_chart(filtered_data, eje_x):
-    if filtered_data is None:
-        return go.Figure()
-    
-    df_filtered = pd.read_json(io.StringIO(filtered_data), orient='split')
-    
-    # Crear el gráfico de líneas con el eje X seleccionado
-    return crear_grafica_lineas(df_filtered, eje_x)
-
 # Callback para habilitar/deshabilitar botones según los inputs
 @app.callback(
     [Output('generate-report-word-button', 'disabled')],
@@ -431,24 +482,24 @@ def toggle_report_buttons(institucion, titulacion, filtered_data):
     Input("generate-report-word-button", "n_clicks"),
     [State('filtered-data', 'data'),
      State('institution-input', 'value'),
-     State('degree-input', 'value')],
+     State('degree-input', 'value'),
+     State('chart-selector', 'value')],
     prevent_initial_call=True
 )
-def generate_report(n_clicks, filtered_data, institucion, titulacion):
+def generate_report(n_clicks, filtered_data, institucion, titulacion, chart_selector):
     if not filtered_data or not institucion or not titulacion:
         return dash.no_update
     
     df = pd.read_json(io.StringIO(filtered_data), orient='split')
-    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePrueba.docx')
+    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV3.docx')
 
     with tempfile.TemporaryDirectory() as tmpdir:
+        nombre_archivo = f'{institucion}_{titulacion}_{datetime.now().strftime('%Y%m%d')}.docx'
         
-    
-    # Generar el documento Word
-    buffer = rellenar_plantilla(df, ruta_plantilla, institucion=institucion, titulacion=titulacion)
-    
-    # Retornar el documento Word para descarga
-    return dcc.send_bytes(buffer.getvalue(), f"informe_{institucion or 'dashboard'}_{datetime.now().strftime('%Y%m%d')}.docx")
+        ruta_guardado = write_word(df, ruta_plantilla, tmpdir, chart_selector, institucion, titulacion)
+        
+        return dcc.send_file(ruta_guardado, filename=nombre_archivo)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8050)
