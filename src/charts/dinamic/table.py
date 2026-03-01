@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import pandas as pd
 
 # Funcion que crea una tabla de datos de manera dinamica usando plotly
-def crear_tabla_datos(df):
+def dinamic_table(df):
     fig = go.Figure(data=[go.Table(
         header=dict(
             values=["<b>Año</b>", "<b>Tasa</b>", "<b>Curso</b>", "<b>Cuatrimestre</b>", "<b>Asignatura</b>", "<b>Valor</b>", "<b>Convocatoria</b>", "<b>Tipología</b>", "<b>Itinerario</b>"],

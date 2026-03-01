@@ -11,9 +11,9 @@ import os
 from datetime import datetime
 
 
-from graphs.dinamic.table import crear_tabla_datos
+from charts.dinamic.table import dinamic_table
 
-from functions.write_word import write_word
+from functions.write_word.write_word import write_word
 
 # Inicializar la app
 app = dash.Dash(__name__)
@@ -463,7 +463,7 @@ def update_table(filtered_data):
     df_filtered = df_filtered.head(100)  # Limitar a 100 filas para la tabla
 
     # Crear la tabla con los datos filtrados
-    return crear_tabla_datos(df_filtered)
+    return dinamic_table(df_filtered)
 
 # Callback para habilitar/deshabilitar botones según los inputs
 @app.callback(

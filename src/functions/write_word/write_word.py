@@ -5,10 +5,11 @@ from docx.oxml.ns import qn
 import os
 import pandas as pd
 from datetime import datetime
+from functions.llm.llm import generate_text
+from functions.llm.prompts import plantilla_resumen_tipologia
 
-from graphs.static.asig_cuatri_curso import create_static_graph_asignatura_cuatrimestre_curso
-from graphs.static.itinerario import create_static_graph_itinerario
-from graphs.static.resumen import create_bar_graph_medias_tipologia
+from charts.static.line_chart import static_chart_lines
+from charts.static.bar_chart import static_chart_bars
 
 def write_word(df, ruta_plantilla: str, directorio: str, chart_selector: str, institucion: str = "", titulacion: str = ""):
     tpl = DocxTemplate(ruta_plantilla)
@@ -44,7 +45,7 @@ def write_word(df, ruta_plantilla: str, directorio: str, chart_selector: str, in
                     titulo_grafica = f"{curso} - {tasa} - {cuat} - {itin}"
                     
                     # Llamamos a la función refactorizada para obtener el objeto Figure
-                    fig = create_static_graph_asignatura_cuatrimestre_curso(df_final, titulo_grafica)
+                    fig = static_chart_lines(df_final, titulo_grafica)
                     
                     # Definimos nombre de archivo único y ruta
                     # Limpiamos caracteres raros para el nombre del archivo
@@ -85,7 +86,7 @@ def write_word(df, ruta_plantilla: str, directorio: str, chart_selector: str, in
                 
                 for tasa, df_tasa in df_itin.groupby('Tasa', observed=True):
                     titulo_grafica = f"{itin} - Tasa de {tasa.lower()}"
-                    fig = create_static_graph_itinerario(df_tasa, titulo_grafica)
+                    fig = static_chart_lines(df_tasa, titulo_grafica)
                     # Limpiamos nombre del archivo
                     nombre_clean = f"{itin} - Tasa de {tasa.lower()}".replace(" ", "_").replace("/", "-")
                     nombre_img = f"graf_itin_{nombre_clean}.png"
@@ -104,7 +105,28 @@ def write_word(df, ruta_plantilla: str, directorio: str, chart_selector: str, in
             datos_itinerario.append(datos_curso)
     
     if "tipologia" in chart_selector:
+        # Creo un resumen para el apartado de tipología
+        grafica_resumen_tipologia = static_chart_bars(df, "Tabla resumen de tipología")
+        nombre_img = f"graf_resumen_tipologia.png"
+        img_path = os.path.join(directorio, nombre_img)
+        grafica_resumen_tipologia.write_image(img_path, width=1200, height=700, scale=2)
+        img_obj = InlineImage(tpl, img_path, width=Mm(160))
+
+        df_resumen_tipo = df.groupby('Tipo')['Valor'].mean()
+
+        prompt = plantilla_resumen_tipologia.substitute(
+            universidad=institucion,
+            titulacion=titulacion,
+            datos=df_resumen_tipo.to_string()
+        )
+        resumen_tipologia = generate_text(prompt)
+
+        resumen_tipologia = {
+            'resumen': resumen_tipologia,
+            'grafica': img_obj
+        }
         
+        # Creo un desglose por curso para las tipologías
         for curso, df_curso in df.groupby('Curso', observed=True):
             datos_curso = {'nombre': curso, 'tipologias': []}
             
@@ -113,7 +135,7 @@ def write_word(df, ruta_plantilla: str, directorio: str, chart_selector: str, in
                 
                 for tasa, df_tasa in df_tipo.groupby('Tasa', observed=True):
                     titulo_grafica = f"Tasa de {tasa.lower()}"
-                    fig = create_static_graph_itinerario(df_tasa, titulo_grafica)
+                    fig = static_chart_lines(df_tasa, titulo_grafica)
 
                     nombre_clean = f"Tasa de {tasa.lower()}".replace(" ", "_").replace("/", "-")
                     nombre_img = f"graf_tipo_{nombre_clean}.png"
@@ -145,7 +167,8 @@ def write_word(df, ruta_plantilla: str, directorio: str, chart_selector: str, in
         'CursosSeleccionado': f"{', '.join(df['Curso'].unique())}",
         'datos': informe_estructurado,
         'datos_itinerario': datos_itinerario,
-        'datos_tipologia': datos_tipologia
+        'datos_tipologia': datos_tipologia,
+        'resumen_tipologia': resumen_tipologia
     }
     
     tpl.render(contexto)

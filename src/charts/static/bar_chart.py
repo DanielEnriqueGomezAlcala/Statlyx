@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import pandas as pd
 
 
-def create_bar_graph_medias_tipologia(df, titulo_grafica):
+def static_chart_bars(df, titulo_grafica):
     # 1. Filtramos y preparamos los datos
     # Extraemos las medias de Éxito y Rendimiento por Tipo
     media_exito = df[df['Tasa'] == 'Exito'].groupby('Tipo')['Valor'].mean()
