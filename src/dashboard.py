@@ -184,10 +184,9 @@ app.layout = dmc.MantineProvider(
                         # TABS DE PREVISUALIZACIÓN DE GRÁFICOS
                         dmc.Tabs([
                             dmc.TabsList([
-                                dmc.TabsTab("Gráfico por cuatrimestre por curso", value="preview-cuatrimestre-curso"),
-                                dmc.TabsTab("Comparativa por itinerario", value="preview-lineas"),
-                                dmc.TabsTab("Comparativa top y bottom", value="preview-circular"),
-                                dmc.TabsTab("Comparativa por tipología", value="preview-table"),
+                                dmc.TabsTab("Desglose asignaturas", value="preview-cuatrimestre-curso"),
+                                dmc.TabsTab("Desglose itinerarios", value="preview-itineraries"),
+                                dmc.TabsTab("Desglose tipologías", value="preview-typologies"),
                             ], grow=True), # 'grow=True' hace que las pestañas ocupen todo el ancho disponible por igual
                             
                             # Panel: Barras
@@ -203,53 +202,98 @@ app.layout = dmc.MantineProvider(
                                             dmc.Card([
                                                 dmc.CardSection(
                                                     html.Img(
-                                                        src="./assets/Primero_Exito_Primero_General.png",
+                                                        src="./assets/ejemplo_grafica_1.png",
                                                         style={"width": "100%", "height": "auto", "borderRadius": "8px"}
                                                     )
                                                 ),
-                                                dmc.Text("Comparativa Tasa de Éxito", size="xs", ta="center", mt="sm")
+                                                dmc.Text("Grafica de lineas", size="xs", ta="center", mt="sm")
                                             ], withBorder=True, shadow="sm", radius="md"),
 
                                             dmc.Card([
                                                 dmc.CardSection(
                                                     html.Img(
-                                                        src="./assets/Primero_Rendimiento_Primero_General.png",
+                                                        src="./assets/ejemplo_resumen_1.png",
                                                         style={"width": "100%", "height": "auto", "borderRadius": "8px"}
                                                     )
                                                 ),
-                                                dmc.Text("Comparativa Tasa de Rendimiento", size="xs", ta="center", mt="sm")
+                                                dmc.Text("Gráfico de barras resumen", size="xs", ta="center", mt="sm")
                                             ], withBorder=True, shadow="sm", radius="md"),
                                         ],
                                     ),
                                 ], gap="md", p="md"),
                                 value="preview-cuatrimestre-curso"
                             ),
-                            
-                            # Panel: Líneas
+
+                            # Panel: Barras
                             dmc.TabsPanel(
-                                dmc.Card([
-                                    dcc.Graph(
-                                        figure=go.Figure(data=[go.Scatter(x=[2021, 2022, 2023], y=[5, 15, 10], mode='lines+markers')]).update_layout(
-                                            margin=dict(l=10, r=10, t=10, b=10), height=300, showlegend=False
-                                        ),
-                                        config={'displayModeBar': False}
-                                    )
-                                ], withBorder=True, shadow="sm", radius="md", mt="md"),
-                                value="preview-lineas"
+                                dmc.Stack([
+                                    dmc.Text("Ejemplos de visualización por Itinerario", size="sm", c="dimmed", ta="center", mt="md"),
+                                    
+                                    dmc.SimpleGrid(
+                                        cols={"base": 1, "sm": 2}, 
+                                        spacing="md",
+                                        verticalSpacing="md",
+                                        children=[
+                                            dmc.Card([
+                                                dmc.CardSection(
+                                                    html.Img(
+                                                        src="./assets/ejemplo_grafica_2.png",
+                                                        style={"width": "100%", "height": "auto", "borderRadius": "8px"}
+                                                    )
+                                                ),
+                                                dmc.Text("Grafica de lineas", size="xs", ta="center", mt="sm")
+                                            ], withBorder=True, shadow="sm", radius="md"),
+
+                                            dmc.Card([
+                                                dmc.CardSection(
+                                                    html.Img(
+                                                        src="./assets/ejemplo_resumen_2.png",
+                                                        style={"width": "100%", "height": "auto", "borderRadius": "8px"}
+                                                    )
+                                                ),
+                                                dmc.Text("Gráfico de barras resumen", size="xs", ta="center", mt="sm")
+                                            ], withBorder=True, shadow="sm", radius="md"),
+                                        ],
+                                    ),
+                                ], gap="md", p="md"),
+                                value="preview-itineraries"
+                            ),
+
+                            # Panel: Barras
+                            dmc.TabsPanel(
+                                dmc.Stack([
+                                    dmc.Text("Ejemplos de visualización por Tipología", size="sm", c="dimmed", ta="center", mt="md"),
+                                    
+                                    dmc.SimpleGrid(
+                                        cols={"base": 1, "sm": 2}, 
+                                        spacing="md",
+                                        verticalSpacing="md",
+                                        children=[
+                                            dmc.Card([
+                                                dmc.CardSection(
+                                                    html.Img(
+                                                        src="./assets/ejemplo_grafica_3.png",
+                                                        style={"width": "100%", "height": "auto", "borderRadius": "8px"}
+                                                    )
+                                                ),
+                                                dmc.Text("Grafica de lineas", size="xs", ta="center", mt="sm")
+                                            ], withBorder=True, shadow="sm", radius="md"),
+
+                                            dmc.Card([
+                                                dmc.CardSection(
+                                                    html.Img(
+                                                        src="./assets/ejemplo_resumen_3.png",
+                                                        style={"width": "100%", "height": "auto", "borderRadius": "8px"}
+                                                    )
+                                                ),
+                                                dmc.Text("Gráfico de barras resumen", size="xs", ta="center", mt="sm")
+                                            ], withBorder=True, shadow="sm", radius="md"),
+                                        ],
+                                    ),
+                                ], gap="md", p="md"),
+                                value="preview-typologies"
                             ),
                             
-                            # Panel: Circular
-                            dmc.TabsPanel(
-                                dmc.Card([
-                                    dcc.Graph(
-                                        figure=go.Figure(data=[go.Pie(labels=['A', 'B', 'C'], values=[30, 20, 50])]).update_layout(
-                                            margin=dict(l=10, r=10, t=10, b=10), height=300, showlegend=False
-                                        ),
-                                        config={'displayModeBar': False}
-                                    )
-                                ], withBorder=True, shadow="sm", radius="md", mt="md"),
-                                value="preview-circular"
-                            )
                         ], value="preview-cuatrimestre-curso", color="violet", style={"marginTop": "10px", "marginBottom": "20px"}),
 
                         # Selector de gráficos
@@ -491,7 +535,7 @@ def generate_report(n_clicks, filtered_data, institucion, titulacion, chart_sele
         return dash.no_update
     
     df = pd.read_json(io.StringIO(filtered_data), orient='split')
-    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV3.docx')
+    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV4.docx')
 
     with tempfile.TemporaryDirectory() as tmpdir:
         nombre_archivo = f'{institucion}_{titulacion}_{datetime.now().strftime('%Y%m%d')}.docx'
