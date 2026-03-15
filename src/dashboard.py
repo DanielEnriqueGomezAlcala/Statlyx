@@ -535,10 +535,12 @@ def generate_report(n_clicks, filtered_data, institucion, titulacion, chart_sele
         return dash.no_update
     
     df = pd.read_json(io.StringIO(filtered_data), orient='split')
-    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV4.docx')
+    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV5.docx')
 
     with tempfile.TemporaryDirectory() as tmpdir:
         nombre_archivo = f'{institucion}_{titulacion}_{datetime.now().strftime('%Y%m%d')}.docx'
+
+        df = df[df['Tasa'] != 'Abandono']
         
         ruta_guardado = write_word(df, ruta_plantilla, tmpdir, chart_selector, institucion, titulacion)
         
