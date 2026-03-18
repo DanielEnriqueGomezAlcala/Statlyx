@@ -1,19 +1,18 @@
 from string import Template
 
-plantilla_resumen_curso_cuatrimestre = Template("""
+plantilla_resumen_curso = Template("""
 Actúa como un analista experto en calidad educativa de la $universidad. 
 Tu tarea es analizar el siguiente dataset de la titulación "$titulacion" y redactar una conclusión técnica de EXACTAMENTE 7 líneas.
 
 Contexto del gráfico:
-- El análisis muestra la evolución temporal por Curso Académico y Cuatrimestre.
+- El análisis muestra la evolución temporal por Curso Académico
 - La "Tasa de Éxito" mide aprobados sobre presentados a evaluación.
 - La "Tasa de Rendimiento" mide aprobados sobre matriculados totales.
 
 Instrucciones de redacción:
 1. Analiza la tendencia general de las tasas a medida que el estudiante avanza de curso (ej. ¿actúa el primer año como filtro natural?).
-2. Compara el desempeño entre los distintos cuatrimestres, señalando si históricamente el primero o el segundo suelen presentar mayor dificultad.
-3. Identifica el periodo exacto (Curso y Cuatrimestre) con la mayor brecha entre éxito y rendimiento, y justifica brevemente si esto sugiere una alta tasa de abandono o "no presentados".
-4. Mantén un tono académico, directo, puramente analítico y sin introducciones ni conclusiones genéricas.
+2. Identifica el periodo exacto (Curso) con la mayor brecha entre éxito y rendimiento, y justifica brevemente si esto sugiere una alta tasa de abandono o "no presentados".
+3. Mantén un tono académico, directo, puramente analítico y sin introducciones ni conclusiones genéricas.
 
 Datos para analizar:
 $datos
@@ -35,6 +34,42 @@ Instrucciones de redacción:
 4. Mantén un tono académico, directo, puramente analítico y sin introducciones ni conclusiones genéricas.
 
 Datos para analizar:
+$datos
+""")
+
+plantilla_resumen_curso_tasa = Template("""
+Actúa como analista experto en calidad educativa de $universidad.
+Analiza la titulación "$titulacion", curso "$curso", métrica "$tasa".
+Redacta una conclusión técnica de EXACTAMENTE 5 líneas:
+1. Asignaturas con mejor y peor desempeño en $tasa (menciónalas por nombre).
+2. Tendencia temporal: ¿mejoran, empeoran o se mantienen los valores?
+3. Comportamiento anómalo (caída/subida brusca) con hipótesis breve.
+4. Tono académico, directo, sin introducciones genéricas.
+Datos (Asignatura, Anio, Valor):
+$datos
+""")
+
+plantilla_resumen_tipologia_tasa = Template("""
+Actúa como analista experto en calidad educativa de $universidad.
+Analiza la titulación "$titulacion", tipología "$tipologia", métrica "$tasa".
+Redacta una conclusión técnica de EXACTAMENTE 5 líneas:
+1. Asignaturas con mejor y peor desempeño en $tasa (menciónalas por nombre).
+2. Tendencia temporal: ¿mejoran, empeoran o se mantienen los valores?
+3. Comportamiento anómalo (caída/subida brusca) con hipótesis breve.
+4. Tono académico, directo, sin introducciones genéricas.
+Datos (Asignatura, Anio, Valor):
+$datos
+""")
+
+plantilla_resumen_titulacion_tasa = Template("""
+Actúa como analista experto en calidad educativa de $universidad.
+Analiza la titulación "$titulacion", métrica "$tasa".
+Redacta una conclusión técnica de EXACTAMENTE 5 líneas:
+1. Valor más alto y más bajo registrado, indicando el año académico exacto de cada uno.
+2. Tendencia general: ¿la métrica mejora, empeora o se mantiene estable a lo largo del periodo?
+3. Si existe algún año con variación brusca (subida o bajada notable), identifícalo y propón una hipótesis breve.
+4. Tono académico, directo, sin introducciones genéricas.
+Datos (Anio, Valor):
 $datos
 """)
 

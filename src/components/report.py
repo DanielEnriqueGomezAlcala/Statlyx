@@ -1,4 +1,4 @@
-from dash import html
+from dash import html, dcc
 import dash_mantine_components as dmc
 from colors.colors import COLORS
 from dash_iconify import DashIconify
@@ -9,140 +9,107 @@ def report():
             dmc.Paper([
                 html.Div(id="report-section"),
                 dmc.Stack([
-                    dmc.Title("Generar informe", order=4),                    
-                    dmc.Divider(label="Previsualización de gráficos", labelPosition="center", mt="md"),
-                    
-                    dmc.Tabs([
-                        dmc.TabsList([
-                            dmc.TabsTab("Desglose asignaturas", value="preview-cuatrimestre-curso"),
-                            dmc.TabsTab("Desglose itinerarios", value="preview-itineraries"),
-                            dmc.TabsTab("Desglose tipologías", value="preview-typologies"),
-                        ], grow=True),
-                        
-                        # Primer gráfico de ejemplo
-                        dmc.TabsPanel(
-                            dmc.Stack([
-                                dmc.SimpleGrid(
-                                    cols={"base": 1, "sm": 2}, 
-                                    spacing="md",
-                                    verticalSpacing="md",
-                                    children=[
-                                        dmc.Card([
-                                            dmc.CardSection(
-                                                html.Img(
-                                                    src="./assets/ejemplo_grafica_1.png",
-                                                    style={"width": "100%", "height": "auto", "borderRadius": "8px"}
-                                                )
-                                            ),
-                                            dmc.Text("Grafica de lineas", size="xs", ta="center", mt="sm")
-                                        ], withBorder=True, shadow="sm", radius="md"),
+                    dmc.Title("Generar informe", order=4),
 
-                                        dmc.Card([
-                                            dmc.CardSection(
-                                                html.Img(
-                                                    src="./assets/ejemplo_resumen_1.png",
-                                                    style={"width": "100%", "height": "auto", "borderRadius": "8px"}
-                                                )
-                                            ),
-                                            dmc.Text("Gráfico de barras resumen", size="xs", ta="center", mt="sm")
-                                        ], withBorder=True, shadow="sm", radius="md"),
-                                    ],
-                                ),
-                            ], gap="md", p="md"),
-                            value="preview-cuatrimestre-curso"
-                        ),
-
-                        # Segundo gráfico de ejemplo
-                        dmc.TabsPanel(
-                            dmc.Stack([
-                                dmc.Text("Ejemplos de visualización por Itinerario", size="sm", c="dimmed", ta="center", mt="md"),
-                                
-                                dmc.SimpleGrid(
-                                    cols={"base": 1, "sm": 2}, 
-                                    spacing="md",
-                                    verticalSpacing="md",
-                                    children=[
-                                        dmc.Card([
-                                            dmc.CardSection(
-                                                html.Img(
-                                                    src="./assets/ejemplo_grafica_2.png",
-                                                    style={"width": "100%", "height": "auto", "borderRadius": "8px"}
-                                                )
-                                            ),
-                                            dmc.Text("Grafica de lineas", size="xs", ta="center", mt="sm")
-                                        ], withBorder=True, shadow="sm", radius="md"),
-
-                                        dmc.Card([
-                                            dmc.CardSection(
-                                                html.Img(
-                                                    src="./assets/ejemplo_resumen_2.png",
-                                                    style={"width": "100%", "height": "auto", "borderRadius": "8px"}
-                                                )
-                                            ),
-                                            dmc.Text("Gráfico de barras resumen", size="xs", ta="center", mt="sm")
-                                        ], withBorder=True, shadow="sm", radius="md"),
-                                    ],
-                                ),
-                            ], gap="md", p="md"),
-                            value="preview-itineraries"
-                        ),
-
-                        # Tercer gráfico de ejemplo
-                        dmc.TabsPanel(
-                            dmc.Stack([
-                                dmc.Text("Ejemplos de visualización por Tipología", size="sm", c="dimmed", ta="center", mt="md"),
-                                
-                                dmc.SimpleGrid(
-                                    cols={"base": 1, "sm": 2}, 
-                                    spacing="md",
-                                    verticalSpacing="md",
-                                    children=[
-                                        dmc.Card([
-                                            dmc.CardSection(
-                                                html.Img(
-                                                    src="./assets/ejemplo_grafica_3.png",
-                                                    style={"width": "100%", "height": "auto", "borderRadius": "8px"}
-                                                )
-                                            ),
-                                            dmc.Text("Grafica de lineas", size="xs", ta="center", mt="sm")
-                                        ], withBorder=True, shadow="sm", radius="md"),
-
-                                        dmc.Card([
-                                            dmc.CardSection(
-                                                html.Img(
-                                                    src="./assets/ejemplo_resumen_3.png",
-                                                    style={"width": "100%", "height": "auto", "borderRadius": "8px"}
-                                                )
-                                            ),
-                                            dmc.Text("Gráfico de barras resumen", size="xs", ta="center", mt="sm")
-                                        ], withBorder=True, shadow="sm", radius="md"),
-                                    ],
-                                ),
-                            ], gap="md", p="md"),
-                            value="preview-typologies"
-                        ),
-                        
-                    ], value="preview-cuatrimestre-curso", color="violet", style={"marginTop": "10px", "marginBottom": "20px"}),
-
-                    # Selector de gráficos a incluir en el informe
-                    dmc.MultiSelect(
-                        label="Selecciona los gráficos a incluir en el informe",
-                        description="Los gráficos seleccionados se insertarán en la plantilla de Word.",
-                        id="chart-selector",
-                        data=[
-                            {"value": "cuatrimestre-curso", "label": "Gráfico de asignaturas por cuatrimestre y curso"},
-                            {"value": "itinerario", "label": "Comparativa por itinerario"},
-                            {"value": "tipologia", "label": "Comparativa por tipología"}
-                        ],
-                        value=[],
-                        clearable=True,
-                        searchable=True,
-                        leftSection=DashIconify(icon="mdi:chart-multiple"),
+                    dmc.Divider(label="Contenido del informe", labelPosition="center", mt="md"),
+                    dmc.Text(
+                        "Selecciona las secciones que deseas incluir en el informe.",
+                        size="xs", c="dimmed", ta="center", mb="sm"
                     ),
 
-                    dmc.Divider(style={"marginTop": "10px", "marginBottom": "10px"}),
+                    html.Div([
+                        # Análisis por titulación
+                        html.Div([
+                            dmc.Checkbox(id="check-titulacion", label="Análisis por titulación", checked=False),
+                            dmc.Text(
+                                "Evolución de las tasas de rendimiento y éxito a nivel global de la titulación.",
+                                size="xs", c="dimmed", style={"marginLeft": "28px", "marginTop": "2px"}
+                            ),
+                        ], style={"marginBottom": "12px"}),
 
-                    # Inputs de texto para el nombre de la institución y la titulación
+                        # Análisis por asignatura
+                        html.Div([
+                            dmc.Checkbox(id="check-asignatura", label="Análisis por asignatura", checked=False, indeterminate=False),
+                            dmc.Text(
+                                "Rendimiento detallado por asignatura con distintos niveles de desglose.",
+                                size="xs", c="dimmed", style={"marginLeft": "28px", "marginTop": "2px", "marginBottom": "6px"}
+                            ),
+                            html.Div([
+                                html.Div([
+                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 0}, label="Desglose por curso-cuatrimestre", checked=False),
+                                    dmc.Text("Agrupa los resultados por curso y cuatrimestre.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
+                                ], style={"marginBottom": "6px"}),
+                                html.Div([
+                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 1}, label="Desglose por tipología/categoría", checked=False),
+                                    dmc.Text("Clasifica los resultados según el tipo de asignatura.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
+                                ], style={"marginBottom": "6px"}),
+                                html.Div([
+                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 2}, label="Desglose por convocatoria", checked=False),
+                                    dmc.Text("Compara resultados entre convocatoria ordinaria y extraordinaria.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
+                                ]),
+                            ], style={"marginLeft": "28px"}),
+                        ]),
+
+                        dcc.Store(id="chart-selector", data=[]),
+                    ]),
+
+                    dmc.Divider(label="Tipo de visualización", labelPosition="center", mt="md"),
+                    dmc.Text(
+                        "Elige uno o ambos formatos para incluir en el informe.",
+                        size="xs", c="dimmed", ta="center", mb="sm"
+                    ),
+
+                    dmc.CheckboxGroup(
+                        id="chart-type-selector",
+                        value=["graficas-lineas"],
+                        children=dmc.SimpleGrid(
+                            cols=2,
+                            spacing="md",
+                            children=[
+                                dmc.Card([
+                                    dmc.Checkbox(value="graficas-lineas", label="Gráficas de líneas"),
+                                    dmc.Text("Evolución temporal de indicadores clave.", size="xs", c="dimmed", mt=2),
+                                ], withBorder=True, shadow="sm", radius="md", p="sm"),
+
+                                dmc.Card([
+                                    dmc.Checkbox(value="tablas", label="Tabla de datos"),
+                                    dmc.Text("Tabla estructurada de resultados por asignatura.", size="xs", c="dimmed", mt=2),
+                                ], withBorder=True, shadow="sm", radius="md", p="sm"),
+                            ]
+                        ),
+                    ),
+
+                    dmc.Divider(label="Parámetros opcionales", labelPosition="center", mt="md"),
+                    dmc.Text(
+                        "Para análisis por asignatura. Si se indican, aparecerán como líneas de referencia en las gráficas.",
+                        size="xs", c="dimmed", ta="center", mb="sm"
+                    ),
+
+                    dmc.SimpleGrid(
+                        cols=2,
+                        spacing="md",
+                        children=[
+                            dmc.NumberInput(
+                                id="target-value-input",
+                                label="Valor objetivo",
+                                description="Tasa de éxito objetivo (%)",
+                                placeholder="Ej: 75",
+                                min=0, max=100, suffix="%",
+                                size="sm",
+                            ),
+                            dmc.NumberInput(
+                                id="limit-value-input",
+                                label="Valor límite",
+                                description="Tasa mínima aceptable (%)",
+                                placeholder="Ej: 50",
+                                min=0, max=100, suffix="%",
+                                size="sm",
+                            ),
+                        ]
+                    ),
+
+                    dmc.Divider(mt="md", mb="sm"),
+
                     dmc.TextInput(
                         placeholder="Universidad de La Laguna",
                         label="Nombre de la institución",

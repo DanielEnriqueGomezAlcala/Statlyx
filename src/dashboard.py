@@ -1,8 +1,10 @@
 import dash
-from dash import Input, Output, State, dcc
+from dash import Input, Output, State, dcc, ALL, ctx
 import dash_mantine_components as dmc
 import base64
 import io
+import os
+import tempfile
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -17,6 +19,7 @@ from functions.clean_data.clean_data_t1t2 import clean_data_t1t2
 from functions.clean_data.clean_data_t4 import clean_data_t4
 from charts.dinamic.table_t1_t2 import dinamic_table_t1_t2
 from charts.dinamic.table_t4 import dinamic_table_t4
+from functions.write_word.write_word import write_word
 
 app = dash.Dash(__name__)
 
@@ -219,6 +222,36 @@ def toggle_table(selected):
 
 ######################################## Report ###########################################
 
+@app.callback(
+    Output("check-asignatura", "checked"),
+    Output("check-asignatura", "indeterminate"),
+    Output({"type": "check-asignatura-item", "index": ALL}, "checked"),
+    Input("check-asignatura", "checked"),
+    Input({"type": "check-asignatura-item", "index": ALL}, "checked"),
+    prevent_initial_call=True
+)
+def update_asignatura_checkbox(all_checked, checked_states):
+    if ctx.triggered_id == "check-asignatura":
+        checked_states = [all_checked] * len(checked_states)
+    all_checked_states = all(checked_states)
+    indeterminate = any(checked_states) and not all_checked_states
+    return all_checked_states, indeterminate, checked_states
+
+@app.callback(
+    Output("chart-selector", "data"),
+    Input("check-titulacion", "checked"),
+    Input({"type": "check-asignatura-item", "index": ALL}, "checked"),
+)
+def update_chart_selector(titulacion_checked, asignatura_items_checked):
+    sub_item_values = ["desglose-curso", "desglose-tipologia", "desglose-convocatoria"]
+    selected = []
+    if titulacion_checked:
+        selected.append("analisis-titulacion")
+    for i, checked in enumerate(asignatura_items_checked):
+        if checked:
+            selected.append(sub_item_values[i])
+    return selected
+
 # Callback para habilitar/deshabilitar botones según los inputs
 
 @app.callback(
@@ -232,7 +265,29 @@ def toggle_report_buttons(institucion, titulacion, filtered_t1_t2, filtered_t4):
     disabled = not (institucion and titulacion and filtered_t1_t2 and filtered_t4)
     return [disabled]
 
-# TODO: CallBack para generar el informe
+@app.callback(
+    Output('download-report-word', 'data'),
+    Input('generate-report-word-button', 'n_clicks'),
+    [State('filtered-t1-t2', 'data'),
+     State('filtered-t4', 'data'),
+     State('institution-input', 'value'),
+     State('degree-input', 'value'),
+     State('chart-selector', 'data'),
+     State('chart-type-selector', 'value'),
+     State('target-value-input', 'value'),
+     State('limit-value-input', 'value')],
+    prevent_initial_call=True
+)
+def generate_report_word(_n_clicks, filtered_t1_t2, filtered_t4, institucion, titulacion, chart_selector, chart_types, target_value, limit_value):
+    df = pd.read_json(io.StringIO(filtered_t1_t2), orient='split')
+    df_t4 = pd.read_json(io.StringIO(filtered_t4), orient='split')
+    df.to_csv('df.csv', sep=';', index=False)
+
+    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV6.docx')
+
+    with tempfile.TemporaryDirectory() as directorio:
+        ruta_guardado = write_word(df, df_t4, ruta_plantilla, directorio, chart_selector, chart_types, institucion, titulacion, target_value, limit_value)
+        return dcc.send_file(ruta_guardado)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8050)
