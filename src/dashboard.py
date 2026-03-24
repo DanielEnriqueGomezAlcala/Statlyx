@@ -37,6 +37,10 @@ app.layout = dmc.MantineProvider(
         # Store para guardar los datos
         dcc.Store(id='stored-t1-t2'),
         dcc.Store(id='stored-t4'),
+        dcc.Store(id='stored-conv1'),
+        dcc.Store(id='stored-conv2'),
+        dcc.Store(id='stored-conv3'),
+        dcc.Store(id='stored-adicional'),
         dcc.Store(id='filtered-t1-t2'),
         dcc.Store(id='filtered-t4'),
 
@@ -71,22 +75,43 @@ app.clientside_callback(
 @app.callback(
     Output('stored-t1-t2', 'data'),
     Output('stored-t4', 'data'),
+    Output('stored-conv1', 'data'),
+    Output('stored-conv2', 'data'),
+    Output('stored-conv3', 'data'),
+    Output('stored-adicional', 'data'),
     Output('upload-status-tabla1', 'children'),
     Output('upload-status-tabla2', 'children'),
     Output('upload-status-tabla4', 'children'),
+    Output('upload-status-conv1', 'children'),
+    Output('upload-status-conv2', 'children'),
+    Output('upload-status-conv3', 'children'),
+    Output('upload-status-adicional', 'children'),
     Output('upload-status', 'children'),
     Output('year-picker', 'minDate'),
     Output('year-picker', 'maxDate'),
     Output('tipo-multi-select', 'data'),
     Output('curso-multi-select', 'data'),
-    [Input('upload-tabla1', 'contents'),
-     Input('upload-tabla2', 'contents'),
-     Input('upload-tabla4', 'contents')],
-    [State('upload-tabla1', 'filename'),
-     State('upload-tabla2', 'filename'),
-     State('upload-tabla4', 'filename')]
+    Input('upload-tabla1', 'contents'),
+    Input('upload-tabla2', 'contents'),
+    Input('upload-tabla4', 'contents'),
+    Input('upload-conv1', 'contents'),
+    Input('upload-conv2', 'contents'),
+    Input('upload-conv3', 'contents'),
+    Input('upload-adicional', 'contents'),
+    State('upload-tabla1', 'filename'),
+    State('upload-tabla2', 'filename'),
+    State('upload-tabla4', 'filename'),
+    State('upload-conv1', 'filename'),
+    State('upload-conv2', 'filename'),
+    State('upload-conv3', 'filename'),
+    State('upload-adicional', 'filename'),
 )
-def handle_upload(contents_t1, contents_t2, contents_t4, filename_t1, filename_t2, filename_t4):
+def handle_upload(
+    contents_t1, contents_t2,
+    contents_t4, contents_conv1, contents_conv2, contents_conv3, contents_adicional,
+    filename_t1, filename_t2, filename_t4,
+    filename_conv1, filename_conv2, filename_conv3, filename_adicional,
+):
     from datetime import datetime as dt
 
     def file_badge(filename, contents):
@@ -94,16 +119,33 @@ def handle_upload(contents_t1, contents_t2, contents_t4, filename_t1, filename_t
             return dmc.Badge(f"✓ {filename}", color="green", variant="light", size="sm")
         return dmc.Badge("Pendiente", color="gray", variant="light", size="sm")
 
-    badge_t1 = file_badge(filename_t1, contents_t1)
-    badge_t2 = file_badge(filename_t2, contents_t2)
-    badge_t4 = file_badge(filename_t4, contents_t4)
+    badge_t1        = file_badge(filename_t1,        contents_t1)
+    badge_t2        = file_badge(filename_t2,        contents_t2)
+    badge_t4        = file_badge(filename_t4,        contents_t4)
+    badge_conv1     = file_badge(filename_conv1,     contents_conv1)
+    badge_conv2     = file_badge(filename_conv2,     contents_conv2)
+    badge_conv3     = file_badge(filename_conv3,     contents_conv3)
+    badge_adicional = file_badge(filename_adicional, contents_adicional)
 
-    empty = [None, None, badge_t1, badge_t2, badge_t4,
-             dmc.Alert("Sube los tres archivos Excel para continuar", color="gray", title="Esperando archivos"),
-             None, None, [], []]
+    all_contents = [contents_t1, contents_t2, contents_t4, contents_adicional]
+    pending = sum(1 for c in all_contents if c is None)
 
-    if not all([contents_t1, contents_t2, contents_t4]):
-        return empty
+    def empty_return(msg_component):
+        return [
+            None, None, None, None, None, None,
+            badge_t1, badge_t2, badge_t4,
+            badge_conv1, badge_conv2, badge_conv3, badge_adicional,
+            msg_component,
+            None, None, [], [],
+        ]
+
+    if not all(all_contents):
+        msg = dmc.Alert(
+            f"Faltan {pending} archivo{'s' if pending != 1 else ''} por subir",
+            color="gray",
+            title="Esperando archivos",
+        )
+        return empty_return(msg)
 
     try:
         def decode_excel(contents, header):
@@ -113,9 +155,10 @@ def handle_upload(contents_t1, contents_t2, contents_t4, filename_t1, filename_t
 
         tabla_1 = decode_excel(contents_t1, header=4)
         tabla_2 = decode_excel(contents_t2, header=4)
+        tabla_aux = decode_excel(contents_adicional, header=0)
         tabla_4 = decode_excel(contents_t4, header=5)
 
-        df_t1t2 = clean_data_t1t2(tabla_1, tabla_2)
+        df_t1t2 = clean_data_t1t2(tabla_1, tabla_2, tabla_aux)
         df_t4 = clean_data_t4(tabla_4)
 
         start_years = df_t1t2['Anio'].dropna().str.extract(r'(\d+)')[0].astype(int)
@@ -133,13 +176,22 @@ def handle_upload(contents_t1, contents_t2, contents_t4, filename_t1, filename_t
         return [
             df_t1t2.to_json(date_format='iso', orient='split'),
             df_t4.to_json(date_format='iso', orient='split'),
-            badge_t1, badge_t2, badge_t4, msg,
-            min_year, max_year, tipos, cursos
+            contents_conv1, contents_conv2, contents_conv3, contents_adicional,
+            badge_t1, badge_t2, badge_t4,
+            badge_conv1, badge_conv2, badge_conv3, badge_adicional,
+            msg,
+            min_year, max_year, tipos, cursos,
         ]
 
     except Exception as e:
         error = dmc.Alert(f"Error al procesar los archivos: {str(e)}", color="red", title="Error")
-        return [None, None, badge_t1, badge_t2, badge_t4, error, None, None, [], []]
+        return [
+            None, None, None, None, None, None,
+            badge_t1, badge_t2, badge_t4,
+            badge_conv1, badge_conv2, badge_conv3, badge_adicional,
+            error,
+            None, None, [], [],
+        ]
 
 ######################################## Filters ###########################################
 
@@ -153,11 +205,11 @@ def handle_upload(contents_t1, contents_t2, contents_t4, filename_t1, filename_t
      Input('curso-multi-select', 'value')],
 )
 def update_filter(stored_t1_t2, stored_t4, year_range, tipo_multi_select, curso_multi_select):
-    if stored_t1_t2 is None or stored_t4 is None:
+    if stored_t1_t2 is None:
         return None, None
-    
+
     df_filtered_t1t2 = pd.read_json(io.StringIO(stored_t1_t2), orient='split')
-    df_filtered_t4 = pd.read_json(io.StringIO(stored_t4), orient='split')
+    df_filtered_t4 = pd.read_json(io.StringIO(stored_t4), orient='split') if stored_t4 else pd.DataFrame()
 
     # Filtramos tipologia
     if tipo_multi_select:
@@ -220,6 +272,42 @@ def toggle_table(selected):
         return {"display": "none"}, {}
     return {}, {"display": "none"}
 
+######################################## Opciones informe #################################
+
+@app.callback(
+    Output('check-titulacion', 'disabled'),
+    Output({'type': 'check-asignatura-item', 'index': 0}, 'disabled'),
+    Output({'type': 'check-asignatura-item', 'index': 1}, 'disabled'),
+    Output({'type': 'check-asignatura-item', 'index': 2}, 'disabled'),
+    Output({'type': 'check-asignatura-item', 'index': 3}, 'disabled'),
+    Output('check-asignatura', 'disabled'),
+    Input('stored-t1-t2', 'data'),
+    Input('stored-conv1', 'data'),
+    Input('stored-conv2', 'data'),
+    Input('stored-conv3', 'data'),
+    Input('stored-t4', 'data'),
+)
+def update_report_options(stored_t1t2, stored_conv1, stored_conv2, stored_conv3, stored_t4):
+    t1t2_ok = stored_t1t2 is not None
+
+    conv_ok = any([stored_conv1, stored_conv2, stored_conv3])
+
+    t4_ok = False
+    if stored_t4:
+        df_t4 = pd.read_json(io.StringIO(stored_t4), orient='split')
+        t4_ok = not df_t4.empty
+
+    any_child_ok = t1t2_ok or conv_ok
+
+    return (
+        not t4_ok,
+        not t1t2_ok,   # desglose-curso
+        not t1t2_ok,   # desglose-tipologia
+        not t1t2_ok,   # desglose-menciones
+        not conv_ok,   # desglose-convocatoria
+        not any_child_ok,
+    )
+
 ######################################## Report ###########################################
 
 @app.callback(
@@ -228,13 +316,18 @@ def toggle_table(selected):
     Output({"type": "check-asignatura-item", "index": ALL}, "checked"),
     Input("check-asignatura", "checked"),
     Input({"type": "check-asignatura-item", "index": ALL}, "checked"),
+    State({"type": "check-asignatura-item", "index": ALL}, "disabled"),
     prevent_initial_call=True
 )
-def update_asignatura_checkbox(all_checked, checked_states):
+def update_asignatura_checkbox(all_checked, checked_states, disabled_states):
     if ctx.triggered_id == "check-asignatura":
-        checked_states = [all_checked] * len(checked_states)
-    all_checked_states = all(checked_states)
-    indeterminate = any(checked_states) and not all_checked_states
+        checked_states = [
+            all_checked if not disabled else False
+            for disabled in disabled_states
+        ]
+    active = [c for c, d in zip(checked_states, disabled_states) if not d]
+    all_checked_states = bool(active) and all(active)
+    indeterminate = any(active) and not all_checked_states
     return all_checked_states, indeterminate, checked_states
 
 @app.callback(
@@ -243,7 +336,7 @@ def update_asignatura_checkbox(all_checked, checked_states):
     Input({"type": "check-asignatura-item", "index": ALL}, "checked"),
 )
 def update_chart_selector(titulacion_checked, asignatura_items_checked):
-    sub_item_values = ["desglose-curso", "desglose-tipologia", "desglose-convocatoria"]
+    sub_item_values = ["desglose-curso", "desglose-tipologia", "desglose-menciones", "desglose-convocatoria"]
     selected = []
     if titulacion_checked:
         selected.append("analisis-titulacion")
@@ -251,8 +344,6 @@ def update_chart_selector(titulacion_checked, asignatura_items_checked):
         if checked:
             selected.append(sub_item_values[i])
     return selected
-
-# Callback para habilitar/deshabilitar botones según los inputs
 
 @app.callback(
     [Output('generate-report-word-button', 'disabled')],
@@ -281,9 +372,8 @@ def toggle_report_buttons(institucion, titulacion, filtered_t1_t2, filtered_t4):
 def generate_report_word(_n_clicks, filtered_t1_t2, filtered_t4, institucion, titulacion, chart_selector, chart_types, target_value, limit_value):
     df = pd.read_json(io.StringIO(filtered_t1_t2), orient='split')
     df_t4 = pd.read_json(io.StringIO(filtered_t4), orient='split')
-    df.to_csv('df.csv', sep=';', index=False)
 
-    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV6.docx')
+    ruta_plantilla = os.path.join(os.path.dirname(__file__), '..', 'templates', 'InformePruebaV7.docx')
 
     with tempfile.TemporaryDirectory() as directorio:
         ruta_guardado = write_word(df, df_t4, ruta_plantilla, directorio, chart_selector, chart_types, institucion, titulacion, target_value, limit_value)

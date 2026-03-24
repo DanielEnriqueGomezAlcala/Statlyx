@@ -5,12 +5,55 @@ import os
 import pandas as pd
 from datetime import datetime
 
-from functions.write_word.generate_information.career_breakdown import generate_career_breakdown
-from functions.write_word.generate_information.typology_breakdown import generate_typology_breakdown
-from functions.write_word.generate_information.degree_breakdown import generate_degree_breakdown
+from functions.write_word.generate_information.subject_analisis.subject_breakdown import generate_subject_breakdown
+from functions.write_word.generate_information.subject_analisis.category_breakdown import generate_category_breakdown_tipologies, generate_category_breakdown_mentions
+from functions.write_word.generate_information.degree_analisis.degree_breakdown import generate_degree_breakdown
 
 ENUM_CURSOS = {1: "Primero", 2: "Segundo", 3: "Tercero", 4: "Cuarto", 5: "Quinto", 6: "Sexto"}
 ORDEN_CURSOS = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto"]
+
+def compute_numbering(contexto: dict) -> dict:
+    n = {}
+    sec = 0
+
+    if contexto.get('mostrar_analisis_titulacion'):
+        sec += 1
+        n['n_titulacion'] = sec
+        n['titulo_titulacion'] = f"{sec}."
+
+    if contexto.get('mostrar_analisis_asignatura'):
+        sec += 1
+        n['n_asignatura'] = sec
+        n['titulo_asignatura'] = f"{sec}."
+
+        sub = 0
+        if contexto.get('mostrar_desglose_curso'):
+            sub += 1
+            n['n_desglose_curso'] = sub
+            n['titulo_desglose_curso'] = f"{sec}.{sub}."
+
+        if contexto.get('mostrar_desglose_tipologia'):
+            sub += 1
+            n['n_desglose_tipologia'] = sub
+            n['titulo_desglose_tipologia'] = f"{sec}.{sub}."
+
+        if contexto.get('mostrar_desglose_menciones'):
+            sub += 1
+            n['n_desglose_menciones'] = sub
+            n['titulo_desglose_menciones'] = f"{sec}.{sub}."
+
+        if contexto.get('mostrar_desglose_convocatoria'):
+            sub += 1
+            n['n_desglose_convocatoria'] = sub
+            n['titulo_desglose_convocatoria'] = f"{sec}.{sub}."
+
+    for key in ('n_titulacion', 'n_asignatura', 'n_desglose_curso',
+                'n_desglose_tipologia', 'n_desglose_menciones', 'n_desglose_convocatoria',
+                'titulo_titulacion', 'titulo_asignatura', 'titulo_desglose_curso',
+                'titulo_desglose_tipologia', 'titulo_desglose_menciones', 'titulo_desglose_convocatoria'):
+        n.setdefault(key, '')
+
+    return n
 
 
 def write_word(df, df_t4, ruta_plantilla: str, directorio: str, chart_selector: str, chart_types=None, institucion: str = "", titulacion: str = "", target_value=None, limit_value=None):
@@ -29,19 +72,24 @@ def write_word(df, df_t4, ruta_plantilla: str, directorio: str, chart_selector: 
     cursos_presentes = [c for c in ORDEN_CURSOS if c in df['Curso'].values]
     cursos_str = ', '.join(cursos_presentes)
 
-    breakdown_data = {}
+    course_data = {}
     if "desglose-curso" in chart_selector:
-        breakdown_data = generate_career_breakdown(df, directorio, tpl, institucion, titulacion)
+        course_data = generate_subject_breakdown(df, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
 
-    typology_data = {}
+    tipologies_data = {}
     if "desglose-tipologia" in chart_selector:
-        typology_data = generate_typology_breakdown(df, directorio, tpl, institucion, titulacion)
+        tipologies_data = generate_category_breakdown_tipologies(df, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
+    
+    mentions_data = {}
+    if "desglose-menciones" in chart_selector:
+        df_mentions = df[df['Mencion'] != 'No aplica']
+        mentions_data = generate_category_breakdown_mentions(df_mentions, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
 
     degree_data = []
     if "analisis-titulacion" in chart_selector:
-        degree_data = generate_degree_breakdown(df_t4, directorio, tpl, institucion, titulacion)
+        degree_data = generate_degree_breakdown(df_t4, directorio, tpl, chart_types, institucion, titulacion)
 
-    mostrar_asignatura = any(v in chart_selector for v in ["desglose-curso", "desglose-tipologia", "desglose-convocatoria"])
+    mostrar_asignatura = any(v in chart_selector for v in ["desglose-curso", "desglose-tipologia", "desglose-menciones", "desglose-convocatoria"])
 
     contexto = {
         # Datos de la institución
@@ -56,13 +104,19 @@ def write_word(df, df_t4, ruta_plantilla: str, directorio: str, chart_selector: 
         'mostrar_analisis_asignatura': mostrar_asignatura,
         'mostrar_desglose_curso': "desglose-curso" in chart_selector,
         'mostrar_desglose_tipologia': "desglose-tipologia" in chart_selector,
+        'mostrar_desglose_menciones': "desglose-menciones" in chart_selector,
         'mostrar_desglose_convocatoria': "desglose-convocatoria" in chart_selector,
-        'breakdown_data': breakdown_data,
-        'typology_data': typology_data,
+        'course_data': course_data,
+        'tipologies_data': tipologies_data,
+        'mentions_data': mentions_data,
         # Datos del análisis por titulación
         'mostrar_analisis_titulacion': "analisis-titulacion" in chart_selector,
         'degree_data': degree_data,
     }
+
+    # print(contexto)
+
+    contexto.update(compute_numbering(contexto))
 
     tpl.render(contexto)
 

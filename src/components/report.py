@@ -20,7 +20,7 @@ def report():
                     html.Div([
                         # Análisis por titulación
                         html.Div([
-                            dmc.Checkbox(id="check-titulacion", label="Análisis por titulación", checked=False),
+                            dmc.Checkbox(id="check-titulacion", label="Análisis por titulación", checked=False, disabled=True, color=COLORS['primary']),
                             dmc.Text(
                                 "Evolución de las tasas de rendimiento y éxito a nivel global de la titulación.",
                                 size="xs", c="dimmed", style={"marginLeft": "28px", "marginTop": "2px"}
@@ -29,22 +29,26 @@ def report():
 
                         # Análisis por asignatura
                         html.Div([
-                            dmc.Checkbox(id="check-asignatura", label="Análisis por asignatura", checked=False, indeterminate=False),
+                            dmc.Checkbox(id="check-asignatura", label="Análisis por asignatura", checked=False, indeterminate=False, disabled=True, color=COLORS['primary']),
                             dmc.Text(
                                 "Rendimiento detallado por asignatura con distintos niveles de desglose.",
                                 size="xs", c="dimmed", style={"marginLeft": "28px", "marginTop": "2px", "marginBottom": "6px"}
                             ),
                             html.Div([
                                 html.Div([
-                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 0}, label="Desglose por curso-cuatrimestre", checked=False),
+                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 0}, label="Desglose por curso-cuatrimestre", checked=False, disabled=True, color=COLORS['primary']),
                                     dmc.Text("Agrupa los resultados por curso y cuatrimestre.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
                                 ], style={"marginBottom": "6px"}),
                                 html.Div([
-                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 1}, label="Desglose por tipología/categoría", checked=False),
+                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 1}, label="Desglose por tipología", checked=False, disabled=True, color=COLORS['primary']),
                                     dmc.Text("Clasifica los resultados según el tipo de asignatura.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
                                 ], style={"marginBottom": "6px"}),
                                 html.Div([
-                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 2}, label="Desglose por convocatoria", checked=False),
+                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 2}, label="Desglose por menciones/itinerarios", checked=False, disabled=True, color=COLORS['primary']),
+                                    dmc.Text("Clasifica los resultados según la mención o itinerario de la asignatura.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
+                                ], style={"marginBottom": "6px"}),
+                                html.Div([
+                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 3}, label="Desglose por convocatoria", checked=False, disabled=True, color=COLORS['primary']),
                                     dmc.Text("Compara resultados entre convocatoria ordinaria y extraordinaria.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
                                 ]),
                             ], style={"marginLeft": "28px"}),
@@ -67,12 +71,12 @@ def report():
                             spacing="md",
                             children=[
                                 dmc.Card([
-                                    dmc.Checkbox(value="graficas-lineas", label="Gráficas de líneas"),
+                                    dmc.Checkbox(value="graficas-lineas", label="Gráficas de líneas", color=COLORS['primary']),
                                     dmc.Text("Evolución temporal de indicadores clave.", size="xs", c="dimmed", mt=2),
                                 ], withBorder=True, shadow="sm", radius="md", p="sm"),
 
                                 dmc.Card([
-                                    dmc.Checkbox(value="tablas", label="Tabla de datos"),
+                                    dmc.Checkbox(value="graficas-tablas", label="Gráficas de tablas", color=COLORS['primary']),
                                     dmc.Text("Tabla estructurada de resultados por asignatura.", size="xs", c="dimmed", mt=2),
                                 ], withBorder=True, shadow="sm", radius="md", p="sm"),
                             ]

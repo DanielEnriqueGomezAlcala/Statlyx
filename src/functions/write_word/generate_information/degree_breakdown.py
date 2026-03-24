@@ -5,7 +5,7 @@ from docx.shared import Mm
 
 # LLM
 from functions.llm.llm import generate_text
-from functions.llm.prompts import plantilla_resumen_titulacion_tasa
+from functions.llm.prompts.degree_analisis import PromptResumenDesgloseTitulacion
 
 # Charts
 from charts.static.line_chart import static_chart_lines
@@ -39,12 +39,11 @@ def generate_degree_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplat
         chart = InlineImage(tpl, img_path, width=Mm(160))
 
         datos = df_chart[['Anio', 'Valor']].round(2).to_string(index=False)
-        prompt = plantilla_resumen_titulacion_tasa.substitute(
+        prompt = PromptResumenDesgloseTitulacion(
             universidad=institucion,
             titulacion=titulacion,
-            tasa=nombre,
-            datos=datos
-        )
+            datos=datos,
+        ).build()
 
         degree_breakdown.append({
             'name': nombre,

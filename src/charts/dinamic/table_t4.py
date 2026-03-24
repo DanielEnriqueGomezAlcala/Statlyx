@@ -1,6 +1,9 @@
 import plotly.graph_objects as go
 
 def dinamic_table_t4(df):
+    if df.empty:
+        return go.Figure()
+
     fig = go.Figure(data=[go.Table(
         header=dict(
             values=["<b>Año</b>", "<b>Tasa Graduación</b>", "<b>Tasa Abandono</b>", "<b>Tasa Eficiencia</b>", "<b>Tasa Rendimiento</b>", "<b>Tasa Exito</b>"],
