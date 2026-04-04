@@ -1,21 +1,18 @@
 import plotly.graph_objects as go
+from colors.colors import CHART_COLORS
 
-COLORES = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f']
 
 def static_chart_lines(df, rate, target_value=None, limit_value=None):
     fig = go.Figure()
 
     asignaturas = df['Asignatura'].unique()
     anios_ordenados = sorted(df['Anio'].unique())
-    bottom_margin = max(100, len(asignaturas) * 40)
+    bottom_margin = max(80, len(asignaturas) * 38 + 20)
     height = 600 + bottom_margin
 
     for i, asignatura in enumerate(asignaturas):
-        datos_asig = df[df['Asignatura'] == asignatura]
-
-        datos_asig = datos_asig.sort_values('Anio')
-
-        color_actual = COLORES[i % len(COLORES)]
+        datos_asig = df[df['Asignatura'] == asignatura].sort_values('Anio')
+        color_actual = CHART_COLORS[i % len(CHART_COLORS)]
 
         fig.add_trace(go.Scatter(
             x=datos_asig['Anio'].astype(str),
@@ -33,11 +30,11 @@ def static_chart_lines(df, rate, target_value=None, limit_value=None):
         font=dict(size=18, color='black'),
         plot_bgcolor='white',
         legend=dict(
-            orientation="v",      
-            yanchor="top",        
-            y=-0.3,               
-            xanchor="center",     
-            x=0.5,                
+            orientation="v",
+            yanchor="top",
+            y=-0.25,
+            xanchor="center",
+            x=0.5,
             font=dict(size=20)
         ),
         margin=dict(r=50, t=20, l=100, b=bottom_margin)

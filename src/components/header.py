@@ -1,5 +1,6 @@
 from dash import html
 import dash_mantine_components as dmc
+from colors.colors import COLORS
 
 def header():
     return (
@@ -7,7 +8,7 @@ def header():
             dmc.Paper([
                 dmc.Group([
                     dmc.Group([
-                        html.Img(src='../assets/logo.jpeg', height='40px'),
+                        html.Img(src='/assets/logo.jpeg', height='40px'),
                     ], gap="xs"),
                     dmc.Group([
                         dmc.Tabs([
@@ -17,7 +18,7 @@ def header():
                                 dmc.TabsTab("Métricas", value="metrics"),
                                 dmc.TabsTab("Generar informe", value="report"),
                             ])
-                        ], id="navigation-tabs", value="upload", color="violet")
+                        ], id="navigation-tabs", value="upload", color=COLORS["primary"])
                     ], style={'marginLeft': 'auto'})
                 ], justify="space-between", style={'padding': '20px'})
             ], shadow="xs", radius="md", style={'marginBottom': '20px'}),

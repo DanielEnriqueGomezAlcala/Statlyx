@@ -1,7 +1,6 @@
 import plotly.graph_objects as go
 import pandas as pd
-
-COLOR_HEADER = '#5C068C'
+from colors.colors import COLOR_HEADER
 
 
 def static_chart_table(df, rate):
@@ -54,14 +53,12 @@ def static_chart_table(df, rate):
             align=['left'] + ['center'] * len(anios_ordenados),
             font=dict(color='black', size=11),
             line_color='lightgray',
-            height=28,
         ),
     )])
 
-    height = 35 + len(asignaturas) * 50 + 120  # header + rows + margins
-
+    # Altura generosa para que PIL pueda recortar el espacio sobrante
     fig.update_layout(
-        height=height,
+        height=max(500, len(asignaturas) * 120),
         margin=dict(l=10, r=10, t=10, b=10),
     )
 

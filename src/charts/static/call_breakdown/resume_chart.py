@@ -1,20 +1,14 @@
+import pandas as pd
 import plotly.graph_objects as go
 from colors.colors import COLORS
 
+CONVOCATORIAS_ORDEN = ['Enero', 'Marzo', 'Mayo', 'Julio']
+
 def static_chart_bars_breakdown_resume(df, titulo_grafica):
-    if 'Curso' in df.columns and 'Tipologia' in df.columns:
-        sort_cols = ['Curso', 'Tipologia']
-        df_medias = df.dropna(subset=['Tasa_Exito', 'Tasa_Rendimiento'], how='all').sort_values(sort_cols)
-        etiquetas_x = df_medias['Tipologia'].astype(str)
-    elif 'Mencion' in df.columns:
-        df_medias = df.dropna(subset=['Tasa_Exito', 'Tasa_Rendimiento'], how='all').sort_values('Mencion')
-        etiquetas_x = df_medias['Mencion'].astype(str)
-    elif 'Curso' in df.columns:
-        df_medias = df.dropna(subset=['Tasa_Exito', 'Tasa_Rendimiento'], how='all').sort_values('Curso')
-        etiquetas_x = df_medias['Curso'].astype(str)
-    else:
-        df_medias = df.dropna(subset=['Tasa_Exito', 'Tasa_Rendimiento'], how='all')
-        etiquetas_x = df_medias.iloc[:, 0].astype(str)
+    df_medias = df.dropna(subset=['Tasa_Eficiencia', 'Tasa_Exito'], how='all').copy()
+    df_medias['Convocatoria'] = pd.Categorical(df_medias['Convocatoria'], categories=CONVOCATORIAS_ORDEN, ordered=True)
+    df_medias = df_medias.sort_values(['Curso', 'Convocatoria'])
+    etiquetas_x = df_medias['Curso'].astype(str) + ' – ' + df_medias['Convocatoria'].astype(str)
 
     fig = go.Figure()
 
@@ -30,16 +24,16 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
             hovertemplate='Curso: %{x}<br>Éxito: %{y:.2f}%<extra></extra>'
         ))
 
-    if 'Tasa_Rendimiento' in df_medias.columns:
+    if 'Tasa_Eficiencia' in df_medias.columns:
         fig.add_trace(go.Bar(
             x=etiquetas_x,
-            y=df_medias['Tasa_Rendimiento'],
-            name='Media Tasa de Rendimiento',
+            y=df_medias['Tasa_Eficiencia'],
+            name='Media Tasa de Eficiencia',
             marker_color=COLORS['secondary'],
-            text=df_medias['Tasa_Rendimiento'].round(2).astype(str) + '%',
+            text=df_medias['Tasa_Eficiencia'].round(2).astype(str) + '%',
             textposition='outside',
             textfont=dict(size=18),
-            hovertemplate='Curso: %{x}<br>Rendimiento: %{y:.2f}%<extra></extra>'
+            hovertemplate='Curso: %{x}<br>Eficiencia: %{y:.2f}%<extra></extra>'
         ))
 
     fig.update_layout(
@@ -55,7 +49,7 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
         legend=dict(
             orientation="v",
             yanchor="top",
-            y=-0.7,
+            y=-2,
             xanchor="center",
             x=0.5,
             font=dict(size=20)

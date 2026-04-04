@@ -1,10 +1,11 @@
 import plotly.graph_objects as go
+from colors.colors import CHART_COLORS
 
-COLOR = '#1f77b4'
 
 def static_chart_lines(df, rate):
     df = df.sort_values('Anio')
     anios_ordenados = sorted(df['Anio'].unique())
+    color = CHART_COLORS[0]
 
     fig = go.Figure()
 
@@ -13,8 +14,8 @@ def static_chart_lines(df, rate):
         y=df[rate],
         mode='lines+markers',
         showlegend=False,
-        line=dict(color=COLOR, width=4),
-        marker=dict(size=12, color=COLOR),
+        line=dict(color=color, width=4),
+        marker=dict(size=12, color=color),
         hovertemplate='Año: %{x}<br>Valor: %{y:.2f}%<extra></extra>'
     ))
 

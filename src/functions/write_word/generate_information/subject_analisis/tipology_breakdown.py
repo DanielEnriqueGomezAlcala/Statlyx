@@ -3,50 +3,50 @@ import os
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 
-# graphs
+# Charts
 from charts.static.shared.line_chart import static_chart_lines
 from charts.static.shared.table_chart import static_chart_table
-from charts.static.subject_breakdown.resume_chart import static_chart_bars_breakdown_resume
+from charts.static.tipology_breakdown.resume_chart import static_chart_bars_breakdown_resume
 
-# utils
+# Utils
 from utils.image import save_chart_image
 
 # LLM
 from functions.llm.llm import generate_text
-from functions.llm.prompts.subject_analisis import PromptResumenDesgloseCurso, PromptAnalisisPar
+from functions.llm.prompts.subject_analisis import PromptResumenDesgloseTipologia, PromptAnalisisPar
 
-# constants
-from constants import CURSOS, TASAS_SUBJECT as TASAS, CUATRIMESTRES
+# Constants
+from constants import CURSOS, TASAS_SUBJECT as TASAS, TIPOLOGIAS
 
 
-def generate_subject_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplate, chart_types: list[str], institucion: str = "", titulacion: str = "", target_value=None, limit_value=None):
+def generate_tipology_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplate, chart_types: list[str], institucion: str = "", titulacion: str = "", target_value=None, limit_value=None):
     breakdown_data = {
         'resume_chart': None,
         'resume_text': None,
         'breakdown': [],
     }
 
-    line_chart = "graficas-lineas" in chart_types
+    line_chart  = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
 
     for curso, df_curso in df.groupby('Curso', observed=True):
         curso_nombre = CURSOS.get(curso, str(curso))
-        course_data = {'name': curso_nombre, 'quarter': []}
+        course_data = {'name': curso_nombre, 'tipologies': []}
 
-        for cuatrimestre, df_cuatrimestre in df_curso.groupby('Cuatrimestre', observed=True):
-            cuatrimestre_nombre = CUATRIMESTRES.get(cuatrimestre, str(cuatrimestre))
-            cuatrimestre_data = {'name': cuatrimestre_nombre, 'rates': []}
+        for tipologia, df_tipologia in df_curso.groupby('Tipologia', observed=True):
+            tipologia_nombre = TIPOLOGIAS.get(tipologia, str(tipologia))
+            tipologia_data = {'name': tipologia_nombre, 'rates': []}
 
             for rate_col, rate_name in TASAS.items():
-                if rate_col not in df_cuatrimestre.columns:
+                if rate_col not in df_tipologia.columns:
                     continue
 
-                df_rate = df_cuatrimestre[['Asignatura', 'Anio', rate_col]].dropna().copy()
+                df_rate = df_tipologia[['Asignatura', 'Anio', rate_col]].dropna().copy()
                 df_rate = df_rate.sort_values('Anio')
                 if df_rate.empty:
                     continue
 
-                chart_name = f"{curso_nombre}_{cuatrimestre}_{rate_col}".replace(" ", "_").replace("/", "-")
+                chart_name = f"{curso_nombre}_{tipologia}_{rate_col}".replace(" ", "_").replace("/", "-")
                 tasa_data = {'name': rate_name, 'line_chart': None, 'table_chart': None, 'text': None}
 
                 if line_chart:
@@ -63,15 +63,14 @@ def generate_subject_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTempla
 
                 pivot = (
                     df_rate.pivot_table(index='Asignatura', columns='Anio', values=rate_col, aggfunc='mean')
-                    .round(1)
-                    .fillna('')
+                    .round(1).fillna('')
                 )
                 pivot.columns = [str(c) for c in pivot.columns]
                 pivot.index.name = 'Asignatura'
                 prompt = PromptAnalisisPar(
                     universidad=institucion,
                     titulacion=titulacion,
-                    contexto_grupo=f"{curso_nombre} – {cuatrimestre}",
+                    contexto_grupo=f"{curso_nombre} – {tipologia_nombre}",
                     tasa_nombre=TASAS[rate_col],
                     objetivo=target_value,
                     limite=limit_value,
@@ -79,25 +78,28 @@ def generate_subject_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTempla
                 ).build()
                 tasa_data['text'] = generate_text(prompt)
 
-                cuatrimestre_data['rates'].append(tasa_data)
+                tipologia_data['rates'].append(tasa_data)
 
-            course_data['quarter'].append(cuatrimestre_data)
+            course_data['tipologies'].append(tipologia_data)
 
         breakdown_data['breakdown'].append(course_data)
 
     # Resume
-    df_resume = df[['Curso', 'Cuatrimestre', 'Tasa_Exito', 'Tasa_Rendimiento']]
-    df_agrupado = df_resume.groupby(['Curso', 'Cuatrimestre'])[['Tasa_Exito', 'Tasa_Rendimiento']].mean().reset_index()
+    df_agrupado = (
+        df[['Tipologia', 'Tasa_Exito', 'Tasa_Rendimiento']]
+        .groupby('Tipologia')[['Tasa_Exito', 'Tasa_Rendimiento']].mean()
+        .reset_index()
+    )
 
-    prompt = PromptResumenDesgloseCurso(
+    prompt = PromptResumenDesgloseTipologia(
         universidad=institucion,
         titulacion=titulacion,
         datos=df_agrupado.to_string(index=False),
     ).build()
     breakdown_data['resume_text'] = generate_text(prompt)
 
-    fig = static_chart_bars_breakdown_resume(df_agrupado, "Resumen de Medias por Curso y Cuatrimestre")
-    img_path = os.path.join(directory, "graf_resumen_medias_curso_cuatrimestre.png")
+    fig = static_chart_bars_breakdown_resume(df_agrupado, "Resumen de Medias por Tipología")
+    img_path = os.path.join(directory, "graf_resumen_medias_tipologia.png")
     save_chart_image(fig, img_path, width=1200)
     breakdown_data['resume_chart'] = InlineImage(tpl, img_path, width=Mm(155))
 

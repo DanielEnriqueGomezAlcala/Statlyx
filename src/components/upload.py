@@ -6,9 +6,7 @@ UPLOAD_TABLES = [
     ("tabla1",    "Tabla 1 — Asignaturas plan PDI",        ""),
     ("tabla2",    "Tabla 2 — Resultados asignaturas",      ""),
     ("tabla4",    "Tabla 4 — Evolución indicadores",       ""),
-    ("conv1",     "Convocatoria 1ª — Datos de convocatoria", ""),
-    ("conv2",     "Convocatoria 2ª — Datos de convocatoria", ""),
-    ("conv3",     "Convocatoria 3ª — Datos de convocatoria", ""),
+    ("conv",     "Convocatorias — Datos de convocatoria", ""),
     ("adicional", "Datos adicionales — Tabla 1",           ""),
 ]
 

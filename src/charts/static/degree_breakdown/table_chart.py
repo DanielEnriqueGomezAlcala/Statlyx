@@ -1,7 +1,6 @@
 import plotly.graph_objects as go
 import pandas as pd
-
-COLOR_HEADER = '#5C068C'
+from colors.colors import COLOR_HEADER
 
 
 def static_chart_table(df, rate):

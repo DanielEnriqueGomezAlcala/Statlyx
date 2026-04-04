@@ -17,13 +17,11 @@ from functions.llm.prompts.degree_analisis import (
 from charts.static.degree_breakdown.line_chart import static_chart_lines
 from charts.static.degree_breakdown.table_chart import static_chart_table
 
-TASAS = {
-    'Tasa_Exito':       'Tasa de Éxito',
-    'Tasa_Rendimiento': 'Tasa de Rendimiento',
-    'Tasa_Eficiencia':  'Tasa de Eficiencia',
-    'Tasa_Graduacion':  'Tasa de Graduación',
-    'Tasa_Abandono':    'Tasa de Abandono',
-}
+# utils
+from utils.image import save_chart_image
+
+# constants
+from constants import TASAS_DEGREE as TASAS
 
 PROMPT_CLASSES = {
     'Tasa_Exito':       PromptTasaExito,
@@ -61,14 +59,14 @@ def generate_degree_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplat
         if line_chart:
             fig = static_chart_lines(df_chart, 'Valor')
             img_path = os.path.join(directory, f"graf_{chart_name}_line.png")
-            fig.write_image(img_path, width=1200, scale=2)
-            tasa_data['line_chart'] = InlineImage(tpl, img_path, width=Mm(160))
+            save_chart_image(fig, img_path, border=6)
+            tasa_data['line_chart'] = InlineImage(tpl, img_path, width=Mm(155))
 
         if table_chart:
             fig = static_chart_table(df_chart, 'Valor')
             img_path = os.path.join(directory, f"graf_{chart_name}_table.png")
-            fig.write_image(img_path, width=1200, scale=2)
-            tasa_data['table_chart'] = InlineImage(tpl, img_path, width=Mm(160))
+            save_chart_image(fig, img_path)
+            tasa_data['table_chart'] = InlineImage(tpl, img_path, width=Mm(155))
 
         datos = df_chart[['Anio', 'Valor']].round(2).to_string(index=False)
         prompt = PROMPT_CLASSES[col](

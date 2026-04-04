@@ -1,7 +1,30 @@
-from dash import html, dcc
+from dash import html
 import dash_mantine_components as dmc
 from colors.colors import COLORS
 from dash_iconify import DashIconify
+
+INDENT_STYLE = {"marginLeft": "28px"}
+
+_SUBITEMS = [
+    (0, "Desglose por curso-cuatrimestre",    "Agrupa los resultados por curso y cuatrimestre."),
+    (1, "Desglose por tipología",             "Clasifica los resultados según el tipo de asignatura."),
+    (2, "Desglose por menciones/itinerarios", "Clasifica los resultados según la mención o itinerario de la asignatura."),
+    (3, "Desglose por convocatoria",          "Compara resultados entre convocatoria ordinaria y extraordinaria."),
+]
+
+
+def _checkbox_item(idx, label, description, mb="6px"):
+    return html.Div([
+        dmc.Checkbox(
+            id={"type": "check-asignatura-item", "index": idx},
+            label=label,
+            checked=False,
+            disabled=True,
+            color=COLORS['primary'],
+        ),
+        dmc.Text(description, size="xs", c="dimmed", style=INDENT_STYLE),
+    ], style={"marginBottom": mb})
+
 
 def report():
     return html.Div([
@@ -11,145 +34,137 @@ def report():
                 dmc.Stack([
                     dmc.Title("Generar informe", order=4),
 
+                    # ── Contenido ────────────────────────────────────────────
                     dmc.Divider(label="Contenido del informe", labelPosition="center", mt="md"),
                     dmc.Text(
                         "Selecciona las secciones que deseas incluir en el informe.",
-                        size="xs", c="dimmed", ta="center", mb="sm"
+                        size="xs", c="dimmed", ta="center", mb="sm",
                     ),
 
                     html.Div([
                         # Análisis por titulación
                         html.Div([
-                            dmc.Checkbox(id="check-titulacion", label="Análisis por titulación", checked=False, disabled=True, color=COLORS['primary']),
+                            dmc.Checkbox(
+                                id="check-titulacion",
+                                label="Análisis por titulación",
+                                checked=False, disabled=True,
+                                color=COLORS['primary'],
+                            ),
                             dmc.Text(
                                 "Evolución de las tasas de rendimiento y éxito a nivel global de la titulación.",
-                                size="xs", c="dimmed", style={"marginLeft": "28px", "marginTop": "2px"}
+                                size="xs", c="dimmed", style={**INDENT_STYLE, "marginTop": "2px"},
                             ),
                         ], style={"marginBottom": "12px"}),
 
                         # Análisis por asignatura
                         html.Div([
-                            dmc.Checkbox(id="check-asignatura", label="Análisis por asignatura", checked=False, indeterminate=False, disabled=True, color=COLORS['primary']),
+                            dmc.Checkbox(
+                                id="check-asignatura",
+                                label="Análisis por asignatura",
+                                checked=False, indeterminate=False, disabled=True,
+                                color=COLORS['primary'],
+                            ),
                             dmc.Text(
                                 "Rendimiento detallado por asignatura con distintos niveles de desglose.",
-                                size="xs", c="dimmed", style={"marginLeft": "28px", "marginTop": "2px", "marginBottom": "6px"}
+                                size="xs", c="dimmed",
+                                style={**INDENT_STYLE, "marginTop": "2px", "marginBottom": "6px"},
                             ),
-                            html.Div([
-                                html.Div([
-                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 0}, label="Desglose por curso-cuatrimestre", checked=False, disabled=True, color=COLORS['primary']),
-                                    dmc.Text("Agrupa los resultados por curso y cuatrimestre.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
-                                ], style={"marginBottom": "6px"}),
-                                html.Div([
-                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 1}, label="Desglose por tipología", checked=False, disabled=True, color=COLORS['primary']),
-                                    dmc.Text("Clasifica los resultados según el tipo de asignatura.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
-                                ], style={"marginBottom": "6px"}),
-                                html.Div([
-                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 2}, label="Desglose por menciones/itinerarios", checked=False, disabled=True, color=COLORS['primary']),
-                                    dmc.Text("Clasifica los resultados según la mención o itinerario de la asignatura.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
-                                ], style={"marginBottom": "6px"}),
-                                html.Div([
-                                    dmc.Checkbox(id={"type": "check-asignatura-item", "index": 3}, label="Desglose por convocatoria", checked=False, disabled=True, color=COLORS['primary']),
-                                    dmc.Text("Compara resultados entre convocatoria ordinaria y extraordinaria.", size="xs", c="dimmed", style={"marginLeft": "28px"}),
-                                ]),
-                            ], style={"marginLeft": "28px"}),
+                            html.Div(
+                                [_checkbox_item(idx, label, desc) for idx, label, desc in _SUBITEMS],
+                                style=INDENT_STYLE,
+                            ),
                         ]),
-
-                        dcc.Store(id="chart-selector", data=[]),
                     ]),
 
+                    # ── Tipo de visualización ─────────────────────────────────
                     dmc.Divider(label="Tipo de visualización", labelPosition="center", mt="md"),
                     dmc.Text(
                         "Elige uno o ambos formatos para incluir en el informe.",
-                        size="xs", c="dimmed", ta="center", mb="sm"
+                        size="xs", c="dimmed", ta="center", mb="sm",
                     ),
 
                     dmc.CheckboxGroup(
                         id="chart-type-selector",
-                        value=["graficas-lineas"],
+                        value=["graficas-lineas", "graficas-tablas"],
                         children=dmc.SimpleGrid(
-                            cols=2,
-                            spacing="md",
+                            cols=2, spacing="md",
                             children=[
                                 dmc.Card([
                                     dmc.Checkbox(value="graficas-lineas", label="Gráficas de líneas", color=COLORS['primary']),
                                     dmc.Text("Evolución temporal de indicadores clave.", size="xs", c="dimmed", mt=2),
+                                    dmc.Image(src="assets/line_chart_example.png", alt="Gráfica de líneas", w="80%"),
                                 ], withBorder=True, shadow="sm", radius="md", p="sm"),
 
                                 dmc.Card([
                                     dmc.Checkbox(value="graficas-tablas", label="Gráficas de tablas", color=COLORS['primary']),
                                     dmc.Text("Tabla estructurada de resultados por asignatura.", size="xs", c="dimmed", mt=2),
+                                    dmc.Center(
+                                        dmc.Image(src="assets/table_chart_example.png", alt="Gráfica de tabla"),
+                                    ),
                                 ], withBorder=True, shadow="sm", radius="md", p="sm"),
-                            ]
+                            ],
                         ),
                     ),
 
+                    # ── Parámetros opcionales ─────────────────────────────────
                     dmc.Divider(label="Parámetros opcionales", labelPosition="center", mt="md"),
                     dmc.Text(
                         "Para análisis por asignatura. Si se indican, aparecerán como líneas de referencia en las gráficas.",
-                        size="xs", c="dimmed", ta="center", mb="sm"
+                        size="xs", c="dimmed", ta="center", mb="sm",
                     ),
 
                     dmc.SimpleGrid(
-                        cols=2,
-                        spacing="md",
+                        cols=2, spacing="md",
                         children=[
                             dmc.NumberInput(
                                 id="target-value-input",
                                 label="Valor objetivo",
                                 description="Tasa de éxito objetivo (%)",
                                 placeholder="Ej: 75",
-                                min=0, max=100, suffix="%",
-                                size="sm",
+                                min=0, max=100, suffix="%", size="sm",
                             ),
                             dmc.NumberInput(
                                 id="limit-value-input",
                                 label="Valor límite",
                                 description="Tasa mínima aceptable (%)",
                                 placeholder="Ej: 50",
-                                min=0, max=100, suffix="%",
-                                size="sm",
+                                min=0, max=100, suffix="%", size="sm",
                             ),
-                        ]
+                        ],
                     ),
 
+                    # ── Datos del informe ─────────────────────────────────────
                     dmc.Divider(mt="md", mb="sm"),
 
                     dmc.TextInput(
-                        placeholder="Universidad de La Laguna",
-                        label="Nombre de la institución",
                         id="institution-input",
-                        description="Escribe el nombre de la institución educativa para que aparezca en el informe generado.",
-                        size="sm",
-                        radius="sm",
-                        variant="default",
-                        required=True,
+                        label="Nombre de la institución",
+                        placeholder="Universidad de La Laguna",
+                        description="Aparecerá en el encabezado del informe generado.",
+                        size="sm", radius="sm", variant="default", required=True,
                     ),
                     dmc.TextInput(
-                        placeholder="Ingeniería Informática",
-                        label="Nombre de la titulación",
                         id="degree-input",
-                        description="Escribe el nombre de la titulación para que aparezca en el informe generado.",
-                        size="sm",
-                        radius="sm",
-                        variant="default",
-                        required=True,
+                        label="Nombre de la titulación",
+                        placeholder="Ingeniería Informática",
+                        description="Aparecerá en el encabezado del informe generado.",
+                        size="sm", radius="sm", variant="default", required=True,
                     ),
+
                     dmc.Center(
-                        style={'margin': '10px'},
-                        children = [
-                        dmc.Group([
+                        style={"margin": "10px"},
+                        children=[
                             dmc.Button(
                                 "Generar informe Word",
+                                id="generate-report-word-button",
                                 leftSection=DashIconify(icon="mdi:download"),
                                 color=COLORS['primary'],
                                 variant="filled",
-                                id="generate-report-word-button",
-                                disabled=True
+                                disabled=True,
                             ),
-                        ]),
-                    ])
-                ], gap="sm", style={'padding': '20px'})
-            ], shadow="xs", radius="md", style={'marginBottom': '20px', 'width': '80%'})
+                        ],
+                    ),
+                ], gap="sm", style={"padding": "20px"}),
+            ], shadow="xs", radius="md", style={"marginBottom": "20px", "width": "80%"}),
         ]),
-            
     ])

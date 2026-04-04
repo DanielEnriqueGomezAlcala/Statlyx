@@ -44,7 +44,7 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
         legend=dict(
             orientation="v",
             yanchor="top",
-            y=-0.5,
+            y=-2,
             xanchor="center",
             x=0.5,
             font=dict(size=20)

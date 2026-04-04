@@ -12,20 +12,17 @@ def preview():
                         dmc.Title("Previsualización de datos", order=4),
                         dmc.SegmentedControl(
                             id="table-selector",
+                            value="t1t2",
                             data=[
                                 {"value": "t1t2", "label": "Datos a nivel asignatura"},
                                 {"value": "t4", "label": "Datos a nivel titulación"},
+                                {"value": "conv", "label": "Datos a nivel convocatorias"},
                             ],
                             color=COLORS['primary'],
                         )
                     ], justify="space-between", mb="md"),
                     
                     html.Div([
-                        dmc.LoadingOverlay(
-                            visible=False, 
-                            zIndex=1000,
-                            overlayProps={"blur": 2},
-                        ),
                         # Grafico de datos de asignatura
                         html.Div(
                             dcc.Graph(
@@ -41,6 +38,15 @@ def preview():
                                 config={'displayModeBar': False}
                             ),
                             id="data-table-t4-container",
+                            style={"display": "none"},
+                        ),
+                        # Grafico de datos de convocatorias
+                        html.Div(
+                            dcc.Graph(
+                                id='data-table-conv',
+                                config={'displayModeBar': False}
+                            ),
+                            id="data-table-conv-container",
                             style={"display": "none"},
                         ),
                     ], style={"position": "relative"})

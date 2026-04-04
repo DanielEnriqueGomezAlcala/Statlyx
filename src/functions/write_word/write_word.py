@@ -6,7 +6,9 @@ import pandas as pd
 from datetime import datetime
 
 from functions.write_word.generate_information.subject_analisis.subject_breakdown import generate_subject_breakdown
-from functions.write_word.generate_information.subject_analisis.category_breakdown import generate_category_breakdown_tipologies, generate_category_breakdown_mentions
+from functions.write_word.generate_information.subject_analisis.tipology_breakdown import generate_tipology_breakdown
+from functions.write_word.generate_information.subject_analisis.mention_breakdown import generate_mention_breakdown
+from functions.write_word.generate_information.subject_analisis.call_breakdown import generate_call_breakdown
 from functions.write_word.generate_information.degree_analisis.degree_breakdown import generate_degree_breakdown
 
 ENUM_CURSOS = {1: "Primero", 2: "Segundo", 3: "Tercero", 4: "Cuarto", 5: "Quinto", 6: "Sexto"}
@@ -56,7 +58,7 @@ def compute_numbering(contexto: dict) -> dict:
     return n
 
 
-def write_word(df, df_t4, ruta_plantilla: str, directorio: str, chart_selector: str, chart_types=None, institucion: str = "", titulacion: str = "", target_value=None, limit_value=None):
+def write_word(df, df_t4, df_conv, ruta_plantilla: str, directorio: str, chart_selector: str, chart_types=None, institucion: str = "", titulacion: str = "", target_value=None, limit_value=None):
     tpl = DocxTemplate(ruta_plantilla)
 
     df['Curso'] = df['Curso'].map(ENUM_CURSOS)
@@ -78,12 +80,17 @@ def write_word(df, df_t4, ruta_plantilla: str, directorio: str, chart_selector: 
 
     tipologies_data = {}
     if "desglose-tipologia" in chart_selector:
-        tipologies_data = generate_category_breakdown_tipologies(df, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
+        tipologies_data = generate_tipology_breakdown(df, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
     
     mentions_data = {}
     if "desglose-menciones" in chart_selector:
         df_mentions = df[df['Mencion'] != 'No aplica']
-        mentions_data = generate_category_breakdown_mentions(df_mentions, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
+        mentions_data = generate_mention_breakdown(df_mentions, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
+    
+    convocatoria_data = {}
+    if "desglose-convocatoria" in chart_selector:
+        df_conv = df_conv[df_conv['Grupo'].isin([1, 2])]
+        convocatoria_data = generate_call_breakdown(df_conv, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
 
     degree_data = []
     if "analisis-titulacion" in chart_selector:
@@ -109,6 +116,7 @@ def write_word(df, df_t4, ruta_plantilla: str, directorio: str, chart_selector: 
         'course_data': course_data,
         'tipologies_data': tipologies_data,
         'mentions_data': mentions_data,
+        'convocatoria_data': convocatoria_data,
         # Datos del análisis por titulación
         'mostrar_analisis_titulacion': "analisis-titulacion" in chart_selector,
         'degree_data': degree_data,
