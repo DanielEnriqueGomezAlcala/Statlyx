@@ -33,8 +33,6 @@ def report():
                 html.Div(id="report-section"),
                 dmc.Stack([
                     dmc.Title("Generar informe", order=4),
-
-                    # ── Contenido ────────────────────────────────────────────
                     dmc.Divider(label="Contenido del informe", labelPosition="center", mt="md"),
                     dmc.Text(
                         "Selecciona las secciones que deseas incluir en el informe.",
@@ -153,7 +151,7 @@ def report():
 
                     dmc.Center(
                         style={"margin": "10px"},
-                        children=[
+                        children=dmc.Group([
                             dmc.Button(
                                 "Generar informe Word",
                                 id="generate-report-word-button",
@@ -162,7 +160,15 @@ def report():
                                 variant="filled",
                                 disabled=True,
                             ),
-                        ],
+                            dmc.Button(
+                                "Generar presentación PowerPoint",
+                                id="generate-report-pptx-button",
+                                leftSection=DashIconify(icon="mdi:presentation"),
+                                color=COLORS['primary'],
+                                variant="filled",
+                                disabled=True,
+                            ),
+                        ]),
                     ),
                 ], gap="sm", style={"padding": "20px"}),
             ], shadow="xs", radius="md", style={"marginBottom": "20px", "width": "80%"}),

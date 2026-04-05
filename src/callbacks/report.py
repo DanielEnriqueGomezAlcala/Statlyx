@@ -6,8 +6,10 @@ import pandas as pd
 from dash import ALL, Input, Output, State, ctx, dcc
 
 from functions.write_word.write_word import write_word
+from functions.write_presentation.write_presentation import write_presentation
 
-_TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'templates', 'InformePruebaV7.docx')
+_TEMPLATE_WORD_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'templates', 'InformePruebaV7.docx')
+_TEMPLATE_PPTX_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'templates', 'PresentacionPlantilla.pptx')
 _SUBITEM_VALUES = ["desglose-curso", "desglose-tipologia", "desglose-menciones", "desglose-convocatoria"]
 
 
@@ -66,6 +68,7 @@ def register_callbacks(app):
 
     @app.callback(
         Output('generate-report-word-button', 'disabled'),
+        Output('generate-report-pptx-button', 'disabled'),
         Input('institution-input', 'value'),
         Input('degree-input', 'value'),
         Input('filtered-t1-t2', 'data'),
@@ -73,7 +76,8 @@ def register_callbacks(app):
         Input('filtered-conv', 'data'),
     )
     def toggle_report_button(institucion, titulacion, filtered_t1_t2, filtered_t4, filtered_conv):
-        return not (institucion and titulacion and filtered_t1_t2 and filtered_t4 and filtered_conv)
+        disabled = not (institucion and titulacion and filtered_t1_t2 and filtered_t4 and filtered_conv)
+        return disabled, disabled
 
     @app.callback(
         Output('download-report-word', 'data'),
@@ -103,7 +107,42 @@ def register_callbacks(app):
         with tempfile.TemporaryDirectory() as directorio:
             ruta_guardado = write_word(
                 df, df_t4, df_conv,
-                _TEMPLATE_PATH, directorio,
+                _TEMPLATE_WORD_PATH, directorio,
+                chart_selector, chart_types,
+                institucion, titulacion,
+                target_value, limit_value,
+            )
+            return dcc.send_file(ruta_guardado)
+
+    @app.callback(
+        Output('download-report-pptx', 'data'),
+        Input('generate-report-pptx-button', 'n_clicks'),
+        State('filtered-t1-t2', 'data'),
+        State('filtered-t4', 'data'),
+        State('filtered-conv', 'data'),
+        State('institution-input', 'value'),
+        State('degree-input', 'value'),
+        State('chart-selector', 'data'),
+        State('chart-type-selector', 'value'),
+        State('target-value-input', 'value'),
+        State('limit-value-input', 'value'),
+        prevent_initial_call=True,
+    )
+    def generate_report_pptx(
+        _n_clicks,
+        filtered_t1_t2, filtered_t4, filtered_conv,
+        institucion, titulacion,
+        chart_selector, chart_types,
+        target_value, limit_value,
+    ):
+        df      = pd.read_json(io.StringIO(filtered_t1_t2), orient='split')
+        df_t4   = pd.read_json(io.StringIO(filtered_t4),    orient='split')
+        df_conv = pd.read_json(io.StringIO(filtered_conv),  orient='split')
+
+        with tempfile.TemporaryDirectory() as directorio:
+            ruta_guardado = write_presentation(
+                df, df_t4, df_conv,
+                _TEMPLATE_PPTX_PATH, directorio,
                 chart_selector, chart_types,
                 institucion, titulacion,
                 target_value, limit_value,

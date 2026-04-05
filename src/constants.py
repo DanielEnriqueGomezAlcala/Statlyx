@@ -44,3 +44,5 @@ GRUPOS = {
     1: 'Grupo 1 (Turno Mañana)',
     2: 'Grupo 2 (Turno Tarde)',
 }
+
+ORDER_CURSOS = ['Primero', 'Segundo', 'Tercero', 'Cuarto', 'Quinto', 'Sexto']

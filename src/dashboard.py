@@ -37,6 +37,7 @@ app.layout = dmc.MantineProvider(
         dcc.Store(id='scroll-trigger'),
 
         dcc.Download(id="download-report-word"),
+        dcc.Download(id="download-report-pptx"),
     ]
 )
 

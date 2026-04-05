@@ -5,11 +5,11 @@ import os
 import pandas as pd
 from datetime import datetime
 
-from functions.write_word.generate_information.subject_analisis.subject_breakdown import generate_subject_breakdown
-from functions.write_word.generate_information.subject_analisis.tipology_breakdown import generate_tipology_breakdown
-from functions.write_word.generate_information.subject_analisis.mention_breakdown import generate_mention_breakdown
-from functions.write_word.generate_information.subject_analisis.call_breakdown import generate_call_breakdown
-from functions.write_word.generate_information.degree_analisis.degree_breakdown import generate_degree_breakdown
+from functions.generate_information.subject_analisis.subject_breakdown import generate_subject_breakdown
+from functions.generate_information.subject_analisis.tipology_breakdown import generate_tipology_breakdown
+from functions.generate_information.subject_analisis.mention_breakdown import generate_mention_breakdown
+from functions.generate_information.subject_analisis.call_breakdown import generate_call_breakdown
+from functions.generate_information.degree_analisis.degree_breakdown import generate_degree_breakdown
 
 ENUM_CURSOS = {1: "Primero", 2: "Segundo", 3: "Tercero", 4: "Cuarto", 5: "Quinto", 6: "Sexto"}
 ORDEN_CURSOS = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto"]
