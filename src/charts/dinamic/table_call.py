@@ -1,10 +1,17 @@
 import plotly.graph_objects as go
+from colors.colors import COLORS
 
 def dinamic_table_call(df):
+    '''
+    Genera un objeto Plotly de tipo Tabla para visualizar los datos de las convocatorias.
+
+    Argumentos:
+        df: DataFrame con los datos de las convocatorias.
+    '''
     fig = go.Figure(data=[go.Table(
         header=dict(
             values=["<b>Codigo Asignatura</b>", "<b>Asignatura</b>", "<b>Curso</b>", "<b>Grupo</b>", "<b>Convocatoria</b>", "<b>Tasa Eficiencia</b>", "<b>Tasa Exito</b>"],
-            fill_color='#5C068C',
+            fill_color=COLORS['primary'],
             align='center',
             font=dict(color='white', size=12),
             line_color='black',
@@ -22,7 +29,7 @@ def dinamic_table_call(df):
 
     fig.update_layout(
         title="<b>Tabla de Datos - Nivel Convocatoria</b>",
-        title_font_color='#5C068C',
+        title_font_color=COLORS['primary'],
         margin=dict(l=10, r=10, t=60, b=10)
     )
     return fig

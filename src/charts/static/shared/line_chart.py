@@ -3,6 +3,15 @@ from colors.colors import CHART_COLORS
 
 
 def static_chart_lines(df, rate, target_value=None, limit_value=None):
+    '''
+    Genera gráfico de línea Plotly para los datos de las asignaturas.
+
+    Argumentos:
+        df: DataFrame con los datos de las asignaturas.
+        rate: Tasa a visualizar.
+        target_value: Valor objetivo (opcional).
+        limit_value: Valor límite (opcional).
+    '''
     fig = go.Figure()
 
     asignaturas = df['Asignatura'].unique()

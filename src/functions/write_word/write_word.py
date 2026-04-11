@@ -1,9 +1,15 @@
-from docxtpl import DocxTemplate
+from docxtpl import DocxTemplate, InlineImage
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from docx.shared import Mm
 import os
+import time
 import pandas as pd
 from datetime import datetime
+
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 from functions.generate_information.subject_analisis.subject_breakdown import generate_subject_breakdown
 from functions.generate_information.subject_analisis.tipology_breakdown import generate_tipology_breakdown
@@ -11,10 +17,45 @@ from functions.generate_information.subject_analisis.mention_breakdown import ge
 from functions.generate_information.subject_analisis.call_breakdown import generate_call_breakdown
 from functions.generate_information.degree_analisis.degree_breakdown import generate_degree_breakdown
 
-ENUM_CURSOS = {1: "Primero", 2: "Segundo", 3: "Tercero", 4: "Cuarto", 5: "Quinto", 6: "Sexto"}
-ORDEN_CURSOS = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto"]
+# constants
+from constants import CURSOS, ORDEN_CURSOS
+
+def enrich_with_inline(item: dict, tpl, width=Mm(150)):
+    """Convierte las rutas de imágenes de un diccionario en objetos ``InlineImage`` para docxtpl.
+
+    Modifica ``item`` en el lugar añadiendo las claves ``line_chart``, ``table_chart``
+    y ``resume_chart`` a partir de sus equivalentes ``*_path``.
+
+    Args:
+        item: Diccionario de datos que puede contener las claves ``line_chart_path``,
+            ``table_chart_path`` y ``resume_chart_path``.
+        tpl: Plantilla ``DocxTemplate`` a la que están vinculadas las imágenes.
+        width: Anchura de las gráficas de línea y tabla. Por defecto ``Mm(150)``.
+            Las gráficas de resumen usan siempre ``Mm(155)``.
+    """
+    if item.get('line_chart_path'):
+        item['line_chart'] = InlineImage(tpl, item['line_chart_path'], width=width)
+    if item.get('table_chart_path'):
+        item['table_chart'] = InlineImage(tpl, item['table_chart_path'], width=width)
+    if item.get('resume_chart_path'):
+        item['resume_chart'] = InlineImage(tpl, item['resume_chart_path'], width=Mm(155))
+
 
 def compute_numbering(contexto: dict) -> dict:
+    """Calcula los números y títulos de sección del documento Word.
+
+    Genera las etiquetas numéricas (``1.``, ``1.1.``, etc.) para cada sección
+    activa del informe, asegurando que los índices sean coherentes con las
+    secciones seleccionadas por el usuario.
+
+    Args:
+        contexto: Diccionario con las claves ``mostrar_analisis_titulacion``,
+            ``mostrar_analisis_asignatura`` y las claves de cada desglose.
+
+    Returns:
+        Diccionario con las claves de numeración (p. ej. ``n_titulacion``,
+        ``titulo_desglose_curso``) listas para inyectar en la plantilla Word.
+    """
     n = {}
     sec = 0
 
@@ -59,9 +100,33 @@ def compute_numbering(contexto: dict) -> dict:
 
 
 def write_word(df, df_t4, df_conv, ruta_plantilla: str, directorio: str, chart_selector: str, chart_types=None, institucion: str = "", titulacion: str = "", target_value=None, limit_value=None):
+    """Genera el informe Word a partir de los datos filtrados y lo guarda en disco.
+
+    Llama a los generadores de cada sección activa, enriquece los datos con
+    ``InlineImage``, construye el contexto de la plantilla, la renderiza y la guarda.
+
+    Args:
+        df: DataFrame de asignaturas con los filtros ya aplicados.
+        df_t4: DataFrame de indicadores de titulación con los filtros ya aplicados.
+        df_conv: DataFrame de convocatorias con los filtros ya aplicados.
+        ruta_plantilla: Ruta al archivo ``.docx`` de plantilla.
+        directorio: Directorio donde se guardan las imágenes y el documento final.
+        chart_selector: Lista de identificadores de sección a incluir
+            (p. ej. ``["desglose-curso", "analisis-titulacion"]``).
+        chart_types: Lista de tipos de gráfica a generar. Por defecto ``None``.
+        institucion: Nombre de la institución para el encabezado y los prompts.
+        titulacion: Nombre de la titulación para el encabezado y los prompts.
+        target_value: Valor de la tasa objetivo para las líneas de referencia.
+        limit_value: Valor de la tasa límite para las líneas de referencia.
+
+    Returns:
+        Ruta absoluta del archivo ``.docx`` generado.
+    """
+    logger.info("Iniciando generación Word — secciones: %s", chart_selector)
+    t0 = time.time()
     tpl = DocxTemplate(ruta_plantilla)
 
-    df['Curso'] = df['Curso'].map(ENUM_CURSOS)
+    df['Curso'] = df['Curso'].map(CURSOS)
     df['Curso'] = pd.Categorical(df['Curso'], categories=ORDEN_CURSOS, ordered=True)
     df = df.sort_values('Curso').dropna(subset=['Curso'])
 
@@ -76,25 +141,52 @@ def write_word(df, df_t4, df_conv, ruta_plantilla: str, directorio: str, chart_s
 
     course_data = {}
     if "desglose-curso" in chart_selector:
-        course_data = generate_subject_breakdown(df, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
+        logger.info("Generando desglose por curso...")
+        course_data = generate_subject_breakdown(df, directorio, chart_types, institucion, titulacion, target_value, limit_value)
+        enrich_with_inline(course_data, tpl)
+        for course in course_data.get('breakdown', []):
+            for quarter in course.get('quarter', []):
+                for rate in quarter.get('rates', []):
+                    enrich_with_inline(rate, tpl)
 
     tipologies_data = {}
     if "desglose-tipologia" in chart_selector:
-        tipologies_data = generate_tipology_breakdown(df, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
-    
+        logger.info("Generando desglose por tipología...")
+        tipologies_data = generate_tipology_breakdown(df, directorio, chart_types, institucion, titulacion, target_value, limit_value)
+        enrich_with_inline(tipologies_data, tpl)
+        for course in tipologies_data.get('breakdown', []):
+            for tipologia in course.get('tipologies', []):
+                for rate in tipologia.get('rates', []):
+                    enrich_with_inline(rate, tpl)
+
     mentions_data = {}
     if "desglose-menciones" in chart_selector:
+        logger.info("Generando desglose por mención...")
         df_mentions = df[df['Mencion'] != 'No aplica']
-        mentions_data = generate_mention_breakdown(df_mentions, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
-    
+        mentions_data = generate_mention_breakdown(df_mentions, directorio, chart_types, institucion, titulacion, target_value, limit_value)
+        enrich_with_inline(mentions_data, tpl)
+        for mention in mentions_data.get('breakdown', []):
+            for rate in mention.get('rates', []):
+                enrich_with_inline(rate, tpl)
+
     convocatoria_data = {}
     if "desglose-convocatoria" in chart_selector:
+        logger.info("Generando desglose por convocatoria...")
         df_conv = df_conv[df_conv['Grupo'].isin([1, 2])]
-        convocatoria_data = generate_call_breakdown(df_conv, directorio, tpl, chart_types, institucion, titulacion, target_value, limit_value)
+        convocatoria_data = generate_call_breakdown(df_conv, directorio, chart_types, institucion, titulacion, target_value, limit_value)
+        enrich_with_inline(convocatoria_data, tpl)
+        for course in convocatoria_data.get('breakdown', []):
+            for call in course.get('calls', []):
+                for group in call.get('groups', []):
+                    for rate in group.get('rates', []):
+                        enrich_with_inline(rate, tpl)
 
     degree_data = []
     if "analisis-titulacion" in chart_selector:
-        degree_data = generate_degree_breakdown(df_t4, directorio, tpl, chart_types, institucion, titulacion)
+        logger.info("Generando análisis por titulación...")
+        degree_data = generate_degree_breakdown(df_t4, directorio, chart_types, institucion, titulacion)
+        for item in degree_data:
+            enrich_with_inline(item, tpl, width=Mm(155))
 
     mostrar_asignatura = any(v in chart_selector for v in ["desglose-curso", "desglose-tipologia", "desglose-menciones", "desglose-convocatoria"])
 
@@ -122,8 +214,6 @@ def write_word(df, df_t4, df_conv, ruta_plantilla: str, directorio: str, chart_s
         'degree_data': degree_data,
     }
 
-    # print(contexto)
-
     contexto.update(compute_numbering(contexto))
 
     tpl.render(contexto)
@@ -134,5 +224,6 @@ def write_word(df, df_t4, df_conv, ruta_plantilla: str, directorio: str, chart_s
 
     ruta_guardado = os.path.join(directorio, f'{institucion}_{titulacion}_{datetime.now().strftime("%Y%m%d")}.docx')
     tpl.save(ruta_guardado)
+    logger.info("Word guardado en %.1fs: %s", time.time() - t0, os.path.basename(ruta_guardado))
 
     return ruta_guardado

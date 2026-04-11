@@ -18,19 +18,12 @@ class PromptResumenDesgloseConvocatoria(BasePrompt):
             </contexto>
 
             <instrucciones>
-            Redacta una conclusión técnica de EXACTAMENTE 7 líneas siguiendo este orden:
+            Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:
             1. Identifica el curso con las tasas más bajas y más altas globalmente.
-            2. Analiza si existe un patrón por curso: si los cursos iniciales muestran menor rendimiento
-               que los avanzados, interpretando el primer curso como posible filtro natural de la titulación.
-            3. Analiza el comportamiento entre convocatorias: compara las convocatorias ordinarias (Mayo)
-               frente a las extraordinarias (Enero, Julio), indicando si las extraordinarias corrigen
-               el rendimiento o siguen siendo bajas.
-            4. Señala la mayor brecha entre Tasa de Eficiencia y Tasa de Éxito en algún curso,
-               interpretando si ello indica un alto volumen de estudiantes no presentados o abandono de materia.
-            5. Identifica si hay algún curso o grupo con comportamiento anómalo respecto al patrón general.
-            6. Valora si la distribución del rendimiento entre convocatorias refleja dificultad académica
-               estructural o una estrategia de presentación diferida por parte del alumnado.
-            7. Mantén tono académico, directo, puramente analítico, sin introducciones ni conclusiones genéricas.
+            2. Compara convocatorias ordinarias (Mayo) frente a extraordinarias (Enero, Julio).
+            3. Señala la mayor brecha entre Tasa de Eficiencia y Tasa de Éxito e interprétala.
+            4. Valora si el patrón refleja dificultad estructural o presentación diferida del alumnado.
+            Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 
             <datos>
@@ -38,6 +31,6 @@ class PromptResumenDesgloseConvocatoria(BasePrompt):
             </datos>
 
             <formato_respuesta>
-            Exactamente 7 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
+            Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
             </formato_respuesta>
         """)

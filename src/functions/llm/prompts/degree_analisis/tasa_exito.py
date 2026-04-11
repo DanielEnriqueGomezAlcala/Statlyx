@@ -17,12 +17,11 @@ class PromptTasaExito(BasePrompt):
             </contexto>
 
             <instrucciones>
-            Redacta una conclusión técnica de EXACTAMENTE 5 líneas siguiendo este orden:
-            1. Indica el valor máximo y mínimo registrados, especificando el año académico exacto de cada uno.
-            2. Describe la tendencia general: si la tasa mejora, empeora o permanece estable a lo largo del periodo.
-            3. Señala si existe algún año con variación brusca (subida o bajada notable) e interpreta la causa probable.
-            4. Evalúa si los niveles de éxito son coherentes con los estándares esperados para esta titulación.
-            5. Mantén tono académico, directo y puramente analítico. Sin introducciones ni conclusiones genéricas.
+            Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:
+            1. Indica el valor máximo y mínimo registrados con su año académico exacto, y describe la tendencia general.
+            2. Señala si existe algún año con variación brusca e interpreta la causa probable.
+            3. Evalúa si los niveles son coherentes con los estándares esperados para esta titulación.
+            Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 
             <datos>
@@ -30,6 +29,6 @@ class PromptTasaExito(BasePrompt):
             </datos>
 
             <formato_respuesta>
-            Exactamente 5 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
+            Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
             </formato_respuesta>
         """)

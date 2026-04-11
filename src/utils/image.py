@@ -1,27 +1,45 @@
 import io
+import os
 from PIL import Image, ImageChops, ImageOps
+
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def save_chart_image(fig, img_path, width=1200, scale=2, border=0, border_color=(180, 180, 180)):
-    """Guarda una figura Plotly como PNG.
-    - Recorta el espacio blanco inferior.
-    - Si border > 0, añade un borde de color uniforme alrededor (solo para líneas).
+    """Exporta una figura Plotly a PNG, recorta el espacio blanco inferior y opcionalmente añade un borde.
+
+    Si el archivo ya existe se omite la generación (caché por ruta).
 
     Args:
-        border: grosor del borde en píxeles. 0 = sin borde (por defecto).
-        border_color: color RGB del borde, por defecto gris claro.
+        fig: Figura Plotly a exportar.
+        img_path: Ruta de destino del archivo PNG.
+        width: Anchura en píxeles de la imagen generada.
+        scale: Factor de escala aplicado al exportar.
+        border: Grosor del borde en píxeles. 0 para no añadir borde.
+        border_color: Color RGB del borde como tupla ``(R, G, B)``.
+
+    Returns:
+        Ruta del archivo PNG guardado.
     """
+    if os.path.exists(img_path):
+        logger.info("Chart cache hit: %s", os.path.basename(img_path))
+        return img_path
+
+    # Genera la imagen en formato PNG
     img_bytes = fig.to_image(format="png", width=width, scale=scale)
     img = Image.open(io.BytesIO(img_bytes)).convert('RGB')
 
-    # Recortar espacio blanco inferior
+    # Recorta el espacio blanco inferior
     white = Image.new('RGB', img.size, (255, 255, 255))
     bbox = ImageChops.difference(img, white).getbbox()
     if bbox:
         img = img.crop((0, 0, img.width, bbox[3] + 15))
 
-    # Borde opcional
+    # Agregamos borde
     if border > 0:
         img = ImageOps.expand(img, border=border, fill=border_color)
 
+    # Guardamos la imagen en la ruta especificada
     img.save(img_path)

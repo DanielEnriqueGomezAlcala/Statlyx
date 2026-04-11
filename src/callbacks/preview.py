@@ -8,8 +8,8 @@ from charts.dinamic.table_t1_t2 import dinamic_table_t1_t2
 from charts.dinamic.table_t4 import dinamic_table_t4
 from charts.dinamic.table_call import dinamic_table_call
 
-_HIDDEN = {"display": "none"}
-_VISIBLE = {}
+NO_MOSTRAR = {"display": "none"}
+MOSTRAR = {}
 
 
 def register_callbacks(app):
@@ -22,6 +22,13 @@ def register_callbacks(app):
         Input('filtered-conv', 'data'),
     )
     def update_table(filtered_t1_t2, filtered_t4, filtered_conv):
+        """Regenera las tablas de previsualización con los datos filtrados.
+
+        Args:
+            filtered_t1_t2: JSON serializado del DataFrame filtrado de asignaturas.
+            filtered_t4: JSON serializado del DataFrame filtrado de indicadores de titulación.
+            filtered_conv: JSON serializado del DataFrame filtrado de convocatorias.
+        """
         if filtered_t1_t2 is None or filtered_t4 is None or filtered_conv is None:
             return go.Figure(), go.Figure(), go.Figure()
 
@@ -38,10 +45,16 @@ def register_callbacks(app):
         Input('table-selector', 'value'),
     )
     def toggle_table(selected):
+        """Muestra la tabla seleccionada y oculta las demás.
+
+        Args:
+            selected: Identificador de la tabla activa. Valores posibles:
+                ``"t1t2"``, ``"t4"`` o ``"conv"``.
+        """
         if selected == 't1t2':
-            return _VISIBLE, _HIDDEN, _HIDDEN
+            return MOSTRAR, NO_MOSTRAR, NO_MOSTRAR
         if selected == 't4':
-            return _HIDDEN, _VISIBLE, _HIDDEN
+            return NO_MOSTRAR, MOSTRAR, NO_MOSTRAR
         if selected == 'conv':
-            return _HIDDEN, _HIDDEN, _VISIBLE
-        return _HIDDEN, _HIDDEN, _HIDDEN
+            return NO_MOSTRAR, NO_MOSTRAR, MOSTRAR
+        return NO_MOSTRAR, NO_MOSTRAR, NO_MOSTRAR

@@ -4,25 +4,28 @@ from colors.colors import COLOR_HEADER
 
 
 def static_chart_table(df, rate):
+    '''
+    Genera gráfico de tabla Plotly para los datos de las asignaturas.
+
+    Argumentos:
+        df: DataFrame con los datos de las asignaturas.
+        rate: Tasa a visualizar.
+    '''
     anios_ordenados = sorted(df['Anio'].unique())
 
-    # Pivot: fila por asignatura, columna por año
     pivot = df.pivot_table(index='Asignatura', columns='Anio', values=rate, aggfunc='mean')
     pivot = pivot.reindex(columns=anios_ordenados)
 
     asignaturas = pivot.index.tolist()
 
-    # Cabecera
     header_values = ['<b>Asignatura</b>'] + [f'<b>{a}</b>' for a in anios_ordenados]
 
-    # Valores de celda: columna de nombres + una columna por año
     cell_values = [asignaturas]
     for anio in anios_ordenados:
         col = pivot[anio] if anio in pivot.columns else pd.Series([None] * len(asignaturas))
         cell_values.append([f'{v:.1f}%' if pd.notna(v) else '—' for v in col])
 
-    # Color de fondo por rango de valor
-    fill_colors = [['white'] * len(asignaturas)]  # columna de asignaturas, sin color
+    fill_colors = [['white'] * len(asignaturas)]
     for anio in anios_ordenados:
         col = pivot[anio] if anio in pivot.columns else pd.Series([None] * len(asignaturas))
         colors = []
@@ -56,7 +59,6 @@ def static_chart_table(df, rate):
         ),
     )])
 
-    # Altura generosa para que PIL pueda recortar el espacio sobrante
     fig.update_layout(
         height=max(500, len(asignaturas) * 120),
         margin=dict(l=10, r=10, t=10, b=10),

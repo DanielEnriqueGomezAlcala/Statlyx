@@ -1,13 +1,20 @@
 import plotly.graph_objects as go
+from colors.colors import COLORS
 
 def dinamic_table_t4(df):
+    '''
+    Genera un objeto Plotly de tipo Tabla para visualizar los datos de la titulación.
+
+    Argumentos:
+        df: DataFrame con los datos de la titulación.
+    '''
     if df.empty:
         return go.Figure()
 
     fig = go.Figure(data=[go.Table(
         header=dict(
             values=["<b>Año</b>", "<b>Tasa Graduación</b>", "<b>Tasa Abandono</b>", "<b>Tasa Eficiencia</b>", "<b>Tasa Rendimiento</b>", "<b>Tasa Exito</b>"],
-            fill_color='#5C068C',
+            fill_color=COLORS['primary'],
             align='center',
             font=dict(color='white', size=12),
             line_color='black',
@@ -25,7 +32,7 @@ def dinamic_table_t4(df):
 
     fig.update_layout(
         title="<b>Tabla de Datos - Nivel Titulación</b>",
-        title_font_color='#5C068C',
+        title_font_color=COLORS['primary'],
         margin=dict(l=10, r=10, t=60, b=10)
     )
     return fig

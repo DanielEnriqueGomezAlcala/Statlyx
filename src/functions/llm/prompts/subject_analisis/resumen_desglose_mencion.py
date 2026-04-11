@@ -18,19 +18,12 @@ class PromptResumenDesgloseMencion(BasePrompt):
             </contexto>
 
             <instrucciones>
-            Redacta una conclusión técnica de EXACTAMENTE 7 líneas siguiendo este orden:
+            Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:
             1. Identifica la mención con mejores y peores resultados globales en ambas tasas.
-            2. Analiza si la elección vocacional de la especialidad se refleja en mejores métricas de rendimiento,
-               valorando si el interés por la mención favorece el desempeño académico.
-            3. Señala qué mención presenta la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento,
-               interpretando esto como la especialidad con mayor proporción de no-presentados o abandono de materia.
-            4. Evalúa si las diferencias entre menciones son sustanciales o marginales, valorando la equidad
-               curricular entre los diferentes itinerarios ofrecidos.
-            5. Identifica si alguna mención muestra resultados anómalos que puedan requerir revisión académica
-               o acciones de mejora específicas.
-            6. Compara brevemente el perfil de cada mención desde la perspectiva del rendimiento global,
-               señalando si alguna destaca consistentemente por encima o por debajo de la media.
-            7. Mantén tono académico, directo, puramente analítico, sin introducciones ni conclusiones genéricas.
+            2. Analiza si la elección vocacional se refleja en mejores métricas de rendimiento.
+            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e interprétala.
+            4. Evalúa si las diferencias entre menciones son sustanciales o marginales.
+            Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 
             <datos>
@@ -38,6 +31,6 @@ class PromptResumenDesgloseMencion(BasePrompt):
             </datos>
 
             <formato_respuesta>
-            Exactamente 7 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
+            Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
             </formato_respuesta>
         """)

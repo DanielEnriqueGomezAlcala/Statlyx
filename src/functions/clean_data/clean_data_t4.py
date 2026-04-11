@@ -1,6 +1,18 @@
 import pandas as pd
 
 def clean_data_t4(tabla_4):
+    """Limpia y transforma la tabla 4 de indicadores de titulación.
+
+    Filtra las filas de indicadores relevantes, normaliza los nombres y transpone
+    el DataFrame para obtener una fila por año con las tasas como columnas.
+
+    Args:
+        tabla_4: DataFrame en formato original con indicadores como filas y años como columnas.
+
+    Returns:
+        DataFrame transpuesto con una fila por año y columnas ``Tasa_Exito``,
+        ``Tasa_Abandono``, ``Tasa_Rendimiento``, ``Tasa_Eficiencia`` y ``Tasa_Graduacion``.
+    """
     df = tabla_4.rename(columns={'Unnamed: 0': 'Indicador'})
     mapeo_columnas = {
         "18   -Tasa de éxito del título": "Tasa éxito",

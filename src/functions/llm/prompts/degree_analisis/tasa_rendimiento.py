@@ -17,13 +17,11 @@ class PromptTasaRendimiento(BasePrompt):
             </contexto>
 
             <instrucciones>
-            Redacta una conclusión técnica de EXACTAMENTE 5 líneas siguiendo este orden:
-            1. Indica el valor máximo y mínimo registrados, con el año académico exacto de cada uno.
-            2. Describe la tendencia general: mejora, deterioro o estabilidad a lo largo del periodo.
-            3. Identifica años de variación brusca y propón hipótesis breves (cambio curricular, pandemia, etc.).
-            4. Señala si la brecha respecto a la Tasa de Éxito es notable, interpretando esto como indicador
-               de un volumen relevante de estudiantes no presentados o con abandono temprano de la materia.
-            5. Tono académico, directo, sin introducciones genéricas.
+            Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:
+            1. Indica el valor máximo y mínimo con su año exacto, y describe la tendencia general.
+            2. Identifica años de variación brusca con hipótesis breve (cambio curricular, pandemia, etc.).
+            3. Señala si la brecha respecto a la Tasa de Éxito es notable e interprétala.
+            Tono académico, directo, sin introducciones genéricas.
             </instrucciones>
 
             <datos>
@@ -31,6 +29,6 @@ class PromptTasaRendimiento(BasePrompt):
             </datos>
 
             <formato_respuesta>
-            Exactamente 5 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
+            Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.
             </formato_respuesta>
         """)

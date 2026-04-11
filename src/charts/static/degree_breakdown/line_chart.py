@@ -3,6 +3,13 @@ from colors.colors import CHART_COLORS
 
 
 def static_chart_lines(df, rate):
+    '''
+    Genera gráfico de línea Plotly para los datos de la titulación. Contiene una única linea
+
+    Argumentos:
+        df: DataFrame con los datos de las tasas a nivel de titulación.
+        rate: Tasa a visualizar.
+    '''
     df = df.sort_values('Anio')
     anios_ordenados = sorted(df['Anio'].unique())
     color = CHART_COLORS[0]

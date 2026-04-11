@@ -4,6 +4,13 @@ from colors.colors import COLOR_HEADER
 
 
 def static_chart_table(df, rate):
+    '''
+    Genera gráfico de tabla Plotly para los datos de la titulación.
+
+    Argumentos:
+        df: DataFrame con los datos de las tasas a nivel de titulación.
+        rate: Tasa a visualizar.
+    '''
     anios_ordenados = sorted(df['Anio'].unique())
 
     header_values = [f'<b>{a}</b>' for a in anios_ordenados]

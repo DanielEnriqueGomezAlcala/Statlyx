@@ -12,6 +12,9 @@ UPLOAD_TABLES = [
 
 
 def upload():
+    '''
+    Sección de subida de archivos.
+    '''
     return html.Div([
         html.Div(id="upload-section"),
         dmc.Center([

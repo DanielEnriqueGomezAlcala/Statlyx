@@ -3,6 +3,9 @@ import dash_mantine_components as dmc
 from colors.colors import COLORS
 
 def header():
+    '''
+    Header de la aplicación.
+    '''
     return (
         html.Div([
             dmc.Paper([

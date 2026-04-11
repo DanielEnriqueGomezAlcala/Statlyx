@@ -3,6 +3,9 @@ import dash_mantine_components as dmc
 from colors.colors import COLORS
 
 def preview():
+    '''
+    Sección de previsualización de datos.
+    '''
     return html.Div([
         dmc.Center([
             dmc.Paper([

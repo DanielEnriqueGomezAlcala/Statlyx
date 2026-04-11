@@ -1,10 +1,13 @@
 import pandas as pd
 import os
-from docxtpl import DocxTemplate, InlineImage
-from docx.shared import Mm
+
+# utils
+from utils.logger import get_logger
 
 # LLM
 from functions.llm.llm import generate_text
+
+logger = get_logger(__name__)
 from functions.llm.prompts.degree_analisis import (
     PromptTasaExito,
     PromptTasaRendimiento,
@@ -32,7 +35,24 @@ PROMPT_CLASSES = {
 }
 
 
-def generate_degree_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplate, chart_types: list[str], institucion: str = "", titulacion: str = ""):
+def generate_degree_breakdown(df: pd.DataFrame, directory: str, chart_types: list[str], institucion: str = "", titulacion: str = ""):
+    """Genera el análisis de los indicadores de titulación.
+
+    Produce gráficas de líneas y/o tabla para cada tasa de titulación a lo largo
+    de los años disponibles, junto con un texto analítico generado por IA.
+
+    Args:
+        df: DataFrame con los indicadores de titulación por año.
+        directory: Directorio donde se guardarán las imágenes de las gráficas.
+        chart_types: Lista de tipos de gráfica a generar. Valores posibles:
+            ``"graficas-lineas"`` y ``"graficas-tablas"``.
+        institucion: Nombre de la institución para los prompts de IA.
+        titulacion: Nombre de la titulación para los prompts de IA.
+
+    Returns:
+        Lista de diccionarios, uno por cada indicador, con claves ``name``,
+        ``line_chart_path``, ``table_chart_path`` y ``text``.
+    """
     degree_breakdown = []
 
     line_chart = "graficas-lineas" in chart_types
@@ -43,6 +63,7 @@ def generate_degree_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplat
     for col, nombre in TASAS.items():
         if col not in df.columns:
             continue
+        logger.info("Degree breakdown — tasa: %s", nombre)
 
         df_chart = df[['Anio', col]].dropna().copy()
         df_chart = df_chart.rename(columns={col: 'Valor'})
@@ -50,8 +71,6 @@ def generate_degree_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplat
 
         tasa_data = {
             'name': nombre,
-            'line_chart': None,
-            'table_chart': None,
             'text': None,
         }
         chart_name = f"titulacion_{col}"
@@ -61,14 +80,12 @@ def generate_degree_breakdown(df: pd.DataFrame, directory: str, tpl: DocxTemplat
             img_path = os.path.join(directory, f"graf_{chart_name}_line.png")
             save_chart_image(fig, img_path, border=6)
             tasa_data['line_chart_path'] = img_path
-            tasa_data['line_chart'] = InlineImage(tpl, img_path, width=Mm(155))
 
         if table_chart:
             fig = static_chart_table(df_chart, 'Valor')
             img_path = os.path.join(directory, f"graf_{chart_name}_table.png")
             save_chart_image(fig, img_path)
             tasa_data['table_chart_path'] = img_path
-            tasa_data['table_chart'] = InlineImage(tpl, img_path, width=Mm(155))
 
         datos = df_chart[['Anio', 'Valor']].round(2).to_string(index=False)
         prompt = PROMPT_CLASSES[col](

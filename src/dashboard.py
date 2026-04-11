@@ -2,12 +2,14 @@ import dash
 from dash import dcc
 import dash_mantine_components as dmc
 
+# Componentes
 from components.header import header
 from components.upload import upload
 from components.filter import filter_section
 from components.preview import preview
 from components.report import report
 
+# Callbacks
 import callbacks.header as header_callbacks
 import callbacks.upload as upload_callbacks
 import callbacks.filter as filter_callbacks
@@ -36,6 +38,7 @@ app.layout = dmc.MantineProvider(
         dcc.Store(id='chart-selector', data=[]),
         dcc.Store(id='scroll-trigger'),
 
+        # Descargas
         dcc.Download(id="download-report-word"),
         dcc.Download(id="download-report-pptx"),
     ]

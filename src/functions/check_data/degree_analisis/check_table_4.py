@@ -11,6 +11,17 @@ REQUIRED_ROWS = [
 
 
 def check_table_4(df: pd.DataFrame) -> bool:
+    """Valida que la tabla 4 contenga las filas de indicadores requeridas.
+
+    Args:
+        df: DataFrame con los datos de la tabla 4.
+
+    Returns:
+        ``True`` si la tabla es válida.
+
+    Raises:
+        ValueError: Si el DataFrame está vacío o le faltan filas de indicadores requeridas.
+    """
     if df.empty:
         raise ValueError("La tabla 4 está vacía.")
 

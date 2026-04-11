@@ -1,6 +1,11 @@
 import os
+import time
 import pandas as pd
 from datetime import datetime
+
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 from pptx import Presentation
 
@@ -21,6 +26,8 @@ from functions.write_presentation.sections.call_section import call_section
 
 
 def write_presentation(df, df_t4, df_conv, ruta_plantilla: str, directorio: str, chart_selector: list, chart_types=None, institucion: str = "", titulacion: str = "", target_value=None, limit_value=None) -> str:
+    logger.info("Iniciando generación PPTX — secciones: %s", chart_selector)
+    t0 = time.time()
     df['Curso'] = df['Curso'].map(ENUM_CURSOS)
     df['Curso'] = pd.Categorical(df['Curso'], categories=ORDEN_CURSOS, ordered=True)
     df = df.sort_values('Curso').dropna(subset=['Curso'])
@@ -33,34 +40,39 @@ def write_presentation(df, df_t4, df_conv, ruta_plantilla: str, directorio: str,
 
     course_data = {}
     if "desglose-curso" in chart_selector:
+        logger.info("Generando desglose por curso...")
         course_data = generate_subject_breakdown(
-            df, directorio, None, chart_types, institucion, titulacion, target_value, limit_value
+            df, directorio, chart_types, institucion, titulacion, target_value, limit_value
         )
 
     tipologies_data = {}
     if "desglose-tipologia" in chart_selector:
+        logger.info("Generando desglose por tipología...")
         tipologies_data = generate_tipology_breakdown(
-            df, directorio, None, chart_types, institucion, titulacion, target_value, limit_value
+            df, directorio, chart_types, institucion, titulacion, target_value, limit_value
         )
 
     mentions_data = {}
     if "desglose-menciones" in chart_selector:
+        logger.info("Generando desglose por mención...")
         df_mentions = df[df['Mencion'] != 'No aplica']
         mentions_data = generate_mention_breakdown(
-            df_mentions, directorio, None, chart_types, institucion, titulacion, target_value, limit_value
+            df_mentions, directorio, chart_types, institucion, titulacion, target_value, limit_value
         )
 
     convocatoria_data = {}
     if "desglose-convocatoria" in chart_selector:
+        logger.info("Generando desglose por convocatoria...")
         df_conv_filtered = df_conv[df_conv['Grupo'].isin([1, 2])]
         convocatoria_data = generate_call_breakdown(
-            df_conv_filtered, directorio, None, chart_types, institucion, titulacion, target_value, limit_value
+            df_conv_filtered, directorio, chart_types, institucion, titulacion, target_value, limit_value
         )
 
     degree_data = []
     if "analisis-titulacion" in chart_selector:
+        logger.info("Generando análisis por titulación...")
         degree_data = generate_degree_breakdown(
-            df_t4, directorio, None, chart_types, institucion, titulacion
+            df_t4, directorio, chart_types, institucion, titulacion
         )
 
     prs = Presentation(ruta_plantilla)
@@ -91,4 +103,5 @@ def write_presentation(df, df_t4, df_conv, ruta_plantilla: str, directorio: str,
         f'{institucion}_{titulacion}_{datetime.now().strftime("%Y%m%d")}.pptx',
     )
     prs.save(ruta_guardado)
+    logger.info("PPTX guardado en %.1fs: %s", time.time() - t0, os.path.basename(ruta_guardado))
     return ruta_guardado

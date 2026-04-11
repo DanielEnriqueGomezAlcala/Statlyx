@@ -2,6 +2,12 @@ import plotly.graph_objects as go
 from colors.colors import COLORS
 
 def static_chart_bars_breakdown_resume(df, titulo_grafica):
+    '''
+    Genera gráfico de resumen de tasas de éxito y rendimiento por asignatura.
+
+    Argumentos:
+        df: DataFrame con los datos de las asignaturas.
+    '''
     df_medias = df.dropna(subset=['Tasa_Exito', 'Tasa_Rendimiento'], how='all').sort_values(['Curso', 'Cuatrimestre'])
     etiquetas_x = df_medias['Curso'].astype(str) + ' - C' + df_medias['Cuatrimestre'].astype(str)
 

@@ -14,19 +14,28 @@ from functions.check_data.subject_analisis.check_table_2 import check_table_2
 from functions.check_data.subject_analisis.check_table_1_aux import check_table_1_aux
 from functions.check_data.degree_analisis.check_table_4 import check_table_4
 from functions.check_data.subject_analisis.check_table_call import check_table_call
+from utils.decode_excel import decode_excel
 
 
-def _decode_excel(contents, header):
-    _, content_string = contents.split(',')
-    decoded = base64.b64decode(content_string)
-    return pd.read_excel(io.BytesIO(decoded), header=header)
+def validate_file(contents, filename, header, check_fn):
+    """Decodifica y valida un archivo Excel subido desde la interfaz.
 
+    Args:
+        contents: Contenido del archivo en formato base64 (data URI de Dash).
+        filename: Nombre del archivo mostrado en el badge.
+        header: Índice de la fila que contiene las cabeceras.
+        check_fn: Función de validación que recibe un DataFrame y lanza
+            ``ValueError`` si no es válido.
 
-def _validate_file(contents, filename, header, check_fn):
+    Returns:
+        Tupla ``(df, badge, error)`` donde ``df`` es el DataFrame parseado
+        (o ``None`` si falló), ``badge`` es el componente visual de estado
+        y ``error`` es el mensaje de error (o ``None`` si fue exitoso).
+    """
     if contents is None:
         return None, dmc.Badge("Pendiente", color="gray", variant="light", size="sm"), None
     try:
-        df = _decode_excel(contents, header)
+        df = decode_excel(contents, header)
         check_fn(df)
         return df, dmc.Badge(f"✓ {filename}", color="green", variant="light", size="sm"), None
     except ValueError as e:
@@ -60,19 +69,34 @@ def register_callbacks(app):
         State('upload-conv', 'filename'),
         State('upload-adicional', 'filename'),
     )
-    def handle_upload(
-        contents_t1, contents_t2, contents_t4, contents_conv, contents_adicional,
-        filename_t1, filename_t2, filename_t4, filename_conv, filename_adicional,
-    ):
-        tabla_1,    badge_t1,        err_t1  = _validate_file(contents_t1,        filename_t1,        4, check_table_1)
-        tabla_2,    badge_t2,        err_t2  = _validate_file(contents_t2,        filename_t2,        4, check_table_2)
-        tabla_aux,  badge_adicional, err_aux = _validate_file(contents_adicional, filename_adicional, 0, check_table_1_aux)
-        tabla_4,    badge_t4,        err_t4  = _validate_file(contents_t4,        filename_t4,        5, check_table_4)
-        tabla_conv, badge_conv,      err_conv = _validate_file(contents_conv,     filename_conv,      0, check_table_call)
+    def handle_upload(contents_t1, contents_t2, contents_t4, contents_conv, contents_adicional, filename_t1, filename_t2, filename_t4, filename_conv, filename_adicional):
+        """Valida, limpia y almacena los archivos subidos por el usuario.
+
+        Callback de Dash disparado cuando el usuario sube uno o más archivos.
+        Valida cada archivo, los combina en DataFrames y actualiza el estado
+        global de la aplicación junto con los controles de filtro.
+
+        Args:
+            contents_t1: Contenido base64 de la tabla 1 (tipología y curso).
+            contents_t2: Contenido base64 de la tabla 2 (tasas por asignatura).
+            contents_t4: Contenido base64 de la tabla 4 (indicadores de titulación).
+            contents_conv: Contenido base64 de la tabla de convocatorias.
+            contents_adicional: Contenido base64 de la tabla auxiliar (cuatrimestre y mención).
+            filename_t1: Nombre del archivo de la tabla 1.
+            filename_t2: Nombre del archivo de la tabla 2.
+            filename_t4: Nombre del archivo de la tabla 4.
+            filename_conv: Nombre del archivo de convocatorias.
+            filename_adicional: Nombre del archivo auxiliar.
+        """
+        tabla_1,    badge_t1,        err_t1  = validate_file(contents_t1,        filename_t1,        4, check_table_1)
+        tabla_2,    badge_t2,        err_t2  = validate_file(contents_t2,        filename_t2,        4, check_table_2)
+        tabla_aux,  badge_adicional, err_aux = validate_file(contents_adicional, filename_adicional, 0, check_table_1_aux)
+        tabla_4,    badge_t4,        err_t4  = validate_file(contents_t4,        filename_t4,        5, check_table_4)
+        tabla_conv, badge_conv,      err_conv = validate_file(contents_conv,     filename_conv,      0, check_table_call)
 
         badges = [badge_t1, badge_t2, badge_t4, badge_conv, badge_adicional]
 
-        def _empty_return(msg):
+        def empty_return(msg):
             return [None, None, None, None, *badges, msg, None, None, [], []]
 
         errors = {k: v for k, v in [
@@ -84,7 +108,7 @@ def register_callbacks(app):
                 [dmc.Text(f"• {label}: {err}") for label, err in errors.items()],
                 color="red", title="Archivos inválidos",
             )
-            return _empty_return(msg)
+            return empty_return(msg)
 
         pending = sum(1 for c in [contents_t1, contents_t2, contents_t4, contents_adicional, contents_conv] if c is None)
         if any(df is None for df in [tabla_1, tabla_2, tabla_4, tabla_aux, tabla_conv]):
@@ -92,7 +116,7 @@ def register_callbacks(app):
                 f"Faltan {pending} archivo{'s' if pending != 1 else ''} por subir",
                 color="gray", title="Esperando archivos",
             )
-            return _empty_return(msg)
+            return empty_return(msg)
 
         try:
             df_t1t2 = clean_data_t1t2(tabla_1, tabla_2, tabla_aux)

@@ -2,9 +2,17 @@ import pandas as pd
 import plotly.graph_objects as go
 from colors.colors import COLORS
 
-CONVOCATORIAS_ORDEN = ['Enero', 'Marzo', 'Mayo', 'Julio']
+# constants
+from constants import CONVOCATORIAS_ORDEN
+
 
 def static_chart_bars_breakdown_resume(df, titulo_grafica):
+    '''
+    Genera gráfico de resumen de tasas de éxito y eficiencia por convocatoria.
+
+    Argumentos:
+        df: DataFrame con los datos de las convocatorias.
+    '''
     df_medias = df.dropna(subset=['Tasa_Eficiencia', 'Tasa_Exito'], how='all').copy()
     df_medias['Convocatoria'] = pd.Categorical(df_medias['Convocatoria'], categories=CONVOCATORIAS_ORDEN, ordered=True)
     df_medias = df_medias.sort_values(['Curso', 'Convocatoria'])

@@ -5,7 +5,7 @@ from dash_iconify import DashIconify
 
 INDENT_STYLE = {"marginLeft": "28px"}
 
-_SUBITEMS = [
+SUBITEMS = [
     (0, "Desglose por curso-cuatrimestre",    "Agrupa los resultados por curso y cuatrimestre."),
     (1, "Desglose por tipología",             "Clasifica los resultados según el tipo de asignatura."),
     (2, "Desglose por menciones/itinerarios", "Clasifica los resultados según la mención o itinerario de la asignatura."),
@@ -13,7 +13,8 @@ _SUBITEMS = [
 ]
 
 
-def _checkbox_item(idx, label, description, mb="6px"):
+def checkbox_item(idx, label, description, mb="6px"):
+
     return html.Div([
         dmc.Checkbox(
             id={"type": "check-asignatura-item", "index": idx},
@@ -27,12 +28,39 @@ def _checkbox_item(idx, label, description, mb="6px"):
 
 
 def report():
+    '''
+    Sección de generación de informe.
+    '''
     return html.Div([
         dmc.Center([
             dmc.Paper([
                 html.Div(id="report-section"),
                 dmc.Stack([
                     dmc.Title("Generar informe", order=4),
+                    dmc.Divider(label="Generación de texto con IA", labelPosition="center", mt="md"),
+                    dmc.Text(
+                        "Selecciona si deseas incluir análisis de texto generado por IA en el informe.",
+                        size="xs", c="dimmed", ta="center", mb="sm",
+                    ),
+                    dmc.Center(
+                        dmc.SegmentedControl(
+                            id="llm-mode-selector",
+                            value="sin-razonamiento",
+                            color=COLORS['primary'],
+                            data=[
+                                {"value": "no",                 "label": "No"},
+                                {"value": "sin-razonamiento",   "label": "Sin razonamiento"},
+                                {"value": "con-razonamiento",   "label": "Con razonamiento"},
+                            ],
+                        ),
+                    ),
+                    dmc.Center(
+                        dmc.Text(
+                            id="llm-mode-description",
+                            size="xs", c="dimmed", mt=4,
+                        )
+                    ),
+
                     dmc.Divider(label="Contenido del informe", labelPosition="center", mt="md"),
                     dmc.Text(
                         "Selecciona las secciones que deseas incluir en el informe.",
@@ -68,13 +96,12 @@ def report():
                                 style={**INDENT_STYLE, "marginTop": "2px", "marginBottom": "6px"},
                             ),
                             html.Div(
-                                [_checkbox_item(idx, label, desc) for idx, label, desc in _SUBITEMS],
+                                [checkbox_item(idx, label, desc) for idx, label, desc in SUBITEMS],
                                 style=INDENT_STYLE,
                             ),
                         ]),
                     ]),
 
-                    # ── Tipo de visualización ─────────────────────────────────
                     dmc.Divider(label="Tipo de visualización", labelPosition="center", mt="md"),
                     dmc.Text(
                         "Elige uno o ambos formatos para incluir en el informe.",
@@ -104,7 +131,6 @@ def report():
                         ),
                     ),
 
-                    # ── Parámetros opcionales ─────────────────────────────────
                     dmc.Divider(label="Parámetros opcionales", labelPosition="center", mt="md"),
                     dmc.Text(
                         "Para análisis por asignatura. Si se indican, aparecerán como líneas de referencia en las gráficas.",
@@ -131,7 +157,6 @@ def report():
                         ],
                     ),
 
-                    # ── Datos del informe ─────────────────────────────────────
                     dmc.Divider(mt="md", mb="sm"),
 
                     dmc.TextInput(
@@ -170,6 +195,7 @@ def report():
                             ),
                         ]),
                     ),
+                    html.Div(id='report-generation-status', style={'marginTop': '8px'}),
                 ], gap="sm", style={"padding": "20px"}),
             ], shadow="xs", radius="md", style={"marginBottom": "20px", "width": "80%"}),
         ]),

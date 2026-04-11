@@ -5,14 +5,14 @@ from colors.colors import COLORS
 
 
 def upload_bar(upload_id, label, description=""):
-    """
+    '''
     Componente reutilizable de subida de archivos en formato barra horizontal desplegable.
 
-    Parámetros:
-        upload_id   – sufijo del id (ej: 'tabla1' → ids: 'upload-tabla1', 'upload-status-tabla1')
+    Argumentos:
+        upload_id   – sufijo del id
         label       – título de la barra
-        description – subtítulo opcional (se muestra en gris debajo del label)
-    """
+        description – subtítulo opcional
+    '''
     label_stack = dmc.Stack(
         [
             dmc.Text(label, size="sm", fw=500),
