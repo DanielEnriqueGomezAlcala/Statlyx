@@ -18,7 +18,7 @@ Aplicación web interactiva para el análisis de indicadores de calidad académi
 
 ## Requisitos previos
 
-- Python 3.11 o superior
+- [uv](https://docs.astral.sh/uv/) (gestor de paquetes y entornos)
 - Clave de API de OpenAI (para la generación de texto con IA)
 
 ---
@@ -32,21 +32,15 @@ git clone <url-del-repositorio>
 cd TFG
 ```
 
-### 2. Crear y activar el entorno virtual
+### 2. Instalar dependencias
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # macOS / Linux
-.venv\Scripts\activate           # Windows
+uv sync
 ```
 
-### 3. Instalar dependencias
+Esto crea automáticamente el entorno virtual en `.venv` e instala todas las dependencias definidas en `pyproject.toml`.
 
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Configurar variables de entorno
+### 3. Configurar variables de entorno
 
 Copia el archivo de ejemplo y rellena tus credenciales:
 
@@ -67,8 +61,7 @@ cp .env.example .env
 ## Ejecución
 
 ```bash
-cd src
-python dashboard.py
+uv run python src/dashboard.py
 ```
 
 La aplicación estará disponible en [http://localhost:8050](http://localhost:8050).
@@ -94,7 +87,8 @@ La aplicación espera cinco archivos Excel con el siguiente contenido:
 ```
 TFG/
 ├── .env                        # Variables de entorno (no commitear)
-├── requirements.txt
+├── pyproject.toml              # Dependencias y configuración del proyecto
+├── uv.lock                     # Lock file de uv
 ├── templates/
 │   ├── InformePlantilla.docx   # Plantilla Word para los informes
 │   └── PresentacionPlantilla.pptx  # Plantilla PowerPoint

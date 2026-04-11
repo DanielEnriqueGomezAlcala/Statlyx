@@ -1,0 +1,50 @@
+site_name: TFG - Statlyx
+site_description: Dashboard de análisis de calidad académica universitaria
+
+theme:
+  name: material
+  language: es
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: purple
+
+markdown_extensions:
+  - pymdownx.snippets
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_category_heading: true
+            members_order: source
+            show_if_no_docstring: false
+
+nav:
+  - Inicio: index.md
+  - Referencia de código:
+    - Dashboard: src/dashboard.md
+    - Callbacks: src/callbacks.md
+    - Componentes UI: src/components.md
+    - Gráficas: src/charts.md
+    - Funciones:
+      - Validación de datos: src/functions/check_data.md
+      - Limpieza de datos: src/functions/clean_data.md
+      - Generación de información: src/functions/generate_information.md
+      - LLM: src/functions/llm.md
+      - Informes Word: src/functions/write_word.md
+      - Presentaciones PowerPoint: src/functions/write_presentation.md
+    - Utils: src/utils.md
+    - Constantes y Colores: src/constants.md

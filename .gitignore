@@ -2,3 +2,9 @@
 data
 knime
 notebooks
+.venv
+__pycache__
+*.pyc
+site/
+.ruff_cache/
+.mypy_cache/
