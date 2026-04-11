@@ -4,6 +4,9 @@ from functions.llm.prompts.base import BasePrompt
 
 class PromptTasaGraduacion(BasePrompt):
     def build(self) -> str:
+        """
+        Genera el prompt para el análisis de la tasa de graduación.
+        """
         return textwrap.dedent(f"""\
             <rol>
             Eres un analista experto en calidad educativa universitaria de {self.universidad}.

@@ -1,4 +1,3 @@
-
 from .base import BasePrompt
 from .degree_analisis import (
     PromptTasaExito,

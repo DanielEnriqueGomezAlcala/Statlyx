@@ -10,12 +10,19 @@ class PromptAnalisisPar(BasePrompt):
     limite: Optional[float] = None
 
     def build(self) -> str:
+        """
+        Genera el prompt para el análisis de la tasa de éxito y rendimiento por asignatura.
+        """
         umbrales = []
         if self.objetivo is not None:
             umbrales.append(f"- Objetivo (línea verde): {self.objetivo}%")
         if self.limite is not None:
             umbrales.append(f"- Límite mínimo (línea roja): {self.limite}%")
-        umbrales_str = "\n".join(umbrales) if umbrales else "No se han definido umbrales de referencia."
+        umbrales_str = (
+            "\n".join(umbrales)
+            if umbrales
+            else "No se han definido umbrales de referencia."
+        )
 
         hay_umbrales = bool(umbrales)
         lineas = "3" if hay_umbrales else "2"

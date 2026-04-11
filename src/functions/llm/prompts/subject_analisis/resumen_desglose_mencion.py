@@ -4,6 +4,9 @@ from functions.llm.prompts.base import BasePrompt
 
 class PromptResumenDesgloseMencion(BasePrompt):
     def build(self) -> str:
+        """
+        Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por mención.
+        """
         return textwrap.dedent(f"""\
             <rol>
             Eres un analista experto en calidad educativa universitaria de {self.universidad}.
