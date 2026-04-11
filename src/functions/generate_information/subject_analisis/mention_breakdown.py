@@ -35,26 +35,20 @@ def generate_mention_breakdown(
     target_value=None,
     limit_value=None,
 ):
-    """Genera el análisis desglosado por mención.
-
-    Produce gráficas de líneas y/o tabla para cada tasa académica agrupada por
-    mención y asignatura, junto con un texto analítico generado por IA y una
-    gráfica de resumen global.
+    """
+    Genera las gráficos y texto de las tasas desglosando por mención.
 
     Args:
-        df: DataFrame con los datos de las asignaturas, previamente filtrado
-            para excluir las filas con mención ``"No aplica"``.
-        directory: Directorio donde se guardarán las imágenes de las gráficas.
-        chart_types: Lista de tipos de gráfica a generar. Valores posibles:
-            ``"graficas-lineas"`` y ``"graficas-tablas"``.
-        institucion: Nombre de la institución para los prompts de IA.
-        titulacion: Nombre de la titulación para los prompts de IA.
-        target_value: Valor de la tasa objetivo para las líneas de referencia.
-        limit_value: Valor de la tasa límite para las líneas de referencia.
+        df: DF con los datos de las asignaturas, filtrado para excluir las filas con mención "No aplica".
+        directory: Directorio donde se guardarán las imágenes y texto de las gráficas.
+        chart_types: gráficos seleccionados en el dashboard.
+        institucion: nombre de la institución.
+        titulacion: nombre de la titulación.
+        target_value: valor de la tasa objetivo para las líneas de referencia.
+        limit_value: valor de la tasa límite para las líneas de referencia.
 
     Returns:
-        Diccionario con claves ``resume_chart_path``, ``resume_text`` y ``breakdown``
-        (lista de menciones con tasas anidadas).
+        JSON con los gráficos y texto de las tasas desglosadas por mención.
     """
     breakdown_data: dict[str, Any] = {
         "resume_text": None,
@@ -64,11 +58,13 @@ def generate_mention_breakdown(
     line_chart = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
 
-    for mention, df_mention in df.groupby("Mencion", observed=True):
+    for mention, df_mention in df.groupby(
+        "Mencion", observed=True
+    ):  # Se agrupan los datos por mención
         logger.info("Mention breakdown — mención: %s", mention)
         mention_data: dict[str, Any] = {"name": mention, "rates": []}
 
-        for rate_col, rate_name in TASAS.items():
+        for rate_col, rate_name in TASAS.items():  # Se agrupan los datos por tasa
             if rate_col not in df_mention.columns:
                 continue
 
@@ -77,10 +73,12 @@ def generate_mention_breakdown(
             if df_rate.empty:
                 continue
 
-            chart_name = f"{mention}_{rate_col}".replace(" ", "_").replace("/", "-")
+            chart_name = f"{mention}_{rate_col}".replace(" ", "_").replace(
+                "/", "-"
+            )  # Nombre que se le pone al archivo con el gráfico
             tasa_data: dict[str, Any] = {"name": rate_name, "text": None}
 
-            if line_chart:
+            if line_chart:  # Se genera el gráfico de líneas
                 fig = static_chart_lines(
                     df_rate,
                     rate_col,
@@ -91,7 +89,7 @@ def generate_mention_breakdown(
                 save_chart_image(fig, img_path, border=6)
                 tasa_data["line_chart_path"] = img_path
 
-            if table_chart:
+            if table_chart:  # Se genera el gráfico de tabla
                 fig = static_chart_table(df_rate, rate_col)
                 img_path = os.path.join(directory, f"graf_{chart_name}_table.png")
                 save_chart_image(fig, img_path)
@@ -106,22 +104,26 @@ def generate_mention_breakdown(
             )
             pivot.columns = [str(c) for c in pivot.columns]
             pivot.index.name = "Asignatura"
-            prompt = PromptAnalisisPar(
-                universidad=institucion,
-                titulacion=titulacion,
-                contexto_grupo=f"Mención: {mention}",
-                tasa_nombre=TASAS[rate_col],
-                objetivo=target_value,
-                limite=limit_value,
-                datos=pivot.to_string(),
-            ).build()
-            tasa_data["text"] = generate_text(prompt)
+            prompt = (
+                PromptAnalisisPar(  # Se genera el prompt para el análisis de la tasa
+                    universidad=institucion,
+                    titulacion=titulacion,
+                    contexto_grupo=f"Mención: {mention}",
+                    tasa_nombre=TASAS[rate_col],
+                    objetivo=target_value,
+                    limite=limit_value,
+                    datos=pivot.to_string(),
+                ).build()
+            )
+            tasa_data["text"] = generate_text(prompt)  # Se genera el texto de la tasa
 
-            mention_data["rates"].append(tasa_data)
+            mention_data["rates"].append(tasa_data)  # Se agrega la tasa a la mención
 
-        breakdown_data["breakdown"].append(mention_data)
+        breakdown_data["breakdown"].append(
+            mention_data
+        )  # Se agrega la mención a la lista de menciones
 
-    # Resume
+    # Se genera el resumen de las tasas de éxito y rendimiento por mención
     df_agrupado = (
         df[["Mencion", "Tasa_Exito", "Tasa_Rendimiento"]]
         .groupby("Mencion")[["Tasa_Exito", "Tasa_Rendimiento"]]
@@ -129,14 +131,16 @@ def generate_mention_breakdown(
         .reset_index()
     )
 
-    prompt = PromptResumenDesgloseMencion(
+    prompt = PromptResumenDesgloseMencion(  # Se genera el prompt para el análisis del resumen
         universidad=institucion,
         titulacion=titulacion,
         datos=df_agrupado.to_string(index=False),
     ).build()
-    breakdown_data["resume_text"] = generate_text(prompt)
+    breakdown_data["resume_text"] = generate_text(
+        prompt
+    )  # Se genera el texto del resumen
 
-    fig = static_chart_bars_breakdown_resume(
+    fig = static_chart_bars_breakdown_resume(  # Se genera el gráfico de barras del resumen
         df_agrupado, "Resumen de Medias por Mención"
     )
     img_path = os.path.join(directory, "graf_resumen_medias_mencion.png")

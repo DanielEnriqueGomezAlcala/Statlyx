@@ -35,25 +35,20 @@ def generate_tipology_breakdown(
     target_value=None,
     limit_value=None,
 ):
-    """Genera el análisis desglosado por tipología de asignatura.
-
-    Produce gráficas de líneas y/o tabla para cada tasa académica agrupada por
-    curso y tipología, junto con un texto analítico generado por IA y una gráfica
-    de resumen global.
+    """
+    Genera las gráficos y texto de las tasas desglosando por tipología.
 
     Args:
-        df: DataFrame con los datos de las asignaturas.
-        directory: Directorio donde se guardarán las imágenes de las gráficas.
-        chart_types: Lista de tipos de gráfica a generar. Valores posibles:
-            ``"graficas-lineas"`` y ``"graficas-tablas"``.
-        institucion: Nombre de la institución para los prompts de IA.
-        titulacion: Nombre de la titulación para los prompts de IA.
-        target_value: Valor de la tasa objetivo para las líneas de referencia.
-        limit_value: Valor de la tasa límite para las líneas de referencia.
+        df: DF con los datos de las asignaturas.
+        directory: Directorio donde se guardarán las imágenes y texto de las gráficas.
+        chart_types: gráficos seleccionados en el dashboard.
+        institucion: nombre de la institución.
+        titulacion: nombre de la titulación.
+        target_value: valor de la tasa objetivo para las líneas de referencia.
+        limit_value: valor de la tasa límite para las líneas de referencia.
 
     Returns:
-        Diccionario con claves ``resume_chart_path``, ``resume_text`` y ``breakdown``
-        (lista de cursos con tipologías y tasas anidadas).
+        JSON con los gráficos y texto de las tasas desglosadas por tipología.
     """
     breakdown_data: dict[str, Any] = {
         "resume_text": None,
@@ -63,16 +58,20 @@ def generate_tipology_breakdown(
     line_chart = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
 
-    for curso, df_curso in df.groupby("Curso", observed=True):
+    for curso, df_curso in df.groupby(
+        "Curso", observed=True
+    ):  # Se agrupan los datos por curso
         curso_nombre = CURSOS.get(curso, str(curso))
         logger.info("Tipology breakdown — curso: %s", curso_nombre)
         course_data: dict[str, Any] = {"name": curso_nombre, "tipologies": []}
 
-        for tipologia, df_tipologia in df_curso.groupby("Tipologia", observed=True):
+        for tipologia, df_tipologia in df_curso.groupby(
+            "Tipologia", observed=True
+        ):  # Se agrupan los datos por tipología
             tipologia_nombre = TIPOLOGIAS.get(tipologia, str(tipologia))
             tipologia_data: dict[str, Any] = {"name": tipologia_nombre, "rates": []}
 
-            for rate_col, rate_name in TASAS.items():
+            for rate_col, rate_name in TASAS.items():  # Se agrupan los datos por tasa
                 if rate_col not in df_tipologia.columns:
                     continue
 
@@ -81,12 +80,12 @@ def generate_tipology_breakdown(
                 if df_rate.empty:
                     continue
 
-                chart_name = f"{curso_nombre}_{tipologia}_{rate_col}".replace(
+                chart_name = f"{curso_nombre}_{tipologia}_{rate_col}".replace(  # Nombre que se le pone al archivo con el gráfico
                     " ", "_"
                 ).replace("/", "-")
                 tasa_data: dict[str, Any] = {"name": rate_name, "text": None}
 
-                if line_chart:
+                if line_chart:  # Se genera el gráfico de líneas
                     fig = static_chart_lines(
                         df_rate,
                         rate_col,
@@ -97,7 +96,7 @@ def generate_tipology_breakdown(
                     save_chart_image(fig, img_path, border=6)
                     tasa_data["line_chart_path"] = img_path
 
-                if table_chart:
+                if table_chart:  # Se genera el gráfico de tabla
                     fig = static_chart_table(df_rate, rate_col)
                     img_path = os.path.join(directory, f"graf_{chart_name}_table.png")
                     save_chart_image(fig, img_path)
@@ -115,7 +114,7 @@ def generate_tipology_breakdown(
                 )
                 pivot.columns = [str(c) for c in pivot.columns]
                 pivot.index.name = "Asignatura"
-                prompt = PromptAnalisisPar(
+                prompt = PromptAnalisisPar(  # Se genera el prompt para el análisis de la tasa
                     universidad=institucion,
                     titulacion=titulacion,
                     contexto_grupo=f"{curso_nombre} – {tipologia_nombre}",
@@ -124,15 +123,23 @@ def generate_tipology_breakdown(
                     limite=limit_value,
                     datos=pivot.to_string(),
                 ).build()
-                tasa_data["text"] = generate_text(prompt)
+                tasa_data["text"] = generate_text(
+                    prompt
+                )  # Se genera el texto de la tasa
 
-                tipologia_data["rates"].append(tasa_data)
+                tipologia_data["rates"].append(
+                    tasa_data
+                )  # Se agrega la tasa a la tipología
 
-            course_data["tipologies"].append(tipologia_data)
+            course_data["tipologies"].append(
+                tipologia_data
+            )  # Se agrega la tipología a la lista de tipologías
 
-        breakdown_data["breakdown"].append(course_data)
+        breakdown_data["breakdown"].append(
+            course_data
+        )  # Se agrega el curso a la lista de cursos
 
-    # Resume
+    # Se genera el resumen de las tasas de éxito y rendimiento por tipología
     df_agrupado = (
         df[["Tipologia", "Tasa_Exito", "Tasa_Rendimiento"]]
         .groupby("Tipologia")[["Tasa_Exito", "Tasa_Rendimiento"]]
@@ -140,14 +147,16 @@ def generate_tipology_breakdown(
         .reset_index()
     )
 
-    prompt = PromptResumenDesgloseTipologia(
+    prompt = PromptResumenDesgloseTipologia(  # Se genera el prompt para el análisis del resumen
         universidad=institucion,
         titulacion=titulacion,
         datos=df_agrupado.to_string(index=False),
     ).build()
-    breakdown_data["resume_text"] = generate_text(prompt)
+    breakdown_data["resume_text"] = generate_text(
+        prompt
+    )  # Se genera el texto del resumen
 
-    fig = static_chart_bars_breakdown_resume(
+    fig = static_chart_bars_breakdown_resume(  # Se genera el gráfico de barras del resumen
         df_agrupado, "Resumen de Medias por Tipología"
     )
     img_path = os.path.join(directory, "graf_resumen_medias_tipologia.png")
