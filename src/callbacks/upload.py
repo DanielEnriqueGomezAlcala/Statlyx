@@ -18,18 +18,18 @@ def validate_file(contents, filename, header, check_fn):
     """Decodifica y valida un archivo Excel subido desde la interfaz.
 
     Args:
-        contents: Contenido del archivo en formato base64 (data URI de Dash).
+        contents: Contenido del archivo en formato base64 -> así viene el archivo cuando se sube por el dashboard.
         filename: Nombre del archivo mostrado en el badge.
         header: Índice de la fila que contiene las cabeceras.
         check_fn: Función de validación que recibe un DataFrame y lanza
-            ``ValueError`` si no es válido.
+            ValueError si no es válido.
 
     Returns:
-        Tupla ``(df, badge, error)`` donde ``df`` es el DataFrame parseado
-        (o ``None`` si falló), ``badge`` es el componente visual de estado
-        y ``error`` es el mensaje de error (o ``None`` si fue exitoso).
+        df: DF parseado.
+        badge: Componente visual de estado.
+        error: Mensaje de error.
     """
-    if contents is None:
+    if contents is None:  # Si esta vacio se retorna badge pendiente
         return (
             None,
             dmc.Badge("Pendiente", color="gray", variant="light", size="sm"),
@@ -37,16 +37,16 @@ def validate_file(contents, filename, header, check_fn):
         )
     try:
         df = decode_excel(contents, header)
-        check_fn(df)
+        check_fn(df)  # Se valida que el df sea valido
         return (
             df,
-            dmc.Badge(f"✓ {filename}", color="green", variant="light", size="sm"),
+            dmc.Badge(f"{filename}", color="green", variant="light", size="sm"),
             None,
         )
     except ValueError as e:
         return (
             None,
-            dmc.Badge(f"✗ {filename}", color="red", variant="light", size="sm"),
+            dmc.Badge(f" Error: {filename}", color="red", variant="light", size="sm"),
             str(e),
         )
 
@@ -90,18 +90,14 @@ def register_callbacks(app):
         filename_conv,
         filename_adicional,
     ):
-        """Valida, limpia y almacena los archivos subidos por el usuario.
-
-        Callback de Dash disparado cuando el usuario sube uno o más archivos.
-        Valida cada archivo, los combina en DataFrames y actualiza el estado
-        global de la aplicación junto con los controles de filtro.
+        """Valida, limpia y almacena los archivos subidos. Se llama cuando se sube un archivo
 
         Args:
-            contents_t1: Contenido base64 de la tabla 1 (tipología y curso).
-            contents_t2: Contenido base64 de la tabla 2 (tasas por asignatura).
-            contents_t4: Contenido base64 de la tabla 4 (indicadores de titulación).
-            contents_conv: Contenido base64 de la tabla de convocatorias.
-            contents_adicional: Contenido base64 de la tabla auxiliar (cuatrimestre y mención).
+            contents_t1: Contenido base64 de la tabla 1 (datos de asignaturas).
+            contents_t2: Contenido base64 de la tabla 2 (datos de resultados de asignaturas).
+            contents_t4: Contenido base64 de la tabla 4 (datos de indicadores de titulación).
+            contents_conv: Contenido base64 de la tabla de convocatorias (datos de convocatorias).
+            contents_adicional: Contenido base64 de la tabla auxiliar (datos adicionales de las asignaturas).
             filename_t1: Nombre del archivo de la tabla 1.
             filename_t2: Nombre del archivo de la tabla 2.
             filename_t4: Nombre del archivo de la tabla 4.
@@ -124,10 +120,27 @@ def register_callbacks(app):
             contents_conv, filename_conv, 0, check_table_call
         )
 
-        badges = [badge_t1, badge_t2, badge_t4, badge_conv, badge_adicional]
+        badges = [
+            badge_t1,
+            badge_t2,
+            badge_t4,
+            badge_conv,
+            badge_adicional,
+        ]  # badges de los archivos subidos
 
         def empty_return(msg):
-            return [None, None, None, None, *badges, msg, None, None, [], []]
+            return [
+                None,
+                None,
+                None,
+                None,
+                *badges,
+                msg,
+                None,
+                None,
+                [],
+                [],
+            ]  # se retorna None para los archivos que faltan
 
         errors = {
             k: v
@@ -148,7 +161,7 @@ def register_callbacks(app):
             )
             return empty_return(msg)
 
-        pending = sum(
+        pending = sum(  # se cuenta el numero de archivos que faltan por subir
             1
             for c in [
                 contents_t1,
@@ -159,7 +172,9 @@ def register_callbacks(app):
             ]
             if c is None
         )
-        if any(df is None for df in [tabla_1, tabla_2, tabla_4, tabla_aux, tabla_conv]):
+        if any(
+            df is None for df in [tabla_1, tabla_2, tabla_4, tabla_aux, tabla_conv]
+        ):  # si algun archivo esta vacio se retorna alerta
             msg = dmc.Alert(
                 f"Faltan {pending} archivo{'s' if pending != 1 else ''} por subir",
                 color="gray",
@@ -168,24 +183,32 @@ def register_callbacks(app):
             return empty_return(msg)
 
         try:
-            df_t1t2 = clean_data_t1t2(tabla_1, tabla_2, tabla_aux)
-            df_t4 = clean_data_t4(tabla_4)
-            df_conv = clean_data_call(tabla_conv, tabla_aux)
+            df_t1t2 = clean_data_t1t2(
+                tabla_1, tabla_2, tabla_aux
+            )  # Se limpian los datos de las tablas 1, 2 y auxiliar y se unen en un único DF
+            df_t4 = clean_data_t4(
+                tabla_4
+            )  # Se limpian los datos de la tabla 4 y se transponen
+            df_conv = clean_data_call(
+                tabla_conv, tabla_aux
+            )  # Se limpian los datos de la tabla de convocatorias y se unen con la tabla auxiliar
 
-            start_years = df_t1t2["Anio"].dropna().str.extract(r"(\d+)")[0].astype(int)
+            start_years = (
+                df_t1t2["Anio"].dropna().str.extract(r"(\d+)")[0].astype(int)
+            )  # Extraemos años disponibles para el filtro
             min_year = dt(int(start_years.min()), 1, 1)
             max_year = dt(int(start_years.max()), 12, 31)
 
-            tipos = [
+            tipos = [  # Extraemos las tipologias disponibles para el filtro
                 {"value": v, "label": v}
                 for v in sorted(df_t1t2["Tipologia"].dropna().unique())
             ]
-            cursos = [
+            cursos = [  # Extraemos los cursos disponibles para el filtro
                 {"value": str(v), "label": str(v)}
                 for v in sorted(df_t1t2["Curso"].dropna().unique())
             ]
 
-            msg = dmc.Alert(
+            msg = dmc.Alert(  # Se muestra un mensaje de exito si se procesa y todo va bien
                 f"Datos procesados correctamente ({len(df_t1t2)} filas)",
                 color="green",
                 title="Éxito",
