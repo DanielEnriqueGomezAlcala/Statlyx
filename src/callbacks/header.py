@@ -2,6 +2,9 @@ from dash import Input, Output
 
 
 def register_callbacks(app):
+    """
+    Scrolls a la sección correspondiente cuando se selecciona un tab en el header.
+    """
     app.clientside_callback(
         """
         function(tab_value) {
@@ -15,6 +18,6 @@ def register_callbacks(app):
             return tab_value;
         }
         """,
-        Output('scroll-trigger', 'data'),
-        Input('navigation-tabs', 'value'),
+        Output("scroll-trigger", "data"),
+        Input("navigation-tabs", "value"),
     )
