@@ -2,7 +2,7 @@ import os
 import tempfile
 
 from utils.logger import get_logger
-from functions.llm.llm import clear_llm_cache
+from functions.llm import clear_llm_cache
 
 logger = get_logger(__name__)
 

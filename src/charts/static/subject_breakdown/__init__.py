@@ -1,4 +1,4 @@
-from charts.static.tipology_breakdown.resume_chart import (
+from charts.static.subject_breakdown.resume_chart import (
     static_chart_bars_breakdown_resume,
 )
 

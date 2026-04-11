@@ -1,10 +1,13 @@
 import pandas as pd
 import os
+from typing import Any
 
 # graphs
 from charts.static.shared.line_chart import static_chart_lines
 from charts.static.shared.table_chart import static_chart_table
-from charts.static.subject_breakdown.resume_chart import static_chart_bars_breakdown_resume
+from charts.static.subject_breakdown.resume_chart import (
+    static_chart_bars_breakdown_resume,
+)
 
 # utils
 from utils.image import save_chart_image
@@ -12,7 +15,10 @@ from utils.logger import get_logger
 
 # LLM
 from functions.llm.llm import generate_text
-from functions.llm.prompts.subject_analisis import PromptResumenDesgloseCurso, PromptAnalisisPar
+from functions.llm.prompts.subject_analisis import (
+    PromptResumenDesgloseCurso,
+    PromptAnalisisPar,
+)
 
 # constants
 from constants import CURSOS, TASAS_SUBJECT as TASAS, CUATRIMESTRES
@@ -20,7 +26,15 @@ from constants import CURSOS, TASAS_SUBJECT as TASAS, CUATRIMESTRES
 logger = get_logger(__name__)
 
 
-def generate_subject_breakdown(df: pd.DataFrame, directory: str, chart_types: list[str], institucion: str = "", titulacion: str = "", target_value=None, limit_value=None):
+def generate_subject_breakdown(
+    df: pd.DataFrame,
+    directory: str,
+    chart_types: list[str],
+    institucion: str = "",
+    titulacion: str = "",
+    target_value=None,
+    limit_value=None,
+):
     """Genera el análisis desglosado por curso y cuatrimestre.
 
     Produce gráficas de líneas y/o tabla para cada tasa académica agrupada por
@@ -41,54 +55,73 @@ def generate_subject_breakdown(df: pd.DataFrame, directory: str, chart_types: li
         Diccionario con claves ``resume_chart_path``, ``resume_text`` y ``breakdown``
         (lista de cursos con cuatrimestres y tasas anidadas).
     """
-    breakdown_data = {
-        'resume_text': None,
-        'breakdown': [],
+    breakdown_data: dict[str, Any] = {
+        "resume_text": None,
+        "breakdown": [],
     }
 
     line_chart = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
 
-    for curso, df_curso in df.groupby('Curso', observed=True):
+    for curso, df_curso in df.groupby("Curso", observed=True):
         curso_nombre = CURSOS.get(curso, str(curso))
         logger.info("Subject breakdown — curso: %s", curso_nombre)
-        course_data = {'name': curso_nombre, 'quarter': []}
+        course_data: dict[str, Any] = {"name": curso_nombre, "quarter": []}
 
-        for cuatrimestre, df_cuatrimestre in df_curso.groupby('Cuatrimestre', observed=True):
+        for cuatrimestre, df_cuatrimestre in df_curso.groupby(
+            "Cuatrimestre", observed=True
+        ):
             cuatrimestre_nombre = CUATRIMESTRES.get(cuatrimestre, str(cuatrimestre))
-            cuatrimestre_data = {'name': cuatrimestre_nombre, 'rates': []}
+            cuatrimestre_data: dict[str, Any] = {
+                "name": cuatrimestre_nombre,
+                "rates": [],
+            }
 
             for rate_col, rate_name in TASAS.items():
                 if rate_col not in df_cuatrimestre.columns:
                     continue
 
-                df_rate = df_cuatrimestre[['Asignatura', 'Anio', rate_col]].dropna().copy()
-                df_rate = df_rate.sort_values('Anio')
+                df_rate = (
+                    df_cuatrimestre[["Asignatura", "Anio", rate_col]].dropna().copy()
+                )
+                df_rate = df_rate.sort_values("Anio")
                 if df_rate.empty:
                     continue
 
-                chart_name = f"{curso_nombre}_{cuatrimestre}_{rate_col}".replace(" ", "_").replace("/", "-")
-                tasa_data = {'name': rate_name, 'text': None}
+                chart_name = f"{curso_nombre}_{cuatrimestre}_{rate_col}".replace(
+                    " ", "_"
+                ).replace("/", "-")
+                tasa_data: dict[str, Any] = {"name": rate_name, "text": None}
 
                 if line_chart:
-                    fig = static_chart_lines(df_rate, rate_col, target_value=target_value, limit_value=limit_value)
+                    fig = static_chart_lines(
+                        df_rate,
+                        rate_col,
+                        target_value=target_value,
+                        limit_value=limit_value,
+                    )
                     img_path = os.path.join(directory, f"graf_{chart_name}_line.png")
                     save_chart_image(fig, img_path, border=6)
-                    tasa_data['line_chart_path'] = img_path
+                    tasa_data["line_chart_path"] = img_path
 
                 if table_chart:
                     fig = static_chart_table(df_rate, rate_col)
                     img_path = os.path.join(directory, f"graf_{chart_name}_table.png")
                     save_chart_image(fig, img_path)
-                    tasa_data['table_chart_path'] = img_path
+                    tasa_data["table_chart_path"] = img_path
 
                 pivot = (
-                    df_rate.pivot_table(index='Asignatura', columns='Anio', values=rate_col, aggfunc='mean')
+                    df_rate.pivot_table(
+                        index="Asignatura",
+                        columns="Anio",
+                        values=rate_col,
+                        aggfunc="mean",
+                    )
                     .round(1)
-                    .fillna('')
+                    .fillna("")
                 )
                 pivot.columns = [str(c) for c in pivot.columns]
-                pivot.index.name = 'Asignatura'
+                pivot.index.name = "Asignatura"
                 prompt = PromptAnalisisPar(
                     universidad=institucion,
                     titulacion=titulacion,
@@ -98,28 +131,34 @@ def generate_subject_breakdown(df: pd.DataFrame, directory: str, chart_types: li
                     limite=limit_value,
                     datos=pivot.to_string(),
                 ).build()
-                tasa_data['text'] = generate_text(prompt)
+                tasa_data["text"] = generate_text(prompt)
 
-                cuatrimestre_data['rates'].append(tasa_data)
+                cuatrimestre_data["rates"].append(tasa_data)
 
-            course_data['quarter'].append(cuatrimestre_data)
+            course_data["quarter"].append(cuatrimestre_data)
 
-        breakdown_data['breakdown'].append(course_data)
+        breakdown_data["breakdown"].append(course_data)
 
     # Resume
-    df_resume = df[['Curso', 'Cuatrimestre', 'Tasa_Exito', 'Tasa_Rendimiento']]
-    df_agrupado = df_resume.groupby(['Curso', 'Cuatrimestre'])[['Tasa_Exito', 'Tasa_Rendimiento']].mean().reset_index()
+    df_resume = df[["Curso", "Cuatrimestre", "Tasa_Exito", "Tasa_Rendimiento"]]
+    df_agrupado = (
+        df_resume.groupby(["Curso", "Cuatrimestre"])[["Tasa_Exito", "Tasa_Rendimiento"]]
+        .mean()
+        .reset_index()
+    )
 
     prompt = PromptResumenDesgloseCurso(
         universidad=institucion,
         titulacion=titulacion,
         datos=df_agrupado.to_string(index=False),
     ).build()
-    breakdown_data['resume_text'] = generate_text(prompt)
+    breakdown_data["resume_text"] = generate_text(prompt)
 
-    fig = static_chart_bars_breakdown_resume(df_agrupado, "Resumen de Medias por Curso y Cuatrimestre")
+    fig = static_chart_bars_breakdown_resume(
+        df_agrupado, "Resumen de Medias por Curso y Cuatrimestre"
+    )
     img_path = os.path.join(directory, "graf_resumen_medias_curso_cuatrimestre.png")
     save_chart_image(fig, img_path, width=1200)
-    breakdown_data['resume_chart_path'] = img_path
+    breakdown_data["resume_chart_path"] = img_path
 
     return breakdown_data
