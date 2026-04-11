@@ -7,83 +7,91 @@ from constants import CONVOCATORIAS_ORDEN
 
 
 def static_chart_bars_breakdown_resume(df, titulo_grafica):
-    '''
+    """
     Genera gráfico de resumen de tasas de éxito y eficiencia por convocatoria.
 
-    Argumentos:
+    Args:
         df: DataFrame con los datos de las convocatorias.
-    '''
-    df_medias = df.dropna(subset=['Tasa_Eficiencia', 'Tasa_Exito'], how='all').copy()
-    df_medias['Convocatoria'] = pd.Categorical(df_medias['Convocatoria'], categories=CONVOCATORIAS_ORDEN, ordered=True)
-    df_medias = df_medias.sort_values(['Curso', 'Convocatoria'])
-    etiquetas_x = df_medias['Curso'].astype(str) + ' – ' + df_medias['Convocatoria'].astype(str)
+    """
+    df_medias = df.dropna(
+        subset=["Tasa_Eficiencia", "Tasa_Exito"], how="all"
+    ).copy()  # Se eliminan las filas con valores nulos
+    df_medias["Convocatoria"] = pd.Categorical(
+        df_medias["Convocatoria"], categories=CONVOCATORIAS_ORDEN, ordered=True
+    )  # Se ordenan las convocatorias
+    df_medias = df_medias.sort_values(["Curso", "Convocatoria"])  # Se ordenan
+    etiquetas_x = (
+        df_medias["Curso"].astype(str) + " – " + df_medias["Convocatoria"].astype(str)
+    )  # Se crean las etiquetas para el eje x
 
     fig = go.Figure()
 
-    if 'Tasa_Exito' in df_medias.columns:
-        fig.add_trace(go.Bar(
-            x=etiquetas_x,
-            y=df_medias['Tasa_Exito'],
-            name='Media Tasa de Éxito',
-            marker_color=COLORS['primary'],
-            text=df_medias['Tasa_Exito'].round(2).astype(str) + '%',
-            textposition='outside',
-            textfont=dict(size=18),
-            hovertemplate='Curso: %{x}<br>Éxito: %{y:.2f}%<extra></extra>'
-        ))
+    if "Tasa_Exito" in df_medias.columns:  # Se añade la traza para la tasa de éxito
+        fig.add_trace(
+            go.Bar(
+                x=etiquetas_x,
+                y=df_medias["Tasa_Exito"],
+                name="Media Tasa de Éxito",
+                marker_color=COLORS["primary"],
+                text=df_medias["Tasa_Exito"].round(2).astype(str) + "%",
+                textposition="outside",
+                textfont=dict(size=18),
+                hovertemplate="Curso: %{x}<br>Éxito: %{y:.2f}%<extra></extra>",
+            )
+        )
 
-    if 'Tasa_Eficiencia' in df_medias.columns:
-        fig.add_trace(go.Bar(
-            x=etiquetas_x,
-            y=df_medias['Tasa_Eficiencia'],
-            name='Media Tasa de Eficiencia',
-            marker_color=COLORS['secondary'],
-            text=df_medias['Tasa_Eficiencia'].round(2).astype(str) + '%',
-            textposition='outside',
-            textfont=dict(size=18),
-            hovertemplate='Curso: %{x}<br>Eficiencia: %{y:.2f}%<extra></extra>'
-        ))
+    if (
+        "Tasa_Eficiencia" in df_medias.columns
+    ):  # Se añade la traza para la tasa de eficiencia
+        fig.add_trace(
+            go.Bar(
+                x=etiquetas_x,
+                y=df_medias["Tasa_Eficiencia"],
+                name="Media Tasa de Eficiencia",
+                marker_color=COLORS["secondary"],
+                text=df_medias["Tasa_Eficiencia"].round(2).astype(str) + "%",
+                textposition="outside",
+                textfont=dict(size=18),
+                hovertemplate="Curso: %{x}<br>Eficiencia: %{y:.2f}%<extra></extra>",
+            )
+        )
 
-    fig.update_layout(
+    fig.update_layout(  # Layout de la grafica
         showlegend=True,
-        font=dict(size=18, color='black'),
-        title=dict(
-            text=titulo_grafica,
-            x=0.5,
-            font=dict(size=28, color='black')
-        ),
-        barmode='group',
-        plot_bgcolor='white',
+        font=dict(size=18, color="black"),
+        title=dict(text=titulo_grafica, x=0.5, font=dict(size=28, color="black")),
+        barmode="group",
+        plot_bgcolor="white",
         legend=dict(
             orientation="v",
             yanchor="top",
             y=-2,
             xanchor="center",
             x=0.5,
-            font=dict(size=20)
+            font=dict(size=20),
         ),
-        margin=dict(r=50, t=100, l=100, b=100)
+        margin=dict(r=50, t=100, l=100, b=100),
     )
 
-    fig.update_xaxes(
+    fig.update_xaxes(  # Layout del eje x
         tickangle=-45,
         showgrid=False,
-        linecolor='black',
-        ticks='outside',
+        linecolor="black",
+        ticks="outside",
         tickfont=dict(size=20),
-        type='category',
-        categoryorder='array',
-        categoryarray=list(etiquetas_x.values)
+        type="category",
+        categoryorder="array",
+        categoryarray=list(etiquetas_x.values),
     )
 
-    fig.update_yaxes(
+    fig.update_yaxes(  # Layout del eje y
         range=[0, 115],
         showgrid=True,
-        gridcolor='lightgray',
-        linecolor='black',
+        gridcolor="lightgray",
+        linecolor="black",
         ticksuffix="%",
         tickformat=".1f",
-        tickfont=dict(size=20)
+        tickfont=dict(size=20),
     )
 
     return fig
