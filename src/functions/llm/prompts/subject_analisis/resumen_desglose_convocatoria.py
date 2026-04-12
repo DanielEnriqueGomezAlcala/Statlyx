@@ -1,8 +1,16 @@
+"""
+Prompt para el resumen del desglose por convocatoria a nivel de asignatura.
+"""
+
 import textwrap
 from functions.llm.prompts.base import BasePrompt
 
 
 class PromptResumenDesgloseConvocatoria(BasePrompt):
+    """
+    Prompt para analizar el resumen de las tasas de eficiencia y éxito por convocatoria.
+    """
+
     def build(self) -> str:
         """
         Genera el prompt para el análisis del resumen de las tasas de eficiencia y éxito por convocatoria.

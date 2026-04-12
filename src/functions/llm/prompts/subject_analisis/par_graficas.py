@@ -1,9 +1,17 @@
+"""
+Prompt para el análisis por par de gráficas de tasa de éxito y rendimiento a nivel de asignatura.
+"""
+
 import textwrap
 from typing import Optional
 from functions.llm.prompts.base import BasePrompt
 
 
 class PromptAnalisisPar(BasePrompt):
+    """
+    Prompt para analizar tasas por par de gráficas.
+    """
+
     contexto_grupo: str
     tasa_nombre: str
     objetivo: Optional[float] = None

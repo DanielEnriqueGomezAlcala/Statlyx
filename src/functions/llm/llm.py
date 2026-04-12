@@ -1,3 +1,7 @@
+"""
+Definición de la llamada a la API de OpenAI.
+"""
+
 import hashlib
 import os
 import time

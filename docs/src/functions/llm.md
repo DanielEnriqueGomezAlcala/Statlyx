@@ -1,14 +1,12 @@
 # LLM
 
-## Cliente
-
 ::: functions.llm.llm
 
 ## Prompts — Base
 
 ::: functions.llm.prompts.base
 
-## Prompts — Asignatura
+## Prompts —  A nivel de asignatura
 
 ::: functions.llm.prompts.subject_analisis.par_graficas
 
@@ -20,7 +18,7 @@
 
 ::: functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria
 
-## Prompts — Titulación
+## Prompts — A nivel de titulación
 
 ::: functions.llm.prompts.degree_analisis.tasa_exito
 
