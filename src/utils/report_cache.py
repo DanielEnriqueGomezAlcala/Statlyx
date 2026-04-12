@@ -10,7 +10,8 @@ image_dir: str | None = None
 
 
 def get_image_dir() -> str:
-    """Obtiene o crea el directorio temporal persistente donde se guardan las imágenes del informe.
+    """
+    Obtiene o crea el directorio temporal persistente donde se guardan las imágenes del informe.
 
     Returns:
         Ruta absoluta al directorio de imágenes.
@@ -23,10 +24,8 @@ def get_image_dir() -> str:
 
 
 def clear_cache() -> None:
-    """Invalida el directorio de imágenes y limpia el caché LLM.
-
-    Se llama automáticamente al cambiar los filtros para forzar la regeneración
-    de gráficas en el siguiente informe.
+    """
+    Invalida el directorio de imágenes y limpia el caché de LLM.
     """
     global image_dir
     image_dir = None

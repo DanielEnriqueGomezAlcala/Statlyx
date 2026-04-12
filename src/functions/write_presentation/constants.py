@@ -1,6 +1,13 @@
 from pptx.util import Inches
 
-ENUM_CURSOS = {1: "Primero", 2: "Segundo", 3: "Tercero", 4: "Cuarto", 5: "Quinto", 6: "Sexto"}
+ENUM_CURSOS = {
+    1: "Primero",
+    2: "Segundo",
+    3: "Tercero",
+    4: "Cuarto",
+    5: "Quinto",
+    6: "Sexto",
+}
 ORDEN_CURSOS = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto"]
 
 # Dimensiones estándar 16:9

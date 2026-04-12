@@ -26,22 +26,20 @@ app.layout = dmc.MantineProvider(
         filter_section(),
         preview(),
         report(),
-
         # Estado global de la aplicación
-        dcc.Store(id='stored-t1-t2'),
-        dcc.Store(id='stored-t4'),
-        dcc.Store(id='stored-conv'),
-        dcc.Store(id='stored-adicional'),
-        dcc.Store(id='filtered-t1-t2'),
-        dcc.Store(id='filtered-t4'),
-        dcc.Store(id='filtered-conv'),
-        dcc.Store(id='chart-selector', data=[]),
-        dcc.Store(id='scroll-trigger'),
-
+        dcc.Store(id="stored-t1-t2"),
+        dcc.Store(id="stored-t4"),
+        dcc.Store(id="stored-conv"),
+        dcc.Store(id="stored-adicional"),
+        dcc.Store(id="filtered-t1-t2"),
+        dcc.Store(id="filtered-t4"),
+        dcc.Store(id="filtered-conv"),
+        dcc.Store(id="chart-selector", data=[]),
+        dcc.Store(id="scroll-trigger"),
         # Descargas
         dcc.Download(id="download-report-word"),
         dcc.Download(id="download-report-pptx"),
-    ]
+    ],
 )
 
 header_callbacks.register_callbacks(app)
@@ -50,5 +48,5 @@ filter_callbacks.register_callbacks(app)
 preview_callbacks.register_callbacks(app)
 report_callbacks.register_callbacks(app)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=8050)
