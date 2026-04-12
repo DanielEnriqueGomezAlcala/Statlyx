@@ -16,14 +16,13 @@ class PromptTasaAbandono(BasePrompt):
             Analiza la evolución temporal de la Tasa de Abandono de la titulación "{self.titulacion}".
             La Tasa de Abandono recoge el porcentaje de estudiantes que interrumpen sus estudios sin
             completar la titulación, siendo un indicador crítico de retención y adaptación curricular.
-            Una tendencia decreciente es deseable e indica mejora en la retención del alumnado.
             </contexto>
 
             <instrucciones>
             Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:
-            1. Indica el valor máximo y mínimo con su año exacto, y describe la tendencia general.
+            1. Indica el valor máximo y mínimo con su año exacto, y describe si la tendencia es ascendente o descendente.
             2. Identifica si algún año presenta un pico anómalo y propón una hipótesis explicativa.
-            3. Valora si la tasa es preocupante e indica si requiere medidas de retención.
+            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica.
             Tono académico, directo, sin introducciones genéricas.
             </instrucciones>
 

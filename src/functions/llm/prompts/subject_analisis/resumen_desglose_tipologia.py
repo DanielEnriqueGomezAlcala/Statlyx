@@ -22,10 +22,10 @@ class PromptResumenDesgloseTipologia(BasePrompt):
 
             <instrucciones>
             Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:
-            1. Identifica la tipología con mejores y peores resultados globales en ambas tasas.
-            2. Contrasta Formación Básica/Obligatoria frente a Optativas, e interpreta Prácticas Externas y TFG.
-            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento por tipología e interprétala.
-            4. Valora si la distribución refleja un diseño curricular equilibrado.
+            1. Identifica la tipología con las tasas más altas y la de tasas más bajas en ambas métricas, citando sus valores.
+            2. Contrasta la Tasa de Éxito y Tasa de Rendimiento de Formación Básica/Obligatoria frente a Optativas, y cita los valores de Prácticas Externas y TFG.
+            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento dentro de una misma tipología e indica la diferencia numérica.
+            4. Indica la diferencia numérica entre la tipología con mayor y menor tasa en cada métrica.
             Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 

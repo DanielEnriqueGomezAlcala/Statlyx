@@ -23,7 +23,7 @@ class PromptTasaGraduacion(BasePrompt):
             Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:
             1. Indica el valor máximo y mínimo con su año de cohorte, y describe la tendencia general.
             2. Señala si algún año registra una variación brusca con hipótesis breve (cambio de plan, COVID, etc.).
-            3. Contextualiza si la tasa es adecuada para este tipo de titulación.
+            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.
             Tono académico, directo, sin introducciones genéricas.
             </instrucciones>
 

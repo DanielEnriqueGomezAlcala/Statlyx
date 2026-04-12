@@ -23,7 +23,7 @@ class PromptTasaExito(BasePrompt):
             Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:
             1. Indica el valor máximo y mínimo registrados con su año académico exacto, y describe la tendencia general.
             2. Señala si existe algún año con variación brusca e interpreta la causa probable.
-            3. Evalúa si los niveles son coherentes con los estándares esperados para esta titulación.
+            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.
             Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 
