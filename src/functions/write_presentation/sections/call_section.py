@@ -1,3 +1,7 @@
+"""
+Sección de análisis por convocatoria
+"""
+
 from pptx import Presentation
 
 from functions.write_presentation.slides import (

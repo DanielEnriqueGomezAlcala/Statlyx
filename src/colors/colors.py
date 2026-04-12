@@ -1,3 +1,7 @@
+"""
+Paleta de colores de la aplicación.
+"""
+
 # Paleta de colores de la aplicación
 COLORS = {
     "primary": "#5C068C",

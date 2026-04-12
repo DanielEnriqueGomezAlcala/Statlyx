@@ -1,3 +1,7 @@
+"""
+Generación del análisis de indicadores a nivel de titulación
+"""
+
 import pandas as pd
 import os
 

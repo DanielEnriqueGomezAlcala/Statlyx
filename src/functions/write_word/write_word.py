@@ -1,3 +1,7 @@
+"""
+Función para generar un informe Word a partir de los datos proporcionados.
+"""
+
 from docxtpl import DocxTemplate, InlineImage
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn

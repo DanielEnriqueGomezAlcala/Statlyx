@@ -1,3 +1,7 @@
+"""
+Componente de la sección de previsualización
+"""
+
 from dash import html, dcc
 import dash_mantine_components as dmc
 from colors.colors import COLORS

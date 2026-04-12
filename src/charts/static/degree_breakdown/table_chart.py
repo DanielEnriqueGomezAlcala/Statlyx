@@ -1,3 +1,7 @@
+"""
+Gráfico de tabla estático para el análisis de tasas a nivel de titulación.
+"""
+
 import plotly.graph_objects as go
 import pandas as pd
 from colors.colors import COLOR_HEADER

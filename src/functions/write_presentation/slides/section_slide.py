@@ -1,3 +1,5 @@
+"""Diapositiva separadora de sección de la presentación PPTX."""
+
 from pptx import Presentation
 from pptx.util import Inches
 from pptx.enum.text import PP_ALIGN

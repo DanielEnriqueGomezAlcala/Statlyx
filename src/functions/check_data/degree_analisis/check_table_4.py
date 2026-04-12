@@ -1,3 +1,7 @@
+"""
+Validación de la tabla 4
+"""
+
 import pandas as pd
 
 

@@ -1,3 +1,7 @@
+"""
+Gráfico de tabla estático compartido para el análisis a nivel de asignatura.
+"""
+
 import plotly.graph_objects as go
 import pandas as pd
 from colors.colors import COLOR_HEADER

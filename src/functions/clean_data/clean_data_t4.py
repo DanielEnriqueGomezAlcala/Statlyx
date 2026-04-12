@@ -1,3 +1,8 @@
+"""
+Limpieza y transposición de la tabla T4
+"""
+
+
 def clean_data_t4(tabla_4):
     """Limpia y transforma la tabla 4 de indicadores de titulación.
 

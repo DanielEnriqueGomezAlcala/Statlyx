@@ -1,3 +1,7 @@
+"""
+Funciones auxiliares para insertar texto e imágenes en presentaciones
+"""
+
 import os
 
 from PIL import Image as PILImage
