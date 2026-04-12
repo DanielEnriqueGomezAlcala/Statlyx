@@ -1,3 +1,7 @@
+"""
+Callbacks de carga y validación de archivos.
+"""
+
 from datetime import datetime as dt
 
 from dash import Input, Output, State
@@ -52,6 +56,12 @@ def validate_file(contents, filename, header, check_fn):
 
 
 def register_callbacks(app):
+    """Registra los callbacks de carga de archivos.
+
+    Args:
+        app: Instancia de la aplicación Dash.
+    """
+
     @app.callback(
         Output("stored-t1-t2", "data"),
         Output("stored-t4", "data"),

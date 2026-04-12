@@ -1,3 +1,7 @@
+"""
+Callbacks de previsualización de datos.
+"""
+
 import io
 
 import pandas as pd
@@ -13,6 +17,12 @@ MOSTRAR: dict[str, str] = {}
 
 
 def register_callbacks(app):
+    """Registra los callbacks de previsualización.
+
+    Args:
+        app: Instancia de la aplicación Dash.
+    """
+
     @app.callback(
         Output("data-table-t1t2", "figure"),
         Output("data-table-t4", "figure"),

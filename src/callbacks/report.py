@@ -1,3 +1,7 @@
+"""
+Callbacks de generación de informes.
+"""
+
 import io
 import os
 
@@ -33,6 +37,12 @@ OPCIONES_LLM = {
 
 
 def register_callbacks(app):
+    """Registra los callbacks de generación de informes.
+
+    Args:
+        app: Instancia de la aplicación Dash.
+    """
+
     @app.callback(
         Output("check-titulacion", "disabled"),
         Output({"type": "check-asignatura-item", "index": 0}, "disabled"),

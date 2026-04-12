@@ -18,6 +18,8 @@
 
 ::: functions.llm.prompts.subject_analisis.resumen_desglose_tipologia
 
+::: functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria
+
 ## Prompts — Titulación
 
 ::: functions.llm.prompts.degree_analisis.tasa_exito
@@ -29,7 +31,3 @@
 ::: functions.llm.prompts.degree_analisis.tasa_eficiencia
 
 ::: functions.llm.prompts.degree_analisis.tasa_graduacion
-
-## Prompts — Convocatoria
-
-::: functions.llm.prompts.call_analisis.resumen_desglose_convocatoria
