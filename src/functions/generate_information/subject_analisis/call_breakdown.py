@@ -13,7 +13,7 @@ from utils.logger import get_logger
 
 # LLM
 from functions.llm.llm import generate_text
-from functions.llm.prompts.call_analisis import (
+from functions.llm.prompts.subject_analisis import (
     PromptResumenDesgloseConvocatoria,
     PromptAnalisisPar,
 )
