@@ -24,7 +24,7 @@ class PromptResumenDesgloseCurso(BasePrompt):
             1. Identifica la combinación Curso/Cuatrimestre con las tasas más bajas y más altas globalmente.
             2. Analiza si existe un patrón por curso o cuatrimestre destacable.
             3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e interprétala.
-            4. Valora si la progresión refleja una selección natural o mejora progresiva de competencias.
+            4. Describe si las tasas del último curso son más altas o más bajas que las del primero e indica la diferencia numérica.
             Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 

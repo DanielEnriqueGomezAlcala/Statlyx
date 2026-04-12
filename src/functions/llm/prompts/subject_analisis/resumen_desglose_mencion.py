@@ -22,10 +22,10 @@ class PromptResumenDesgloseMencion(BasePrompt):
 
             <instrucciones>
             Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:
-            1. Identifica la mención con mejores y peores resultados globales en ambas tasas.
-            2. Analiza si la elección vocacional se refleja en mejores métricas de rendimiento.
-            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e interprétala.
-            4. Evalúa si las diferencias entre menciones son sustanciales o marginales.
+            1. Identifica la mención con las tasas más altas y la de tasas más bajas en ambas métricas, citando sus valores.
+            2. Describe si las menciones con las tasas más altas coinciden o difieren de las que tienen las tasas más bajas en cada métrica.
+            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e indica la diferencia numérica.
+            4. Indica la diferencia numérica entre la mención con mayor y menor tasa en cada métrica.
             Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 

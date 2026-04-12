@@ -29,14 +29,14 @@ class PromptAnalisisPar(BasePrompt):
 
         if hay_umbrales:
             instrucciones = (
-                "1. Nombra la asignatura con el valor más alto y la más baja en el último año con sus valores exactos, "
+                "1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año con sus valores exactos, "
                 "indicando cuáles superan el objetivo y cuáles no alcanzan el límite.\n"
-                "2. Señala una observación destacada: tendencia de mejora/caída o brecha significativa entre la mejor y la peor asignatura."
+                "2. Señala una observación destacada: tendencia ascendente o descendente, o diferencia numérica entre la asignatura con el valor más alto y la de valor más bajo."
             )
         else:
             instrucciones = (
                 "1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año, "
-                "citando sus valores exactos y señalando una tendencia o brecha significativa destacada."
+                "citando sus valores exactos y la diferencia numérica entre ambas."
             )
 
         return textwrap.dedent(f"""\

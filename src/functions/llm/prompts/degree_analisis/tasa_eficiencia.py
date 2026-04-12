@@ -24,7 +24,7 @@ class PromptTasaEficiencia(BasePrompt):
             Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:
             1. Indica el valor máximo y mínimo con su año exacto, y describe si la eficiencia mejora o empeora.
             2. Señala si algún año presenta una variación brusca con hipótesis explicativa breve.
-            3. Interpreta si el nivel es coherente con la dificultad esperada y su impacto en los graduados.
+            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.
             Tono académico, directo, sin introducciones genéricas.
             </instrucciones>
 

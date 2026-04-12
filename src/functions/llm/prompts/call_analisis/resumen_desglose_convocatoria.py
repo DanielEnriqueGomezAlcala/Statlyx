@@ -17,15 +17,15 @@ class PromptResumenDesgloseConvocatoria(BasePrompt):
             Los datos muestran la media de Tasa de Eficiencia y Tasa de Éxito por Curso.
             La Tasa de Éxito mide aprobados sobre presentados; la Tasa de Eficiencia relaciona
             los créditos superados con los créditos matriculados totales.
-            Las convocatorias son: Enero (extraordinaria), Marzo, Mayo (ordinaria) y Julio (extraordinaria).
+            Las convocatorias son: Enero, Mayo (ordinaria) y Marzo, Junio, Julio (extraordinaria).
             </contexto>
 
             <instrucciones>
             Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:
             1. Identifica el curso con las tasas más bajas y más altas globalmente.
-            2. Compara convocatorias ordinarias (Mayo) frente a extraordinarias (Enero, Julio).
+            2. Compara convocatorias ordinarias (Enero, Mayo) frente a extraordinarias (Marzo, Junio, Julio).
             3. Señala la mayor brecha entre Tasa de Eficiencia y Tasa de Éxito e interprétala.
-            4. Valora si el patrón refleja dificultad estructural o presentación diferida del alumnado.
+            4. Describe si las tasas de las convocatorias extraordinarias son más altas o más bajas que las de las ordinarias e indica la diferencia numérica.
             Tono académico, directo, sin introducciones ni conclusiones genéricas.
             </instrucciones>
 
