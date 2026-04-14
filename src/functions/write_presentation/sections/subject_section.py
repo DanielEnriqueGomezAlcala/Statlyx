@@ -1,3 +1,7 @@
+"""
+Sección de análisis por asignatura con desglose por curso y cuatrimestre
+"""
+
 from pptx import Presentation
 
 from functions.write_presentation.slides import (

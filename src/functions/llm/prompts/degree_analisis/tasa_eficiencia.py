@@ -1,8 +1,16 @@
+"""
+Prompt para el análisis de la tasa de eficiencia a nivel de titulación.
+"""
+
 import textwrap
 from functions.llm.prompts.base import BasePrompt
 
 
 class PromptTasaEficiencia(BasePrompt):
+    """
+    Prompt para analizar la evolución temporal de la tasa de eficiencia.
+    """
+
     def build(self) -> str:
         """
         Genera el prompt para el análisis de la tasa de eficiencia.

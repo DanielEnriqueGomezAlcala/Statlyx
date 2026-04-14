@@ -1,3 +1,7 @@
+"""
+Constantes globales
+"""
+
 # Posibles cursos que puede tener una titulación
 CURSOS = {
     1: "Primero",

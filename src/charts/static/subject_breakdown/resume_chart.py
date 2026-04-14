@@ -1,3 +1,7 @@
+"""
+Gráfico de barras de resumen de tasas por curso y cuatrimestre.
+"""
+
 import plotly.graph_objects as go
 from colors.colors import COLORS
 

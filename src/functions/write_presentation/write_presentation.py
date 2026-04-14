@@ -1,3 +1,7 @@
+"""
+Función para generar una presentación PowerPoint a partir de los datos proporcionados.
+"""
+
 import os
 import time
 import pandas as pd
@@ -44,6 +48,26 @@ def write_presentation(
     target_value=None,
     limit_value=None,
 ) -> str:
+    """
+    Genera una presentación PowerPoint a partir de los DataFrames proporcionados.
+
+    Args:
+        df: DF con datos de asignaturas.
+        df_t4: DF con datos de indicadores de titulación.
+        df_conv: DF con datos de convocatorias.
+        ruta_plantilla: Ruta absoluta al archivo .pptx de plantilla.
+        directorio: Directorio donde se guardará la presentación generada.
+        chart_selector: Lista de identificadores de sección a incluir.
+        chart_types: Tipos de gráfica a generar para cada sección.
+        institucion: Nombre de la institución.
+        titulacion: Nombre de la titulación.
+        target_value: Valor de la tasa objetivo para las líneas de referencia.
+        limit_value: Valor de la tasa límite para las líneas de referencia.
+
+    Returns:
+        Ruta absoluta al archivo .pptx generado.
+    """
+
     logger.info("Iniciando generación PPTX — secciones: %s", chart_selector)
     t0 = time.time()
     df["Curso"] = df["Curso"].map(ENUM_CURSOS)

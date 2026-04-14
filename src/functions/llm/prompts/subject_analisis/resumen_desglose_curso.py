@@ -1,8 +1,16 @@
+"""
+Prompt para el resumen del desglose por curso y cuatrimestre a nivel de asignatura.
+"""
+
 import textwrap
 from functions.llm.prompts.base import BasePrompt
 
 
 class PromptResumenDesgloseCurso(BasePrompt):
+    """
+    Prompt para analizar el resumen de las tasas de éxito y rendimiento por curso y cuatrimestre.
+    """
+
     def build(self) -> str:
         """
         Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por curso y cuatrimestre.

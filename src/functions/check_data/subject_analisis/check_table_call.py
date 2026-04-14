@@ -1,3 +1,7 @@
+"""
+Validación de la tabla de convocatorias
+"""
+
 import pandas as pd
 
 

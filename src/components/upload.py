@@ -1,3 +1,7 @@
+"""
+Componente de la sección de subida de archivos
+"""
+
 import dash_mantine_components as dmc
 from dash import html
 from components.upload_bar import upload_bar

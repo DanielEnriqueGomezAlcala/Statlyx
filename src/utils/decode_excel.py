@@ -1,3 +1,7 @@
+"""
+Función para decodificar archivos Excel
+"""
+
 import base64
 import io
 

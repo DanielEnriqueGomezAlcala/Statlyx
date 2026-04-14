@@ -1,3 +1,7 @@
+"""
+Callbacks para el filtrado de los datos.
+"""
+
 import io
 
 import pandas as pd
@@ -11,6 +15,12 @@ logger = get_logger(__name__)
 
 
 def register_callbacks(app):
+    """Registra los callbacks de filtrado.
+
+    Args:
+        app: Instancia de la aplicación Dash.
+    """
+
     @app.callback(
         Output("filtered-t1-t2", "data"),
         Output("filtered-t4", "data"),

@@ -1,3 +1,7 @@
+"""
+Sección de análisis por indicadores a nivel de titulación
+"""
+
 from pptx import Presentation
 
 from functions.write_presentation.slides import (

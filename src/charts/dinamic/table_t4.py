@@ -1,3 +1,7 @@
+"""
+Tabla dinámica de datos de titulación.
+"""
+
 import plotly.graph_objects as go
 from colors.colors import COLORS
 

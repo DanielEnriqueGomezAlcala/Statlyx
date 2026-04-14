@@ -1,3 +1,7 @@
+"""
+Gráfico de líneas estático para el análisis de tasas a nivel de titulación.
+"""
+
 import plotly.graph_objects as go
 from colors.colors import CHART_COLORS
 

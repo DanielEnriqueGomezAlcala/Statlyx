@@ -1,3 +1,7 @@
+"""
+Componente de barra de subida de archivos
+"""
+
 import dash_mantine_components as dmc
 from dash import html, dcc
 from dash_iconify import DashIconify

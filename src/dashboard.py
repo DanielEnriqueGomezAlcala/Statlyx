@@ -1,3 +1,7 @@
+"""
+Dashboard de la aplicación. Se define el layout principal y se registran los callbacks de cada módulo.
+"""
+
 import dash
 from dash import dcc
 import dash_mantine_components as dmc

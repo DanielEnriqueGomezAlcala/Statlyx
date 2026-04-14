@@ -1,9 +1,16 @@
+"""
+Callbacks para el header de la aplicación.
+"""
+
 from dash import Input, Output
 
 
 def register_callbacks(app):
     """
-    Scrolls a la sección correspondiente cuando se selecciona un tab en el header.
+    Registra los callbacks para el header de la aplicación.
+
+    Args:
+        app: Instancia de la aplicación Dash.
     """
     app.clientside_callback(
         """

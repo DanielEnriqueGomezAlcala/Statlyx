@@ -1,3 +1,5 @@
+"""Diapositiva de resumen de sección con gráfica y texto."""
+
 from pptx import Presentation
 from pptx.util import Inches
 

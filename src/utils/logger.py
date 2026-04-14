@@ -1,3 +1,7 @@
+"""
+Configuración del logger
+"""
+
 import logging
 import sys
 

@@ -1,3 +1,7 @@
+"""
+Gráfico de líneas estático compartido para el análisis a nivel de asignatura.
+"""
+
 import plotly.graph_objects as go
 from colors.colors import CHART_COLORS
 

@@ -1,8 +1,16 @@
+"""
+Prompt para el resumen del desglose por tipología a nivel de asignatura.
+"""
+
 import textwrap
 from functions.llm.prompts.base import BasePrompt
 
 
 class PromptResumenDesgloseTipologia(BasePrompt):
+    """
+    Prompt para analizar el resumen de las tasas de éxito y rendimiento por tipología.
+    """
+
     def build(self) -> str:
         """
         Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por tipología.

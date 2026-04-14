@@ -1,3 +1,7 @@
+"""
+Gráfico de barras de resumen de tasas por mención.
+"""
+
 import plotly.graph_objects as go
 from colors.colors import COLORS
 

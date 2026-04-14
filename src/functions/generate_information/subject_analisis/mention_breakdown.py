@@ -1,3 +1,7 @@
+"""
+Generación del desglose de tasas por mención
+"""
+
 import pandas as pd
 import os
 from typing import Any

@@ -1,3 +1,7 @@
+"""
+Componente del header
+"""
+
 from dash import html
 import dash_mantine_components as dmc
 from colors.colors import COLORS

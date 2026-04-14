@@ -1,3 +1,7 @@
+"""
+Gestión del directorio temporal de imágenes y caché del informe
+"""
+
 import os
 import tempfile
 

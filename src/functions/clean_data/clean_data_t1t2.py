@@ -1,3 +1,7 @@
+"""
+Limpieza y fusión de las tablas T1, T2 y auxiliar en un único DF
+"""
+
 import pandas as pd
 
 

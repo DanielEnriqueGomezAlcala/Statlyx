@@ -1,3 +1,7 @@
+"""
+Limpieza y fusión de la tabla de convocatorias con la tabla auxiliar
+"""
+
 import pandas as pd
 
 CONVOCATORIAS = {"ENE": "Enero", "MAR": "Marzo", "MAY": "Mayo", "JUL": "Julio"}

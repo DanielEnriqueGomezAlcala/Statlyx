@@ -1,3 +1,7 @@
+"""
+Función para exportar figuras Plotly a PNG y recortar espacios en blanco
+"""
+
 import io
 import os
 from PIL import Image, ImageChops, ImageOps

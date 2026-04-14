@@ -1,3 +1,7 @@
+"""
+Sección de análisis por tipología
+"""
+
 from pptx import Presentation
 
 from functions.write_presentation.slides import (

@@ -1,3 +1,7 @@
+"""
+Constantes para presentaciones
+"""
+
 from pptx.util import Inches
 
 ENUM_CURSOS = {
