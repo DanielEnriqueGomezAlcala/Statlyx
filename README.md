@@ -1,192 +1,175 @@
-# Dashboard de Análisis de Calidad Académica
+<p align="center">
+  <img src="src/assets/logo.jpeg" alt="Statlyx logo" width="180" />
+</p>
 
-Aplicación web interactiva para el análisis de indicadores de calidad académica universitaria. Permite cargar datos de rendimiento, filtrarlos, visualizarlos y generar informes automáticos en formato Word y PowerPoint con análisis de texto generado por IA.
+<h1 align="center">Statlyx</h1>
 
----
+<p align="center">
+  Interactive dashboard for university academic quality analysis — upload data, visualize trends, and generate AI-powered reports in Word and PowerPoint.
+</p>
 
-## Características principales
-
-- **Carga y validación** de tablas de datos académicos (asignaturas, titulación, convocatorias)
-- **Filtrado dinámico** por rango de años, tipología de asignatura y curso
-- **Previsualización tabular** de los datos cargados
-- **Generación de informes Word** con gráficas y análisis de texto vía LLM
-- **Generación de presentaciones PowerPoint** con el mismo contenido
-- **Tres modos de IA**: sin texto, análisis rápido (gpt-4.1-nano) o análisis con razonamiento (gpt-5-nano)
-- **Caché de imágenes y respuestas LLM** para acelerar regeneraciones
-
----
-
-## Requisitos previos
-
-- [uv](https://docs.astral.sh/uv/) (gestor de paquetes y entornos)
-- Clave de API de OpenAI (para la generación de texto con IA)
+<p align="center">
+  <a href="https://github.com/DanielEnriqueGomezAlcala/TFG/actions/workflows/ci.yml"><img src="https://github.com/DanielEnriqueGomezAlcala/TFG/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <img src="https://img.shields.io/badge/python-3.13-blue" alt="Python 3.13" />
+  <img src="https://img.shields.io/badge/license-MIT-purple" alt="MIT License" />
+</p>
 
 ---
 
-## Instalación
+## Overview
 
-### 1. Clonar el repositorio
+Statlyx is a [Dash](https://dash.plotly.com/)-based web application designed for university departments to analyze academic quality indicators. It guides you through a structured workflow: upload institutional Excel datasets, apply dynamic filters, preview results interactively, and export comprehensive reports — with optional AI-generated analysis powered by OpenAI models.
 
-```bash
-git clone <url-del-repositorio>
-cd TFG
+The tool was developed as a Bachelor's Thesis (TFG) project targeting Spanish university quality evaluation processes.
+
+## Features
+
+- **Upload & validate** five structured Excel tables covering subjects, degrees, and exam sessions
+- **Dynamic filtering** by year range, subject typology, and course
+- **Interactive data preview** with sortable, filterable Plotly tables
+- **Word & PowerPoint report generation** from a single dataset, using `.docx`/`.pptx` templates
+- **Three AI modes** — no text, fast analysis (`gpt-4.1-nano`), or deeper reasoning (`gpt-5-nano`)
+- **LLM response caching** (MD5-based) to avoid redundant API calls on regeneration
+- **Five configurable report sections** — toggle each breakdown independently
+- **Static chart export** via Kaleido for embedding publication-ready PNG graphics in reports
+
+## Workflow
+
+```
+1. Upload Excel files  →  2. Apply filters  →  3. Preview data
+                                                        ↓
+                          5. Download report  ←  4. Configure & generate
 ```
 
-### 2. Instalar dependencias
+## Getting started
+
+### Prerequisites
+
+- [uv](https://docs.astral.sh/uv/) — Python package manager
+- Python 3.13
+- An OpenAI API key
+
+### Installation
 
 ```bash
+git clone https://github.com/DanielEnriqueGomezAlcala/TFG.git
+cd TFG
 uv sync
 ```
 
-Esto crea automáticamente el entorno virtual en `.venv` e instala todas las dependencias definidas en `pyproject.toml`.
+`uv sync` automatically creates a `.venv` and installs all dependencies from `pyproject.toml`.
 
-### 3. Configurar variables de entorno
+### Configuration
 
-Copia el archivo de ejemplo y rellena tus credenciales:
+Copy the environment template and fill in your credentials:
 
 ```bash
 cp .env.example .env
 ```
 
-| Variable | Descripción | Requerida |
-|----------|-------------|-----------|
-| `OPENAI_API_KEY` | Clave de API de OpenAI | Sí |
-| `OPENROUTER_API_KEY` | Clave de API de OpenRouter (alternativa) | No |
-| `PROVIDER` | Proveedor activo: `openai` o `openrouter` | No (default: `openai`) |
-| `GENERATE_TEXT` | Activar generación de texto con IA | No (default: `true`) |
-| `MODEL_NAME` | Modelo LLM a usar | No (default: `gpt-4.1-nano`) |
+| Variable | Description | Required | Default |
+|---|---|---|---|
+| `OPENAI_API_KEY` | OpenAI API key | Yes | — |
 
----
+> [!NOTE]
+> If `GENERATE_TEXT=false`, reports are generated with charts only — no API calls are made.
 
-## Ejecución
+### Running the app
 
 ```bash
 uv run python src/dashboard.py
 ```
 
-La aplicación estará disponible en [http://localhost:8050](http://localhost:8050).
+The dashboard is available at **http://localhost:8050**.
 
----
+## Data format
 
-## Archivos de datos requeridos
+The application expects five Excel files. Upload them through the UI in any order.
 
-La aplicación espera cinco archivos Excel con el siguiente contenido:
+| File | Content | Header row |
+|---|---|---|
+| **Tabla 1** | Subject typology and course (`Ass Codnum`, `Tipologia`, `Curso`) | 4 |
+| **Tabla 2** | Subject success and performance rates by year | 4 |
+| **Tabla 4** | Degree indicators by year (success, dropout, efficiency, graduation rates) | 5 |
+| **Convocatorias** | Exam-session rates by subject and group | 0 |
+| **Tabla auxiliar** | Subject semester and specialization (`Código`, `Cuatrimestre`, `Mención`) | 0 |
 
-| Archivo | Descripción | Fila de cabecera |
-|---------|-------------|-----------------|
-| **Tabla 1** | Tipología y curso por asignatura (`Ass Codnum`, `Tipologia`, `Curso`) | 4 |
-| **Tabla 2** | Tasas de rendimiento y éxito por asignatura y año | 4 |
-| **Tabla 4** | Indicadores de titulación por año (tasas de éxito, abandono, eficiencia, graduación) | 5 |
-| **Convocatorias** | Tasas por convocatoria, grupo y asignatura | 0 |
-| **Tabla auxiliar** | Cuatrimestre y mención por asignatura (`Código`, `Cuatrimestre`, `Mención`) | 0 |
+Sample datasets are available under `data/mock-clean-data/` and `data/mock-raw-data/`.
 
----
+## Report sections
 
-## Estructura del proyecto
+Each section can be toggled on or off before generating a report:
+
+| Section | Description |
+|---|---|
+| Degree analysis | Time-series evolution of degree-level quality indicators |
+| Course breakdown | Success and performance rates by course and semester |
+| Typology breakdown | Comparison across subject types (basic, compulsory, optional, TFG, internships) |
+| Specialization breakdown | Analysis by academic track/mention (excludes "No aplica") |
+| Exam-session breakdown | Rates by session (January, March, May, July) and group |
+
+## AI modes
+
+| Mode | Model | Notes |
+|---|---|---|
+| No AI | — | Charts only; no API calls |
+| Fast | `gpt-4.1-nano` | Low latency, economical |
+| Reasoning | `gpt-5-nano` | Higher accuracy, slower |
+
+Responses are cached locally by prompt hash — regenerating a report reuses cached text unless the underlying data changes.
+
+## Project structure
 
 ```
 TFG/
-├── .env                        # Variables de entorno (no commitear)
-├── pyproject.toml              # Dependencias y configuración del proyecto
-├── uv.lock                     # Lock file de uv
+├── src/
+│   ├── dashboard.py            # App entry point
+│   ├── constants.py            # Global constants (courses, rates, typologies)
+│   ├── assets/                 # Static files (logo, CSS, example images)
+│   ├── callbacks/              # Dash event handlers (upload, filter, preview, report)
+│   ├── components/             # UI components
+│   ├── charts/
+│   │   ├── dinamic/            # Interactive Plotly tables
+│   │   └── static/             # PNG charts for reports (line, table, breakdown)
+│   ├── colors/                 # Corporate color palette
+│   ├── functions/
+│   │   ├── check_data/         # Table structure validation
+│   │   ├── clean_data/         # Data normalization
+│   │   ├── generate_information/  # Per-section chart & analysis generation
+│   │   ├── llm/                # OpenAI client, caching, structured prompts
+│   │   ├── write_word/         # Word report generation (docxtpl)
+│   │   └── write_presentation/ # PowerPoint generation (python-pptx)
+│   └── utils/                  # Helpers (Excel decode, year filter, image export, logger)
 ├── templates/
-│   ├── InformePlantilla.docx   # Plantilla Word para los informes
-│   └── PresentacionPlantilla.pptx  # Plantilla PowerPoint
-└── src/
-    ├── dashboard.py            # Punto de entrada de la aplicación
-    ├── constants.py            # Constantes globales (cursos, tasas, tipologías)
-    ├── assets/                 # Archivos estáticos (CSS, imágenes)
-    ├── callbacks/              # Lógica de interacción Dash
-    │   ├── upload.py           # Carga y validación de archivos
-    │   ├── filter.py           # Aplicación de filtros
-    │   ├── preview.py          # Previsualización de tablas
-    │   ├── report.py           # Generación de informes
-    │   └── header.py
-    ├── components/             # Componentes visuales de la UI
-    │   ├── upload.py
-    │   ├── filter.py
-    │   ├── preview.py
-    │   ├── report.py
-    │   └── header.py
-    ├── charts/
-    │   ├── dinamic/            # Tablas interactivas Plotly
-    │   └── static/             # Gráficas estáticas para los informes
-    │       ├── shared/         # Gráficas de líneas y tabla (nivel asignatura)
-    │       ├── degree_breakdown/   # Gráficas de titulación
-    │       ├── subject_breakdown/  # Resumen por curso
-    │       ├── tipology_breakdown/ # Resumen por tipología
-    │       ├── mention_breakdown/  # Resumen por mención
-    │       └── call_breakdown/     # Resumen por convocatoria
-    ├── colors/
-    │   └── colors.py           # Paleta de colores corporativa
-    ├── functions/
-    │   ├── check_data/         # Validación de estructura de tablas
-    │   ├── clean_data/         # Limpieza y normalización de datos
-    │   ├── generate_information/   # Generación de gráficas y análisis por sección
-    │   │   ├── subject_analisis/   # Desglose por curso, tipología, mención, convocatoria
-    │   │   └── degree_analisis/    # Análisis de indicadores de titulación
-    │   ├── llm/
-    │   │   ├── llm.py          # Cliente OpenAI con caché y modos de razonamiento
-    │   │   └── prompts/        # Prompts estructurados por tipo de análisis
-    │   ├── write_word/         # Generación del informe Word (docxtpl)
-    │   └── write_presentation/ # Generación de la presentación PowerPoint (python-pptx)
-    └── utils/
-        ├── decode_excel.py     # Decodificación de archivos Excel en base64
-        ├── filter_by_year.py   # Filtrado de DataFrames por rango de años
-        ├── image.py            # Exportación y recorte de gráficas a PNG
-        ├── logger.py           # Configuración del logger
-        └── report_cache.py     # Gestión del directorio temporal de imágenes
+│   ├── InformePlantilla.docx   # Word template
+│   └── PresentacionPlantilla.pptx  # PowerPoint template
+├── data/
+│   ├── mock-clean-data/        # Sample cleaned datasets
+│   └── mock-raw-data/          # Sample raw datasets
+├── notebooks/                  # Jupyter notebooks for data exploration
+├── knime/                      # KNIME workflows for raw data preprocessing
+├── docs/                       # MkDocs API documentation source
+└── pyproject.toml              # Dependencies and project metadata
 ```
 
----
+## Documentation
 
-## Flujo de uso
+API documentation is built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) and deployed automatically to GitHub Pages on every push to `main`.
 
+```bash
+# Serve docs locally
+uv run mkdocs serve
+
+# Deploy to GitHub Pages manually
+uv run mkdocs gh-deploy --force
 ```
-1. Subir archivos  →  2. Ajustar filtros  →  3. Previsualizar datos
-        ↓
-4. Configurar informe (secciones, tipo de gráfica, IA)
-        ↓
-5. Generar Word / PowerPoint  →  Descarga automática
+
+## Contributing
+
+```bash
+# Install dev dependencies and pre-commit hooks
+uv sync
+uv run pre-commit install
 ```
 
----
-
-## Secciones del informe
-
-| Sección | Descripción |
-|---------|-------------|
-| Análisis por titulación | Evolución temporal de los indicadores de titulación |
-| Desglose por curso | Tasas de éxito y rendimiento por curso y cuatrimestre |
-| Desglose por tipología | Comparativa entre tipos de asignatura |
-| Desglose por mención | Análisis por mención (excluye "No aplica") |
-| Desglose por convocatoria | Tasas por convocatoria (Enero, Marzo, Mayo, Julio) y grupo |
-
----
-
-## Modos de generación de texto con IA
-
-| Modo | Modelo | Descripción |
-|------|--------|-------------|
-| Sin IA | — | Solo gráficas, sin análisis de texto |
-| Sin razonamiento | gpt-4.1-nano | Rápido y económico |
-| Con razonamiento | gpt-5-nano | Mayor precisión, más lento |
-
----
-
-## Dependencias principales
-
-| Paquete | Versión | Uso |
-|---------|---------|-----|
-| dash | 3.0.4 | Framework web |
-| dash-mantine-components | 2.5.1 | Componentes UI |
-| dash-iconify | 0.1.2 | Iconos |
-| plotly | 5.18.0 | Visualizaciones interactivas |
-| pandas | 2.2.3 | Manipulación de datos |
-| docxtpl | 0.16.7 | Generación de Word con plantilla |
-| python-pptx | 1.0.2 | Generación de PowerPoint |
-| openai | 2.21.0 | Generación de texto con IA |
-| Pillow | 10.4.0 | Procesamiento de imágenes |
-| kaleido | 0.2.1 | Exportación de gráficas Plotly a PNG |
-| python-dotenv | 1.2.1 | Carga de variables de entorno |
-| pydantic | 2.12.5 | Validación de modelos de prompts |
+The CI pipeline runs Ruff linting and formatting checks on every pull request. All checks must pass before merging.
