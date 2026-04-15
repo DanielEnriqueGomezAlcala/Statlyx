@@ -5,171 +5,215 @@
 <h1 align="center">Statlyx</h1>
 
 <p align="center">
-  Interactive dashboard for university academic quality analysis — upload data, visualize trends, and generate AI-powered reports in Word and PowerPoint.
+  Dashboard interactivo para automatizar la generación de informes de rendimiento en el ámbito académico
 </p>
 
 <p align="center">
   <a href="https://github.com/DanielEnriqueGomezAlcala/TFG/actions/workflows/ci.yml"><img src="https://github.com/DanielEnriqueGomezAlcala/TFG/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/python-3.13-blue" alt="Python 3.13" />
   <img src="https://img.shields.io/badge/license-MIT-purple" alt="MIT License" />
+  <a href="https://danielenriquegomezalcala.github.io/TFG/"><img src="https://img.shields.io/badge/Docs-v1.0.0-blue?style=flat-square" alt="MIT License" /></a>
 </p>
 
 ---
 
-## Overview
+## Acceder a la documentación del código
 
-Statlyx is a [Dash](https://dash.plotly.com/)-based web application designed for university departments to analyze academic quality indicators. It guides you through a structured workflow: upload institutional Excel datasets, apply dynamic filters, preview results interactively, and export comprehensive reports — with optional AI-generated analysis powered by OpenAI models.
+[Documentación del código](https://danielenriquegomezalcala.github.io/TFG/)
 
-The tool was developed as a Bachelor's Thesis (TFG) project targeting Spanish university quality evaluation processes.
+## Visión general
 
-## Features
+Statlyx es una aplicación web que usa [Dash](https://dash.plotly.com/). Está diseñada para automatizar la generación de los informes de rendimiento en el ámbito universitario.
 
-- **Upload & validate** five structured Excel tables covering subjects, degrees, and exam sessions
-- **Dynamic filtering** by year range, subject typology, and course
-- **Interactive data preview** with sortable, filterable Plotly tables
-- **Word & PowerPoint report generation** from a single dataset, using `.docx`/`.pptx` templates
-- **Three AI modes** — no text, fast analysis (`gpt-4.1-nano`), or deeper reasoning (`gpt-5-nano`)
-- **LLM response caching** (MD5-based) to avoid redundant API calls on regeneration
-- **Five configurable report sections** — toggle each breakdown independently
-- **Static chart export** via Kaleido for embedding publication-ready PNG graphics in reports
+La aplicación te guía de manera sencilla hasta lograr el resultado: carga de datos institucionales en formato Excel, se aplican validaciones y filtros, se previsualizan los datos y se rellena un formulario para generar los informes con la posibilidad de usar un modelo de OpenAI para el análisis.
 
-## Workflow
+## Características
+
+- **Subida y validación de datos**: Se suben cinco ficheros Excel con una estructura específica y la aplicación valida si son válidos o no
+- **Filtro**: Se pueden filtrar los Datasets generar el informe a medida
+- **Previsualización**: Se pueden visualizar los datos que se usaran en el análisis de manera sencilla
+- **Generación de documentos Word y PowerPoint**: Generar documentos completos, ya sean informes o presentaciones
+- **LLM**: Se da la posibilidad de generar el informe con análisis por IA
+- **Caché**: Se implementa un sistema de caché para evitar regenerar gráficos o llamadas al LLM
+- **Selección de secciones**: Contenido del informe configurable
+
+## Flujo de la aplicación
 
 ```
-1. Upload Excel files  →  2. Apply filters  →  3. Preview data
+1. Se suben los ficheros en formato Excel  →  2. Se aplican Filtros
                                                         ↓
-                          5. Download report  ←  4. Configure & generate
+                                          3. Previsualización de los datos
+                                                        ↓
+                5. Descarga del reporte  ←  4. Configuración del documento
 ```
 
 ## Getting started
 
-### Prerequisites
+### Sin usar docker
 
-- [uv](https://docs.astral.sh/uv/) — Python package manager
-- Python 3.13
-- An OpenAI API key
+#### Requisitos
 
-### Installation
+- Tener [uv](https://docs.astral.sh/uv/) descargado
+- Python 3.13 o superior
+- Poseer una API key de OpenAI
+
+#### Instalación
 
 ```bash
-git clone https://github.com/DanielEnriqueGomezAlcala/TFG.git
+mkdir Statlyx
+cd Statlyx
+git clone https://github.com/DanielEnriqueGomezAlcala/TFG.git .
 cd TFG
 uv sync
 ```
 
-`uv sync` automatically creates a `.venv` and installs all dependencies from `pyproject.toml`.
+> [!NOTE]
+> `uv sync` crea automáticamente un entorno virtual y descarga las dependencias del proyecto
 
-### Configuration
+#### Configuración
 
-Copy the environment template and fill in your credentials:
+Copiamos el fichero .env.example y lo renombramos a .env. En él tendremos que escribir la API key de OpenAI sk...
 
 ```bash
 cp .env.example .env
 ```
 
-| Variable | Description | Required | Default |
-|---|---|---|---|
-| `OPENAI_API_KEY` | OpenAI API key | Yes | — |
+| Variable | Descripción | Requerida |
+|---|---|---|
+| `OPENAI_API_KEY` | OpenAI API key | Yes |
 
 > [!NOTE]
-> If `GENERATE_TEXT=false`, reports are generated with charts only — no API calls are made.
+> En el dashboard si se selecciona la generación sin IA, funcionará sin gastar Tokens
 
-### Running the app
+#### Poner la App a funcionar
 
 ```bash
 uv run python src/dashboard.py
 ```
 
-The dashboard is available at **http://localhost:8050**.
+El dashboard se ejecutará en **http://localhost:8050**.
 
-## Data format
+### Con docker (Se recomienda usar Docker Desktop)
 
-The application expects five Excel files. Upload them through the UI in any order.
+Si usas docker es más sencillo, lo único que tendría que hacer es descargar la imagen usando el siguiente comando
 
-| File | Content | Header row |
-|---|---|---|
-| **Tabla 1** | Subject typology and course (`Ass Codnum`, `Tipologia`, `Curso`) | 4 |
-| **Tabla 2** | Subject success and performance rates by year | 4 |
-| **Tabla 4** | Degree indicators by year (success, dropout, efficiency, graduation rates) | 5 |
-| **Convocatorias** | Exam-session rates by subject and group | 0 |
-| **Tabla auxiliar** | Subject semester and specialization (`Código`, `Cuatrimestre`, `Mención`) | 0 |
+```bash
+docker pull ghcr.io/danielenriquegomezalcala/tfg:sha-8ffe584
+```
 
-Sample datasets are available under `data/mock-clean-data/` and `data/mock-raw-data/`.
+Para hacerlo funcionar:
 
-## Report sections
+```bash
+docker run -p 8050:8050 \
+    -e OPENAI_API_KEY=sk-... \
+    ghcr.io/danielenriquegomezalcala/tfg:sha-8ffe584
+```
 
-Each section can be toggled on or off before generating a report:
+> [!WARNING]
+> La API key de OpenAI es necesaria ponerla; si no se pone, la aplicación no funcionará
 
-| Section | Description |
+## Formato de los datos de subida
+
+La aplicación necesita 5 ficheros Excel, cada uno con una estructura específica. En caso de no tenerla, la aplicación te notificará qué fichero está fallando y qué columna/fila se necesita.
+
+### Tabla 1 - Datos de asignaturas
+| Nombre de columna | Descripción | Ejemplo |
+| :--- | :--- | :--- |
+| `Ass Codnum` | Código numérico único asignado a la asignatura | `139261011` |
+| `Tipologia` | Tipo de asignatura | `FORMACIÓN BÁSICA` |
+| `Curso` | A que curso pertenece | `1, 2, 3, 4, 5, 6` |
+
+### Tabla 2 - Datos de asignaturas - tasas
+| Nombre de columna | Descripción | Ejemplo |
+| :--- | :--- | :--- |
+| `Curso Aca` | Periodo del curso académico | `2020-21` |
+| `Cod Asig` | Código numérico único asignado a la asignatura | `139260901` |
+| `Nummat` | Número de matriculados | `42` |
+| `Asignatura` | Nombre de la asignatura | `ADMINISTRACIÓN Y DISEÑO DE BASE DE DATOS` |
+| `Tasa Rend` | Valor de la tasa de rendimiento | `92,9` |
+| `Tasa Exito` | Valor de la tasa de éxito | `93,9` |
+
+### Tabla 4 - Datos de titulación
+
+> [!WARNING]
+> Esta tabla es distinta al resto: las columnas deben ser los años mientras que las filas son lo que se definen a continuación
+
+| Nombre de fila | Descripción | Ejemplo |
+| :--- | :--- | :--- |
+| `18   -Tasa de éxito del título` | Tasa de éxito a nivel de titulación | `71,9` |
+| `15   -Tasa de abandono del título - (IA)` | Tasa de abandono a nivel de titulación | `72,4` |
+| `17   -Tasa de rendimiento del título - (IA)` | Tasa de rendimiento a nivel de titulación | `88,1` |
+| `16   -Tasa de eficiencia de los graduados - (IA)` | Tasa de eficiencia a nivel de titulación | `71,3` |
+| `14   -Tasa de graduación del título - (IA)` | Tasa de graduación a nivel de titulación | `91,3` |
+
+### Tabla auxiliar 1 - Datos extra de las asignaturas
+| Nombre de columna | Descripción | Ejemplo |
+| :--- | :--- | :--- |
+| `Código` | Código numérico único asignado a la asignatura | `139261011` |
+| `Cuatrimestre` | Cuatrimestre al que pertenece la asignatura | `1, 2` |
+| `Mención` | En caso de pertenecer a una mención | `Computación` |
+
+> [!WARNING]
+> En caso de no pertenecer a ninguna mención, poner **No aplica**
+
+### Tabla auxiliar 2 - Datos de convocatoria
+| Nombre de columna | Descripción | Ejemplo |
+| :--- | :--- | :--- |
+| `Curso` | Periodo del curso académico | `2024-2025` |
+| `Convocatoria` | Convocatoria a la que pertenece | `MAY, ENE, JUL, MAR` |
+| `Grupo` | Grupo de la asignatura | `1, 2` |
+| `Cod` | Código numérico único asignado a la asignatura | `139263124` |
+| `Eficiencia` | Valor de la tasa de eficiencia | `0,74` |
+| `Exito` | Valor de la tasa de éxito | `0,9` |
+
+## Secciones del reporte
+
+Cada sección puede seleccionarse o deseleccionarse según las necesidades del informe
+
+| Sección | Descripción |
 |---|---|
-| Degree analysis | Time-series evolution of degree-level quality indicators |
-| Course breakdown | Success and performance rates by course and semester |
-| Typology breakdown | Comparison across subject types (basic, compulsory, optional, TFG, internships) |
-| Specialization breakdown | Analysis by academic track/mention (excludes "No aplica") |
-| Exam-session breakdown | Rates by session (January, March, May, July) and group |
+| Análisis de titulación | Evolución de las tasas a nivel de titulación a lo largo del tiempo |
+| Desglose por curso/cuatrimestre | Se hace un análisis de las asignaturas desglosadas en curso y cuatrimestre |
+| Desglose por tipología | Análisis de las asignaturas según su tipo (Formación básica, Obligatorias, etc) |
+| Desglose por mención | Análisis de las asignaturas separadas por mención (en caso de que existan) |
+| Desglose por convocatoria | Análisis de las asignaturas desglosadas por curso y convocatoria |
 
-## AI modes
+## Modos de generación con LLM
 
 | Mode | Model | Notes |
 |---|---|---|
-| No AI | — | Charts only; no API calls |
-| Fast | `gpt-4.1-nano` | Low latency, economical |
-| Reasoning | `gpt-5-nano` | Higher accuracy, slower |
+| Sin IA | — | Solo contendrá gráficas |
+| Rápida | `gpt-4.1-nano` | Generará conclusiones de manera rápida |
+| Razonamiento | `gpt-5-nano` | Tardará más en generar el informe pero será de mejor calidad |
 
-Responses are cached locally by prompt hash — regenerating a report reuses cached text unless the underlying data changes.
+> [!NOTE]
+> Tanto las gráficas como las llamadas al LLM son cacheadas con el fin de evitar gastar recursos
 
-## Project structure
+## Estructura del proyecto
 
 ```
 TFG/
 ├── src/
-│   ├── dashboard.py            # App entry point
-│   ├── constants.py            # Global constants (courses, rates, typologies)
-│   ├── assets/                 # Static files (logo, CSS, example images)
-│   ├── callbacks/              # Dash event handlers (upload, filter, preview, report)
-│   ├── components/             # UI components
+│   ├── dashboard.py            # Dashboard
+│   ├── constants.py            # Constantes globales
+│   ├── assets/                 # Imagenes que se usan en el dashboard
+│   ├── callbacks/              # Logica del dashboard
+│   ├── components/             # Componentes utilizados en el dashboard
 │   ├── charts/
-│   │   ├── dinamic/            # Interactive Plotly tables
-│   │   └── static/             # PNG charts for reports (line, table, breakdown)
-│   ├── colors/                 # Corporate color palette
+│   │   ├── dinamic/            # Funciones de graficos interactivos de Plotly
+│   │   └── static/             # Funciones de graficos estáticos de Plotly
+│   ├── colors/                 # Paleta de colores de la aplicación
 │   ├── functions/
-│   │   ├── check_data/         # Table structure validation
-│   │   ├── clean_data/         # Data normalization
-│   │   ├── generate_information/  # Per-section chart & analysis generation
-│   │   ├── llm/                # OpenAI client, caching, structured prompts
-│   │   ├── write_word/         # Word report generation (docxtpl)
-│   │   └── write_presentation/ # PowerPoint generation (python-pptx)
-│   └── utils/                  # Helpers (Excel decode, year filter, image export, logger)
+│   │   ├── check_data/         # Funciones de validación de las tablas subidas
+│   │   ├── clean_data/         # Funciones de limpieza de las tablas
+│   │   ├── generate_information/  # Funciones para generar la información que se inyectan en los reportes
+│   │   ├── llm/                # Funciones para la integración del LLM
+│   │   ├── write_word/         # Orquestador para generar los informes Word
+│   │   └── write_presentation/ # Orquestador para generar las presentaciones PowerPoint
+│   └── utils/                  # Funciones auxiliares
 ├── templates/
-│   ├── InformePlantilla.docx   # Word template
-│   └── PresentacionPlantilla.pptx  # PowerPoint template
-├── data/
-│   ├── mock-clean-data/        # Sample cleaned datasets
-│   └── mock-raw-data/          # Sample raw datasets
-├── notebooks/                  # Jupyter notebooks for data exploration
-├── knime/                      # KNIME workflows for raw data preprocessing
-├── docs/                       # MkDocs API documentation source
-└── pyproject.toml              # Dependencies and project metadata
+│   ├── InformePlantilla.docx   # Plantilla Word
+│   └── PresentacionPlantilla.pptx  # Plantilla PowerPoint
+├── docs/                       # Configuración de la documentación del código
+└── pyproject.toml              # Dependencias del proyecto
 ```
-
-## Documentation
-
-API documentation is built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) and deployed automatically to GitHub Pages on every push to `main`.
-
-```bash
-# Serve docs locally
-uv run mkdocs serve
-
-# Deploy to GitHub Pages manually
-uv run mkdocs gh-deploy --force
-```
-
-## Contributing
-
-```bash
-# Install dev dependencies and pre-commit hooks
-uv sync
-uv run pre-commit install
-```
-
-The CI pipeline runs Ruff linting and formatting checks on every pull request. All checks must pass before merging.
