@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
+ENV UV_SYSTEM_PYTHON=1
+
 WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
