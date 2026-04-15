@@ -47,7 +47,7 @@ La aplicación te guía de manera sencilla hasta lograr el resultado: carga de d
                 5. Descarga del reporte  ←  4. Configuración del documento
 ```
 
-## Getting started
+## Poner la aplicación a funcionar
 
 ### Sin usar docker
 
