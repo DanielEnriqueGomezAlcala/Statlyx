@@ -2,8 +2,10 @@
 Generación del análisis de indicadores a nivel de titulación
 """
 
+import json
 import pandas as pd
 import os
+from typing import Any
 
 # utils
 from utils.logger import get_logger
@@ -17,6 +19,7 @@ from functions.llm.prompts.degree_analisis import (
     PromptTasaAbandono,
     PromptTasaGraduacion,
     PromptTasaEficiencia,
+    PromptResumenDesgloseTitulacion,
 )
 
 # Charts
@@ -59,7 +62,11 @@ def generate_degree_breakdown(
     Returns:
         Array con los gráficos y texto de los indicadores a nivel de titulación.
     """
-    degree_breakdown = []
+    degree_breakdown: dict[str, Any] = {
+        "resume_conclusion": None,
+        "resume_bullets": [],
+        "tasas": [],
+    }
 
     line_chart = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
@@ -101,6 +108,30 @@ def generate_degree_breakdown(
         ).build()
         tasa_data["text"] = generate_text(prompt)
 
-        degree_breakdown.append(tasa_data)
+        degree_breakdown["tasas"].append(tasa_data)
+
+    available_cols = ["Anio"] + [c for c in TASAS.keys() if c in df.columns]
+    df_resumen = df[available_cols].sort_values("Anio").round(2)
+    datos_resumen = df_resumen.to_string(index=False)
+
+    logger.info("Degree breakdown — generando resumen global")
+    prompt = PromptResumenDesgloseTitulacion(
+        universidad=institucion,
+        titulacion=titulacion,
+        datos=datos_resumen,
+    ).build()
+    raw = generate_text(prompt)
+    try:
+        parsed = json.loads(raw)
+        degree_breakdown["resume_conclusion"] = parsed.get("conclusion", "")
+        degree_breakdown["resume_bullets"] = parsed.get("recomendaciones", [])
+    except (json.JSONDecodeError, AttributeError):
+        logger.warning(
+            "Degree breakdown — respuesta del LLM no es JSON válido; guardando texto en bruto"
+        )
+        degree_breakdown["resume_conclusion"] = (
+            "ERROR: La respuesta del modelo no es un JSON válido."
+        )
+        degree_breakdown["resume_bullets"] = []
 
     return degree_breakdown

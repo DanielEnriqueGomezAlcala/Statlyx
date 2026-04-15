@@ -3,6 +3,7 @@ from .resumen_desglose_tipologia import PromptResumenDesgloseTipologia
 from .resumen_desglose_mencion import PromptResumenDesgloseMencion
 from .par_graficas import PromptAnalisisPar
 from .resumen_desglose_convocatoria import PromptResumenDesgloseConvocatoria
+from .peores_asignaturas import PromptPeoresAsignaturas
 
 __all__ = [
     "PromptResumenDesgloseCurso",
@@ -10,4 +11,5 @@ __all__ = [
     "PromptResumenDesgloseMencion",
     "PromptAnalisisPar",
     "PromptResumenDesgloseConvocatoria",
+    "PromptPeoresAsignaturas",
 ]

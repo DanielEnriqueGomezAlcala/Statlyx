@@ -10,6 +10,7 @@ import os
 import time
 import pandas as pd
 from datetime import datetime
+from typing import Any
 
 from utils.logger import get_logger
 from functions.generate_information import (
@@ -18,6 +19,7 @@ from functions.generate_information import (
     generate_mention_breakdown,
     generate_subject_breakdown,
     generate_tipology_breakdown,
+    generate_subject_conclusions,
 )
 from constants import CURSOS, ORDEN_CURSOS
 
@@ -231,13 +233,13 @@ def write_word(
                     for rate in group.get("rates", []):
                         enrich_with_inline(rate, tpl)
 
-    degree_data = []
+    degree_data: dict[str, Any] = {}
     if "analisis-titulacion" in chart_selector:  # Genera análisis por titulación
         logger.info("Generando análisis por titulación...")
         degree_data = generate_degree_breakdown(
             df_t4, directorio, chart_types, institucion, titulacion
         )
-        for item in degree_data:
+        for item in degree_data.get("tasas", []):
             enrich_with_inline(item, tpl, width=Mm(155))
 
     mostrar_asignatura = any(  # Indica si se muestra el análisis por asignatura
@@ -249,6 +251,11 @@ def write_word(
             "desglose-convocatoria",
         ]
     )
+
+    subject_conclusions = {}
+    if mostrar_asignatura:  # Genera conclusiones sobre las peores asignaturas
+        logger.info("Generando conclusiones de asignaturas...")
+        subject_conclusions = generate_subject_conclusions(df, institucion, titulacion)
 
     contexto = {  # Contexto de la plantilla Word
         # Datos de la institución
@@ -269,6 +276,7 @@ def write_word(
         "tipologies_data": tipologies_data,
         "mentions_data": mentions_data,
         "convocatoria_data": convocatoria_data,
+        "subject_conclusions": subject_conclusions,
         # Datos del análisis por titulación
         "mostrar_analisis_titulacion": "analisis-titulacion" in chart_selector,
         "degree_data": degree_data,

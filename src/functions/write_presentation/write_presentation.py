@@ -16,6 +16,7 @@ from functions.generate_information import (
     generate_mention_breakdown,
     generate_subject_breakdown,
     generate_tipology_breakdown,
+    generate_subject_conclusions,
 )
 from functions.write_presentation.constants import (
     ENUM_CURSOS,
@@ -30,7 +31,11 @@ from functions.write_presentation.sections import (
     subject_section,
     typology_section,
 )
-from functions.write_presentation.slides import info_slide, title_slide
+from functions.write_presentation.slides import (
+    info_slide,
+    title_slide,
+    conclusions_slide,
+)
 
 logger = get_logger(__name__)
 
@@ -134,7 +139,7 @@ def write_presentation(
             limit_value,
         )
 
-    degree_data = []
+    degree_data = {}
     if "analisis-titulacion" in chart_selector:
         logger.info("Generando análisis por titulación...")
         degree_data = generate_degree_breakdown(
@@ -149,8 +154,23 @@ def write_presentation(
     title_slide(prs, institucion, titulacion, fecha)
     info_slide(prs, rango_anios, tipologias, cursos_str)
 
-    if degree_data:
+    if degree_data.get("tasas"):
         degree_section(prs, degree_data)
+
+    mostrar_asignatura = any(
+        v in chart_selector
+        for v in [
+            "desglose-curso",
+            "desglose-tipologia",
+            "desglose-menciones",
+            "desglose-convocatoria",
+        ]
+    )
+
+    subject_conclusions = {}
+    if mostrar_asignatura:
+        logger.info("Generando conclusiones de asignaturas...")
+        subject_conclusions = generate_subject_conclusions(df, institucion, titulacion)
 
     if course_data:
         subject_section(prs, course_data)
@@ -163,6 +183,16 @@ def write_presentation(
 
     if convocatoria_data:
         call_section(prs, convocatoria_data)
+
+    if subject_conclusions.get("conclusion_text") or subject_conclusions.get(
+        "recommendations_bullets"
+    ):
+        conclusions_slide(
+            prs,
+            "Conclusiones y recomendaciones por asignatura",
+            conclusion=subject_conclusions.get("conclusion_text"),
+            bullets=subject_conclusions.get("recommendations_bullets"),
+        )
 
     ruta_guardado = os.path.join(
         directorio,
