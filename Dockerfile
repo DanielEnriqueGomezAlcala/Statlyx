@@ -7,9 +7,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfontconfig1 \
     libcairo2 \
     libgdk-pixbuf2.0-0 \
-    libffi8 \
-    shared-mime-info \
-    fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
