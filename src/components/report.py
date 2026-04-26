@@ -414,6 +414,44 @@ def report():
                                         id="report-generation-status",
                                         style={"marginTop": "8px"},
                                     ),
+                                    dmc.Divider(
+                                        label="Descargas adicionales",
+                                        labelPosition="center",
+                                        mt="md",
+                                    ),
+                                    dmc.Text(
+                                        "Descarga las figuras generadas o las tablas filtradas de forma independiente.",
+                                        size="xs",
+                                        c="dimmed",
+                                        ta="center",
+                                        mb="sm",
+                                    ),
+                                    dmc.Center(
+                                        dmc.Group(
+                                            [
+                                                dmc.Button(
+                                                    "Descargar figuras (ZIP)",
+                                                    id="download-figures-button",
+                                                    leftSection=DashIconify(
+                                                        icon="mdi:image-multiple"
+                                                    ),
+                                                    color="gray",
+                                                    variant="outline",
+                                                    disabled=True,
+                                                ),
+                                                dmc.Button(
+                                                    "Descargar tablas filtradas (ZIP)",
+                                                    id="download-tables-button",
+                                                    leftSection=DashIconify(
+                                                        icon="mdi:table-arrow-down"
+                                                    ),
+                                                    color="gray",
+                                                    variant="outline",
+                                                    disabled=True,
+                                                ),
+                                            ]
+                                        )
+                                    ),
                                 ],
                                 gap="sm",
                                 style={"padding": "20px"},
