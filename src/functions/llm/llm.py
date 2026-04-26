@@ -15,10 +15,21 @@ load_dotenv()
 
 logger = get_logger(__name__)
 
-_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+_api_key = os.getenv("OPENAI_API_KEY")
+_client = OpenAI(api_key=_api_key) if _api_key else None
 
-# Por defecto, se usa el modelo sin razonamiento
-llm_mode: str = "sin-razonamiento"
+# Por defecto, se usa el modelo sin razonamiento si hay API key, si no "no"
+llm_mode: str = "sin-razonamiento" if _api_key else "no"
+
+
+def is_api_key_available() -> bool:
+    """
+    Devuelve True si la API key de OpenAI está configurada.
+    Returns:
+        bool: True si la API key está disponible, False en caso contrario.
+    """
+    return bool(_api_key)
+
 
 MODEL_SIN_RAZONAMIENTO = "gpt-4.1-nano"
 MODEL_CON_RAZONAMIENTO = "gpt-5-nano"
@@ -60,8 +71,8 @@ def generate_text(prompt: str) -> str:
     Returns:
         Texto generado por el modelo, o cadena vacía si el modo es "no".
     """
-    if llm_mode == "no":
-        return ""  # Si el modo es "no", se devuelve una cadena vacía
+    if llm_mode == "no" or _client is None:
+        return ""
 
     key = hashlib.md5(
         (prompt + llm_mode).encode()
