@@ -83,7 +83,7 @@ def static_chart_lines(df, rate, target_value=None, limit_value=None):
         fig.add_hline(
             y=target_value,
             line=dict(color="green", width=2, dash="dash"),
-            annotation_text=f"Objetivo: {target_value}%",
+            annotation_text=f"{target_value}%",
             annotation_position="top right",
             annotation_font=dict(size=16, color="green"),
         )
@@ -92,7 +92,7 @@ def static_chart_lines(df, rate, target_value=None, limit_value=None):
         fig.add_hline(
             y=limit_value,
             line=dict(color="red", width=2, dash="dash"),
-            annotation_text=f"Límite: {limit_value}%",
+            annotation_text=f"{limit_value}%",
             annotation_position="bottom right",
             annotation_font=dict(size=16, color="red"),
         )

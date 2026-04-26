@@ -6,13 +6,14 @@ import plotly.graph_objects as go
 from colors.colors import CHART_COLORS
 
 
-def static_chart_lines(df, rate):
+def static_chart_lines(df, rate, target_value=None):
     """
     Genera gráfico de línea Plotly para los datos de la titulación. Contiene una única linea
 
     Args:
         df: DataFrame con los datos de las tasas a nivel de titulación.
         rate: Tasa a visualizar.
+        target_value: Valor objetivo (opcional).
     """
     df = df.sort_values("Anio")  # Se ordenan los años
     anios_ordenados = sorted(df["Anio"].unique())
@@ -60,5 +61,14 @@ def static_chart_lines(df, rate):
         tickformat=".1f",
         tickfont=dict(size=20),
     )
+
+    if target_value is not None:
+        fig.add_hline(
+            y=target_value,
+            line=dict(color="green", width=2, dash="dash"),
+            annotation_text=f"{target_value}%",
+            annotation_position="top right",
+            annotation_font=dict(size=16, color="green"),
+        )
 
     return fig
