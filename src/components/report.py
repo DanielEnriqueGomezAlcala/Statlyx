@@ -6,6 +6,7 @@ from dash import html
 import dash_mantine_components as dmc
 from colors.colors import COLORS
 from dash_iconify import DashIconify
+from functions.llm import is_api_key_available
 
 INDENT_STYLE = {"marginLeft": "28px"}
 
@@ -93,17 +94,21 @@ def report():
                                     dmc.Center(
                                         dmc.SegmentedControl(
                                             id="llm-mode-selector",
-                                            value="sin-razonamiento",
+                                            value="no"
+                                            if not is_api_key_available()
+                                            else "sin-razonamiento",
                                             color=COLORS["primary"],
                                             data=[
                                                 {"value": "no", "label": "No"},
                                                 {
                                                     "value": "sin-razonamiento",
                                                     "label": "Sin razonamiento",
+                                                    "disabled": not is_api_key_available(),
                                                 },
                                                 {
                                                     "value": "con-razonamiento",
                                                     "label": "Con razonamiento",
+                                                    "disabled": not is_api_key_available(),
                                                 },
                                             ],
                                         ),
@@ -116,6 +121,19 @@ def report():
                                             mt=4,
                                         )
                                     ),
+                                    dmc.Center(
+                                        dmc.Alert(
+                                            "No se ha configurado la API key de OpenAI. Las opciones de IA están desactivadas.",
+                                            color="yellow",
+                                            variant="light",
+                                            icon=DashIconify(
+                                                icon="tabler:alert-triangle"
+                                            ),
+                                            mt="xs",
+                                        )
+                                    )
+                                    if not is_api_key_available()
+                                    else None,
                                     dmc.Divider(
                                         label="Contenido del informe",
                                         labelPosition="center",
