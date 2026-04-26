@@ -49,6 +49,9 @@ def generate_degree_breakdown(
     chart_types: list[str],
     institucion: str = "",
     titulacion: str = "",
+    target_graduacion=None,
+    target_abandono=None,
+    target_eficiencia=None,
 ):
     """Genera el análisis de los indicadores de titulación.
 
@@ -58,10 +61,18 @@ def generate_degree_breakdown(
         chart_types: gráficos seleccionados en el dashboard.
         institucion: nombre de la institución.
         titulacion: nombre de la titulación.
+        target_graduacion: Valor objetivo para Tasa de Graduación.
+        target_abandono: Valor objetivo para Tasa de Abandono.
+        target_eficiencia: Valor objetivo para Tasa de Eficiencia.
 
     Returns:
         Array con los gráficos y texto de los indicadores a nivel de titulación.
     """
+    target_por_tasa = {
+        "Tasa_Graduacion": target_graduacion,
+        "Tasa_Abandono": target_abandono,
+        "Tasa_Eficiencia": target_eficiencia,
+    }
     degree_breakdown: dict[str, Any] = {
         "resume_conclusion": None,
         "resume_bullets": [],
@@ -89,7 +100,7 @@ def generate_degree_breakdown(
         chart_name = f"titulacion_{col}"
 
         if line_chart:
-            fig = static_chart_lines(df_chart, "Valor")
+            fig = static_chart_lines(df_chart, "Valor", target_por_tasa.get(col))
             img_path = os.path.join(directory, f"graf_{chart_name}_line.png")
             save_chart_image(fig, img_path, border=6)
             tasa_data["line_chart_path"] = img_path

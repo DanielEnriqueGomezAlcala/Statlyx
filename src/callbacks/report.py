@@ -168,6 +168,9 @@ def register_callbacks(app):
         State("degree-input", "value"),
         State("chart-selector", "data"),
         State("chart-type-selector", "value"),
+        State("target-graduacion-input", "value"),
+        State("target-abandono-input", "value"),
+        State("target-eficiencia-input", "value"),
         State("target-value-input", "value"),
         State("limit-value-input", "value"),
         State("llm-mode-selector", "value"),
@@ -186,6 +189,9 @@ def register_callbacks(app):
         titulacion,
         chart_selector,
         chart_types,
+        target_graduacion,
+        target_abandono,
+        target_eficiencia,
         target_value,
         limit_value,
         llm_mode,
@@ -201,8 +207,11 @@ def register_callbacks(app):
             titulacion: Nombre de la titulación.
             chart_selector: Lista de secciones a incluir en el informe.
             chart_types: Lista de tipos de gráfica a generar.
-            target_value: Valor de la tasa objetivo para las líneas de referencia.
-            limit_value: Valor de la tasa límite para las líneas de referencia.
+            target_graduacion: Valor objetivo para Tasa de Graduación (Titulación).
+            target_abandono: Valor objetivo para Tasa de Abandono (Titulación).
+            target_eficiencia: Valor objetivo para Tasa de Eficiencia (Titulación).
+            target_value: Valor objetivo para tasas de asignatura (Asignatura).
+            limit_value: Valor límite para tasas de asignatura (Asignatura).
             llm_mode: Modo de generación de texto con IA.
         """
         set_llm_mode(
@@ -233,6 +242,9 @@ def register_callbacks(app):
                 titulacion,
                 target_value,
                 limit_value,
+                target_graduacion,
+                target_abandono,
+                target_eficiencia,
             )
             logger.info("Informe Word generado: %s", os.path.basename(ruta_guardado))
             status = dmc.Alert(
@@ -257,6 +269,9 @@ def register_callbacks(app):
         State("degree-input", "value"),
         State("chart-selector", "data"),
         State("chart-type-selector", "value"),
+        State("target-graduacion-input", "value"),
+        State("target-abandono-input", "value"),
+        State("target-eficiencia-input", "value"),
         State("target-value-input", "value"),
         State("limit-value-input", "value"),
         State("llm-mode-selector", "value"),
@@ -275,6 +290,9 @@ def register_callbacks(app):
         titulacion,
         chart_selector,
         chart_types,
+        target_graduacion,
+        target_abandono,
+        target_eficiencia,
         target_value,
         limit_value,
         llm_mode,
@@ -290,8 +308,11 @@ def register_callbacks(app):
             titulacion: Nombre de la titulación.
             chart_selector: Lista de secciones a incluir en la presentación.
             chart_types: Lista de tipos de gráfica a generar.
-            target_value: Valor de la tasa objetivo para las líneas de referencia.
-            limit_value: Valor de la tasa límite para las líneas de referencia.
+            target_graduacion: Valor objetivo para Tasa de Graduación (Titulación).
+            target_abandono: Valor objetivo para Tasa de Abandono (Titulación).
+            target_eficiencia: Valor objetivo para Tasa de Eficiencia (Titulación).
+            target_value: Valor objetivo para tasas de asignatura (Asignatura).
+            limit_value: Valor límite para tasas de asignatura (Asignatura).
             llm_mode: Modo de generación de texto con IA.
         """
         set_llm_mode(llm_mode or "sin-razonamiento")
@@ -320,6 +341,9 @@ def register_callbacks(app):
                 titulacion,
                 target_value,
                 limit_value,
+                target_graduacion,
+                target_abandono,
+                target_eficiencia,
             )
             logger.info(
                 "Presentación PPTX generada: %s", os.path.basename(ruta_guardado)

@@ -52,6 +52,9 @@ def write_presentation(
     titulacion: str = "",
     target_value=None,
     limit_value=None,
+    target_graduacion=None,
+    target_abandono=None,
+    target_eficiencia=None,
 ) -> str:
     """
     Genera una presentación PowerPoint a partir de los DataFrames proporcionados.
@@ -66,8 +69,11 @@ def write_presentation(
         chart_types: Tipos de gráfica a generar para cada sección.
         institucion: Nombre de la institución.
         titulacion: Nombre de la titulación.
-        target_value: Valor de la tasa objetivo para las líneas de referencia.
-        limit_value: Valor de la tasa límite para las líneas de referencia.
+        target_graduacion: Valor objetivo para Tasa de Graduación (Titulación).
+        target_abandono: Valor objetivo para Tasa de Abandono (Titulación).
+        target_eficiencia: Valor objetivo para Tasa de Eficiencia (Titulación).
+        target_value: Valor objetivo para tasas de asignatura (Asignatura).
+        limit_value: Valor límite para tasas de asignatura (Asignatura).
 
     Returns:
         Ruta absoluta al archivo .pptx generado.
@@ -143,7 +149,14 @@ def write_presentation(
     if "analisis-titulacion" in chart_selector:
         logger.info("Generando análisis por titulación...")
         degree_data = generate_degree_breakdown(
-            df_t4, directorio, chart_types, institucion, titulacion
+            df_t4,
+            directorio,
+            chart_types,
+            institucion,
+            titulacion,
+            target_graduacion,
+            target_abandono,
+            target_eficiencia,
         )
 
     prs = Presentation(ruta_plantilla)

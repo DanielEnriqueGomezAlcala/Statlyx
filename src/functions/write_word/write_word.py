@@ -123,6 +123,9 @@ def write_word(
     titulacion: str = "",
     target_value=None,
     limit_value=None,
+    target_graduacion=None,
+    target_abandono=None,
+    target_eficiencia=None,
 ):
     """
     Genera el informe Word a partir de los datos filtrados y lo guarda en disco.
@@ -137,8 +140,11 @@ def write_word(
         chart_types: Lista de tipos de gráfica a generar.
         institucion: Nombre de la institución.
         titulacion: Nombre de la titulación.
-        target_value: Valor de la tasa objetivo.
-        limit_value: Valor de la tasa límite.
+        target_graduacion: Valor objetivo para Tasa de Graduación (Titulación).
+        target_abandono: Valor objetivo para Tasa de Abandono (Titulación).
+        target_eficiencia: Valor objetivo para Tasa de Eficiencia (Titulación).
+        target_value: Valor objetivo para tasas de asignatura (Asignatura).
+        limit_value: Valor límite para tasas de asignatura (Asignatura).
 
     Returns:
         Ruta absoluta del archivo .docx generado.
@@ -237,7 +243,14 @@ def write_word(
     if "analisis-titulacion" in chart_selector:  # Genera análisis por titulación
         logger.info("Generando análisis por titulación...")
         degree_data = generate_degree_breakdown(
-            df_t4, directorio, chart_types, institucion, titulacion
+            df_t4,
+            directorio,
+            chart_types,
+            institucion,
+            titulacion,
+            target_graduacion,
+            target_abandono,
+            target_eficiencia,
         )
         for item in degree_data.get("tasas", []):
             enrich_with_inline(item, tpl, width=Mm(155))
