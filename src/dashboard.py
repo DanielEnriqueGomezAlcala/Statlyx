@@ -43,6 +43,9 @@ app.layout = dmc.MantineProvider(
         # Descargas
         dcc.Download(id="download-report-word"),
         dcc.Download(id="download-report-pptx"),
+        dcc.Download(id="download-figures"),
+        dcc.Download(id="download-tables"),
+        dcc.Store(id="report-generated", data=False),
     ],
 )
 

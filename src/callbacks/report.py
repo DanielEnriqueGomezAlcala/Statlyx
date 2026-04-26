@@ -4,6 +4,7 @@ Callbacks de generación de informes.
 
 import io
 import os
+import zipfile
 
 import pandas as pd
 import dash_mantine_components as dmc
@@ -160,6 +161,7 @@ def register_callbacks(app):
     @app.callback(
         Output("download-report-word", "data"),
         Output("report-generation-status", "children"),
+        Output("report-generated", "data"),
         Input("generate-report-word-button", "n_clicks"),
         State("filtered-t1-t2", "data"),
         State("filtered-t4", "data"),
@@ -250,17 +252,18 @@ def register_callbacks(app):
             status = dmc.Alert(
                 "Informe Word generado correctamente.", color="green", variant="light"
             )
-            return dcc.send_file(ruta_guardado), status
+            return dcc.send_file(ruta_guardado), status, True
         except Exception as e:
             logger.error("Error generando informe Word: %s", e)
             status = dmc.Alert(
                 f"Error al generar el informe: {e}", color="red", variant="light"
             )
-            return None, status
+            return None, status, False
 
     @app.callback(
         Output("download-report-pptx", "data"),
         Output("report-generation-status", "children", allow_duplicate=True),
+        Output("report-generated", "data", allow_duplicate=True),
         Input("generate-report-pptx-button", "n_clicks"),
         State("filtered-t1-t2", "data"),
         State("filtered-t4", "data"),
@@ -353,10 +356,82 @@ def register_callbacks(app):
                 color="green",
                 variant="light",
             )
-            return dcc.send_file(ruta_guardado), status
+            return dcc.send_file(ruta_guardado), status, True
         except Exception as e:
             logger.error("Error generando presentación PPTX: %s", e)
             status = dmc.Alert(
                 f"Error al generar la presentación: {e}", color="red", variant="light"
             )
-            return None, status
+            return None, status, False
+
+    @app.callback(
+        Output("download-tables-button", "disabled"),
+        Output("download-figures-button", "disabled"),
+        Input("filtered-t1-t2", "data"),
+        Input("report-generated", "data"),
+    )
+    def toggle_extra_download_buttons(filtered_t1_t2, report_generated):
+        """Habilita los botones de descarga adicional según disponibilidad de datos.
+
+        Args:
+            filtered_t1_t2: DF filtrado de asignaturas (None si no hay datos).
+            report_generated: True si se ha generado al menos un informe.
+        """
+        return not filtered_t1_t2, not report_generated
+
+    @app.callback(
+        Output("download-figures", "data"),
+        Output("report-generation-status", "children", allow_duplicate=True),
+        Input("download-figures-button", "n_clicks"),
+        prevent_initial_call=True,
+    )
+    def download_figures(_n_clicks):
+        """
+        Genera y descarga un ZIP con todas las figuras PNG generadas.
+        """
+        directory = get_image_dir()
+        png_files = [f for f in os.listdir(directory) if f.endswith(".png")]
+        if not png_files:
+            return None, dmc.Alert(
+                "No hay figuras generadas. Genera primero un informe.",
+                color="yellow",
+                variant="light",
+            )
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+            for fname in sorted(png_files):
+                zf.write(os.path.join(directory, fname), fname)
+        return dcc.send_bytes(buf.getvalue(), "figuras.zip"), None
+
+    @app.callback(
+        Output("download-tables", "data"),
+        Output("report-generation-status", "children", allow_duplicate=True),
+        Input("download-tables-button", "n_clicks"),
+        State("filtered-t1-t2", "data"),
+        State("filtered-t4", "data"),
+        State("filtered-conv", "data"),
+        prevent_initial_call=True,
+    )
+    def download_tables(_n_clicks, filtered_t1_t2, filtered_t4, filtered_conv):
+        """Genera y descarga un ZIP con las tablas filtradas en formato .xlsx.
+
+        Args:
+            filtered_t1_t2: DF filtrado de asignaturas.
+            filtered_t4: DF filtrado de titulación.
+            filtered_conv: DF filtrado de convocatorias.
+        """
+        tablas = [
+            ("asignaturas.xlsx", filtered_t1_t2),
+            ("titulacion.xlsx", filtered_t4),
+            ("convocatorias.xlsx", filtered_conv),
+        ]
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+            for nombre, json_data in tablas:
+                if not json_data:
+                    continue
+                df = pd.read_json(io.StringIO(json_data), orient="split")
+                excel_buf = io.BytesIO()
+                df.to_excel(excel_buf, index=False)
+                zf.writestr(nombre, excel_buf.getvalue())
+        return dcc.send_bytes(buf.getvalue(), "tablas_filtradas.zip"), None
