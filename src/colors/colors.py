@@ -5,7 +5,7 @@ Paleta de colores de la aplicación.
 # Paleta de colores de la aplicación
 COLORS = {
     "primary": "#5C068C",
-    "secondary": "#7D3C98",
+    "secondary": "#AD2FE7",
     "light": "#D5D8DC",
     "background": "#f8f9fa",
 }

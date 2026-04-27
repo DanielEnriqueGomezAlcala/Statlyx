@@ -7,13 +7,14 @@ import pandas as pd
 from colors.colors import COLOR_HEADER
 
 
-def static_chart_table(df, rate):
+def static_chart_table(df, rate, lower_is_better=False):
     """
     Genera gráfico de tabla Plotly para los datos de la titulación.
 
     Args:
         df: DataFrame con los datos de las tasas a nivel de titulación.
         rate: Tasa a visualizar.
+        lower_is_better: Es para invertir los colores de la tabla, en caso de que una tasa más baja sea mejor.
     """
     anios_ordenados = sorted(df["Anio"].unique())  # Se ordenan los años
 
@@ -37,12 +38,20 @@ def static_chart_table(df, rate):
         val = v[0] if len(v) > 0 and pd.notna(v[0]) else None
         if val is None:
             fill_colors.append("#f5f5f5")
-        elif val >= 75:
-            fill_colors.append("#d4edda")
-        elif val >= 50:
-            fill_colors.append("#fff3cd")
+        elif lower_is_better:
+            if val <= 25:
+                fill_colors.append("#d4edda")
+            elif val <= 50:
+                fill_colors.append("#fff3cd")
+            else:
+                fill_colors.append("#f8d7da")
         else:
-            fill_colors.append("#f8d7da")
+            if val >= 75:
+                fill_colors.append("#d4edda")
+            elif val >= 50:
+                fill_colors.append("#fff3cd")
+            else:
+                fill_colors.append("#f8d7da")
 
     fig = go.Figure(
         data=[
