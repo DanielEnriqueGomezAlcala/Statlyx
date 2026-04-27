@@ -34,6 +34,7 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
                 text=df_medias["Tasa_Exito"].round(2).astype(str) + "%",
                 textposition="outside",
                 textfont=dict(size=18),
+                cliponaxis=False,
                 hovertemplate="Mención: %{x}<br>Éxito: %{y:.2f}%<extra></extra>",
             )
         )
@@ -50,6 +51,7 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
                 text=df_medias["Tasa_Rendimiento"].round(2).astype(str) + "%",
                 textposition="outside",
                 textfont=dict(size=18),
+                cliponaxis=False,
                 hovertemplate="Mención: %{x}<br>Rendimiento: %{y:.2f}%<extra></extra>",
             )
         )

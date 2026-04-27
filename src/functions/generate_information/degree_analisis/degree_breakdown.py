@@ -42,6 +42,8 @@ PROMPT_CLASSES = {
     "Tasa_Abandono": PromptTasaAbandono,
 }
 
+LOWER_IS_BETTER = {"Tasa_Abandono"}
+
 
 def generate_degree_breakdown(
     df: pd.DataFrame,
@@ -106,7 +108,9 @@ def generate_degree_breakdown(
             tasa_data["line_chart_path"] = img_path
 
         if table_chart:
-            fig = static_chart_table(df_chart, "Valor")
+            fig = static_chart_table(
+                df_chart, "Valor", lower_is_better=col in LOWER_IS_BETTER
+            )
             img_path = os.path.join(directory, f"graf_{chart_name}_table.png")
             save_chart_image(fig, img_path)
             tasa_data["table_chart_path"] = img_path
