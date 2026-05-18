@@ -9,17 +9,18 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/DanielEnriqueGomezAlcala/TFG/actions/workflows/ci.yml"><img src="https://github.com/DanielEnriqueGomezAlcala/TFG/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/DanielEnriqueGomezAlcala/Statlyx/actions/workflows/ci.yml"><img src="https://github.com/DanielEnriqueGomezAlcala/Statlyx/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/DanielEnriqueGomezAlcala/Statlyx/actions/workflows/tests.yml"><img src="https://github.com/DanielEnriqueGomezAlcala/Statlyx/actions/workflows/tests.yml/badge.svg" alt="Tests" /></a>
   <img src="https://img.shields.io/badge/python-3.13-blue" alt="Python 3.13" />
   <img src="https://img.shields.io/badge/license-MIT-purple" alt="MIT License" />
-  <a href="https://danielenriquegomezalcala.github.io/TFG/"><img src="https://img.shields.io/badge/Docs-v1.0.0-blue?style=flat-square" alt="MIT License" /></a>
+  <a href="https://danielenriquegomezalcala.github.io/Statlyx/"><img src="https://img.shields.io/badge/Docs-v1.0.0-blue?style=flat-square" alt="MIT License" /></a>
 </p>
 
 ---
 
 ## Acceder a la documentación del código
 
-[Documentación del código](https://danielenriquegomezalcala.github.io/TFG/)
+[Documentación del código](https://danielenriquegomezalcala.github.io/Statlyx/)
 
 ## Visión general
 
@@ -110,7 +111,7 @@ docker run -p 8050:8050 \
 ```
 
 > [!WARNING]
-> La API key de OpenAI es necesaria ponerla; si no se pone, la aplicación no funcionará
+> La API key de OpenAI es opcional ponerla, si no se pone la aplicación funcionará sin la feature de LLM
 
 ## Formato de los datos de subida
 
@@ -192,7 +193,7 @@ Cada sección puede seleccionarse o deseleccionarse según las necesidades del i
 ## Estructura del proyecto
 
 ```
-TFG/
+Statlyx/
 ├── src/
 │   ├── dashboard.py            # Dashboard
 │   ├── constants.py            # Constantes globales
