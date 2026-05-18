@@ -45,7 +45,7 @@ La aplicación te guía de manera sencilla hasta lograr el resultado: carga de d
                                                         ↓
                                           3. Previsualización de los datos
                                                         ↓
-                5. Descarga del reporte  ←  4. Configuración del documento
+                5. Descarga del documento  ←  4. Configuración del documento
 ```
 
 ## Poner la aplicación a funcionar
@@ -99,15 +99,13 @@ El dashboard se ejecutará en **http://localhost:8050**.
 Si usas docker es más sencillo, lo único que tendría que hacer es descargar la imagen usando el siguiente comando
 
 ```bash
-docker pull ghcr.io/danielenriquegomezalcala/tfg:sha-8ffe584
+docker pull ghcr.io/danielenriquegomezalcala/statlyx:latest
 ```
 
 Para hacerlo funcionar:
 
 ```bash
-docker run -p 8050:8050 \
-    -e OPENAI_API_KEY=sk-... \
-    ghcr.io/danielenriquegomezalcala/tfg:sha-8ffe584
+docker run -p 8050:8050 -e OPENAI_API_KEY=sk-... ghcr.io/danielenriquegomezalcala/statlyx:latest
 ```
 
 > [!WARNING]
@@ -216,5 +214,6 @@ Statlyx/
 │   ├── InformePlantilla.docx   # Plantilla Word
 │   └── PresentacionPlantilla.pptx  # Plantilla PowerPoint
 ├── docs/                       # Configuración de la documentación del código
+├── tests/                      # Test de la aplicación
 └── pyproject.toml              # Dependencias del proyecto
 ```
