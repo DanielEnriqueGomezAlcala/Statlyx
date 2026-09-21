@@ -10,7 +10,10 @@ def _excel_b64(rows, header=False) -> str:
     buf = io.BytesIO()
     pd.DataFrame(rows).to_excel(buf, index=False, header=header)
     encoded = base64.b64encode(buf.getvalue()).decode()
-    return f"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{encoded}"
+    mime = (
+        "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
+    )
+    return mime + encoded
 
 
 def test_decodes_as_dataframe():
@@ -25,6 +28,9 @@ def test_header_selects_correct_row():
     raw = pd.DataFrame([["ignorar", "ignorar"], ["Nombre", "Valor"], ["Ana", 10]])
     raw.to_excel(buf, index=False, header=False)
     encoded = base64.b64encode(buf.getvalue()).decode()
-    contents = f"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{encoded}"
+    mime = (
+        "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
+    )
+    contents = mime + encoded
     result = decode_excel(contents, header=1)
     assert list(result.columns) == ["Nombre", "Valor"]

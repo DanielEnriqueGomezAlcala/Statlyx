@@ -5,13 +5,13 @@ from functions.check_data.subject_analisis.check_table_1_aux import check_table_
 
 
 def test_empty_df_raises():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="La tabla 1 aux está vacía"):
         check_table_1_aux(pd.DataFrame())
 
 
 def test_missing_columns_raises():
     df = pd.DataFrame({"Código": [1]})
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="La tabla 1 aux no tiene las columnas"):
         check_table_1_aux(df)
 
 
