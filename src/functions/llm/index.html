@@ -1,0 +1,5098 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Dashboard de análisis de calidad académica universitaria">
+      
+      
+      
+      
+        <link rel="prev" href="../generate_information/">
+      
+      
+        <link rel="next" href="../write_word/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>LLM - TFG - Statlyx</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#llm" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../../.." title="TFG - Statlyx" class="md-header__button md-logo" aria-label="TFG - Statlyx" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TFG - Statlyx
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              LLM
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../dashboard/" class="md-tabs__link">
+          
+  
+  
+  Referencia de código
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="TFG - Statlyx" class="md-nav__button md-logo" aria-label="TFG - Statlyx" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    TFG - Statlyx
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencia de código
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencia de código
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../callbacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Callbacks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Componentes UI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../charts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gráficas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Funciones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Funciones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../check_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clean_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limpieza de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generate_information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generación de información
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="llm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.llm-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.llm.is_api_key_available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_api_key_available
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.llm.set_llm_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_llm_mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.llm.generate_text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generate_text
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.llm.clear_llm_cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        clear_llm_cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompts-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompts — Base
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.base-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.base.BasePrompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BasePrompt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BasePrompt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.base.BasePrompt-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.base.BasePrompt.must_not_be_empty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        must_not_be_empty
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.base.BasePrompt.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompts-a-nivel-de-asignatura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompts — A nivel de asignatura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.par_graficas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        par_graficas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="par_graficas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.par_graficas-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.par_graficas.PromptAnalisisPar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptAnalisisPar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptAnalisisPar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.par_graficas.PromptAnalisisPar-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.par_graficas.PromptAnalisisPar.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resumen_desglose_curso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="resumen_desglose_curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_curso-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_curso.PromptResumenDesgloseCurso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptResumenDesgloseCurso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptResumenDesgloseCurso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_curso.PromptResumenDesgloseCurso-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_curso.PromptResumenDesgloseCurso.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_mencion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resumen_desglose_mencion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="resumen_desglose_mencion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_mencion-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_mencion.PromptResumenDesgloseMencion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptResumenDesgloseMencion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptResumenDesgloseMencion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_mencion.PromptResumenDesgloseMencion-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_mencion.PromptResumenDesgloseMencion.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_tipologia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resumen_desglose_tipologia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="resumen_desglose_tipologia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_tipologia-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_tipologia.PromptResumenDesgloseTipologia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptResumenDesgloseTipologia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptResumenDesgloseTipologia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_tipologia.PromptResumenDesgloseTipologia-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_tipologia.PromptResumenDesgloseTipologia.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resumen_desglose_convocatoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="resumen_desglose_convocatoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria.PromptResumenDesgloseConvocatoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptResumenDesgloseConvocatoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptResumenDesgloseConvocatoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria.PromptResumenDesgloseConvocatoria-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria.PromptResumenDesgloseConvocatoria.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompts-a-nivel-de-titulacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompts — A nivel de titulación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_exito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tasa_exito
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tasa_exito">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_exito-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_exito.PromptTasaExito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptTasaExito
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptTasaExito">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_exito.PromptTasaExito-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_exito.PromptTasaExito.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_rendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tasa_rendimiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tasa_rendimiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_rendimiento-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_rendimiento.PromptTasaRendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptTasaRendimiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptTasaRendimiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_rendimiento.PromptTasaRendimiento-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_rendimiento.PromptTasaRendimiento.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_abandono" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tasa_abandono
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tasa_abandono">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_abandono-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_abandono.PromptTasaAbandono" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptTasaAbandono
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptTasaAbandono">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_abandono.PromptTasaAbandono-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_abandono.PromptTasaAbandono.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_eficiencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tasa_eficiencia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tasa_eficiencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_eficiencia-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_eficiencia.PromptTasaEficiencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptTasaEficiencia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptTasaEficiencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_eficiencia.PromptTasaEficiencia-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_eficiencia.PromptTasaEficiencia.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_graduacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tasa_graduacion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tasa_graduacion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_graduacion-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_graduacion.PromptTasaGraduacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PromptTasaGraduacion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptTasaGraduacion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_graduacion.PromptTasaGraduacion-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions.llm.prompts.degree_analisis.tasa_graduacion.PromptTasaGraduacion.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../write_word/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Informes Word
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../write_presentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentaciones PowerPoint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constantes y Colores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="llm">LLM</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.llm" class="doc doc-heading">
+            <code>functions.llm.llm</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Definición de la llamada a la API de OpenAI.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h3 id="functions.llm.llm-functions">Functions</h3>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="functions.llm.llm.is_api_key_available" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">is_api_key_available</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Devuelve True si la API key de OpenAI está configurada.
+Returns:
+    bool: True si la API key está disponible, False en caso contrario.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/llm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_api_key_available</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Devuelve True si la API key de OpenAI está configurada.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True si la API key está disponible, False en caso contrario.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">_api_key</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="functions.llm.llm.set_llm_mode" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">set_llm_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Cambia el modo de generación de texto y limpia el caché si el modo cambia.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>mode</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Modo de generación. Valores válidos: "no", "sin-razonamiento", "con-razonamiento".</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/llm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_llm_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cambia el modo de generación de texto y limpia el caché si el modo cambia.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mode: Modo de generación. Valores válidos: &quot;no&quot;, &quot;sin-razonamiento&quot;, &quot;con-razonamiento&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">llm_mode</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;sin-razonamiento&quot;</span><span class="p">,</span> <span class="s2">&quot;con-razonamiento&quot;</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Modo LLM desconocido: </span><span class="si">%s</span><span class="s2"> — se mantiene el anterior&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="n">llm_mode</span><span class="p">:</span>
+        <span class="n">llm_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Modo LLM cambiado a: </span><span class="si">%s</span><span class="s2"> (cache limpiado)&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+    <span class="n">llm_mode</span> <span class="o">=</span> <span class="n">mode</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="functions.llm.llm.generate_text" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">generate_text</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera un texto de análisis a partir de un prompt.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>prompt</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Texto del prompt a enviar al modelo.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Texto generado por el modelo, o cadena vacía si el modo es "no".</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/llm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_text</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera un texto de análisis a partir de un prompt.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        prompt: Texto del prompt a enviar al modelo.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Texto generado por el modelo, o cadena vacía si el modo es &quot;no&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">llm_mode</span> <span class="o">==</span> <span class="s2">&quot;no&quot;</span> <span class="ow">or</span> <span class="n">_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">((</span><span class="n">prompt</span> <span class="o">+</span> <span class="n">llm_mode</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>  <span class="c1"># Se genera el hash del prompt y el modo</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">llm_cache</span><span class="p">:</span>  <span class="c1"># Si el hash está en la caché, se devuelve el texto generado</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;LLM cache hit (key=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">[:</span><span class="mi">8</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">llm_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>  <span class="c1"># Si el hash está en la caché, se devuelve el texto generado</span>
+
+    <span class="k">if</span> <span class="n">llm_mode</span> <span class="o">==</span> <span class="s2">&quot;con-razonamiento&quot;</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">MODEL_CON_RAZONAMIENTO</span>
+        <span class="n">extra_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_completion_tokens&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="s2">&quot;reasoning_effort&quot;</span><span class="p">:</span> <span class="s2">&quot;low&quot;</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">MODEL_SIN_RAZONAMIENTO</span>
+        <span class="n">extra_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">}</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;LLM llamada API (model=</span><span class="si">%s</span><span class="s2">, modo=</span><span class="si">%s</span><span class="s2">, prompt=</span><span class="si">%d</span><span class="s2"> chars)&quot;</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">,</span>
+        <span class="n">llm_mode</span><span class="p">,</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">_client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">SYSTEM_PROMPT</span><span class="p">},</span>
+                <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">},</span>
+            <span class="p">],</span>
+            <span class="o">**</span><span class="n">extra_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+        <span class="n">usage</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">usage</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;LLM respuesta en </span><span class="si">%.1f</span><span class="s2">s — tokens: prompt=</span><span class="si">%s</span><span class="s2">, completion=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">elapsed</span><span class="p">,</span>
+            <span class="n">usage</span><span class="o">.</span><span class="n">prompt_tokens</span> <span class="k">if</span> <span class="n">usage</span> <span class="k">else</span> <span class="s2">&quot;?&quot;</span><span class="p">,</span>
+            <span class="n">usage</span><span class="o">.</span><span class="n">completion_tokens</span> <span class="k">if</span> <span class="n">usage</span> <span class="k">else</span> <span class="s2">&quot;?&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">content</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;LLM devolvió contenido vacío&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;No se pudo generar la respuesta&quot;</span>
+        <span class="n">llm_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span>
+        <span class="k">return</span> <span class="n">content</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;LLM error: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Ha ocurrido un error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="functions.llm.llm.clear_llm_cache" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">clear_llm_cache</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Vacía el caché de respuestas LLM.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/llm.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">clear_llm_cache</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Vacía el caché de respuestas LLM.&quot;&quot;&quot;</span>
+    <span class="n">llm_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cache LLM limpiado&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="prompts-base">Prompts — Base</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.base" class="doc doc-heading">
+            <code>functions.llm.prompts.base</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Modelo base para los prompts del LLM.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.base-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.base.BasePrompt" class="doc doc-heading">
+            <code>BasePrompt</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+
+        <p>Clase base de la que heredan todos los prompts.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/base.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BasePrompt</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clase base de la que heredan todos los prompts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">universidad</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">titulacion</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">datos</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;universidad&quot;</span><span class="p">,</span> <span class="s2">&quot;titulacion&quot;</span><span class="p">,</span> <span class="s2">&quot;datos&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">must_not_be_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Valida que los campos no estén vacíos.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;El campo no puede estar vacío&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construye el texto del prompt. Debe implementarse en cada subclase.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.base.BasePrompt-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.base.BasePrompt.must_not_be_empty" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">must_not_be_empty</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Valida que los campos no estén vacíos.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/base.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;universidad&quot;</span><span class="p">,</span> <span class="s2">&quot;titulacion&quot;</span><span class="p">,</span> <span class="s2">&quot;datos&quot;</span><span class="p">)</span>
+<span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">must_not_be_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Valida que los campos no estén vacíos.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;El campo no puede estar vacío&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.base.BasePrompt.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Construye el texto del prompt. Debe implementarse en cada subclase.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/base.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Construye el texto del prompt. Debe implementarse en cada subclase.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="prompts-a-nivel-de-asignatura">Prompts —  A nivel de asignatura</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.subject_analisis.par_graficas" class="doc doc-heading">
+            <code>functions.llm.prompts.subject_analisis.par_graficas</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el análisis por par de gráficas de tasa de éxito y rendimiento a nivel de asignatura.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.subject_analisis.par_graficas-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.subject_analisis.par_graficas.PromptAnalisisPar" class="doc doc-heading">
+            <code>PromptAnalisisPar</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar tasas por par de gráficas.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/par_graficas.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptAnalisisPar</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar tasas por par de gráficas.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">contexto_grupo</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">tasa_nombre</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">objetivo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">limite</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis de la tasa de éxito y rendimiento por asignatura.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">umbrales</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objetivo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">umbrales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Objetivo (línea verde): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">objetivo</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limite</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">umbrales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Límite mínimo (línea roja): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">limite</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+        <span class="n">umbrales_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">umbrales</span><span class="p">)</span> <span class="k">if</span> <span class="n">umbrales</span> <span class="k">else</span> <span class="s2">&quot;No se han definido umbrales de referencia.&quot;</span>
+
+        <span class="n">hay_umbrales</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">umbrales</span><span class="p">)</span>
+        <span class="n">lineas</span> <span class="o">=</span> <span class="s2">&quot;3&quot;</span> <span class="k">if</span> <span class="n">hay_umbrales</span> <span class="k">else</span> <span class="s2">&quot;2&quot;</span>
+
+        <span class="k">if</span> <span class="n">hay_umbrales</span><span class="p">:</span>
+            <span class="n">instrucciones</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año con sus valores exactos, &quot;</span>
+                <span class="s2">&quot;indicando cuáles superan el objetivo y cuáles no alcanzan el límite.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;2. Señala una observación destacada: tendencia ascendente o descendente, o diferencia numérica entre la asignatura con el valor más alto y la de valor más bajo.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">instrucciones</span> <span class="o">=</span> <span class="s2">&quot;1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año, citando sus valores exactos y la diferencia numérica entre ambas.&quot;</span>
+
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza el rendimiento de las asignaturas del grupo &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contexto_grupo</span><span class="si">}</span><span class="s2">&quot; de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot; usando la </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tasa_nombre</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            Umbrales de referencia:</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">umbrales_str</span><span class="si">}</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta exactamente </span><span class="si">{</span><span class="n">lineas</span><span class="si">}</span><span class="s2"> líneas siguiendo este orden:</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">instrucciones</span><span class="si">}</span>
+<span class="s2">            Nunca uses introducciones, títulos ni conclusiones genéricas. Tono académico, directo, impersonal.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente </span><span class="si">{</span><span class="n">lineas</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s2">&quot;línea&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">lineas</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;líneas&quot;</span><span class="si">}</span><span class="s2"> de texto continuo. Sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.subject_analisis.par_graficas.PromptAnalisisPar-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.subject_analisis.par_graficas.PromptAnalisisPar.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis de la tasa de éxito y rendimiento por asignatura.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/par_graficas.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis de la tasa de éxito y rendimiento por asignatura.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">umbrales</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objetivo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">umbrales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Objetivo (línea verde): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">objetivo</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limite</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">umbrales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Límite mínimo (línea roja): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">limite</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+    <span class="n">umbrales_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">umbrales</span><span class="p">)</span> <span class="k">if</span> <span class="n">umbrales</span> <span class="k">else</span> <span class="s2">&quot;No se han definido umbrales de referencia.&quot;</span>
+
+    <span class="n">hay_umbrales</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">umbrales</span><span class="p">)</span>
+    <span class="n">lineas</span> <span class="o">=</span> <span class="s2">&quot;3&quot;</span> <span class="k">if</span> <span class="n">hay_umbrales</span> <span class="k">else</span> <span class="s2">&quot;2&quot;</span>
+
+    <span class="k">if</span> <span class="n">hay_umbrales</span><span class="p">:</span>
+        <span class="n">instrucciones</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año con sus valores exactos, &quot;</span>
+            <span class="s2">&quot;indicando cuáles superan el objetivo y cuáles no alcanzan el límite.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;2. Señala una observación destacada: tendencia ascendente o descendente, o diferencia numérica entre la asignatura con el valor más alto y la de valor más bajo.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">instrucciones</span> <span class="o">=</span> <span class="s2">&quot;1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año, citando sus valores exactos y la diferencia numérica entre ambas.&quot;</span>
+
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza el rendimiento de las asignaturas del grupo &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contexto_grupo</span><span class="si">}</span><span class="s2">&quot; de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot; usando la </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tasa_nombre</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        Umbrales de referencia:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">umbrales_str</span><span class="si">}</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta exactamente </span><span class="si">{</span><span class="n">lineas</span><span class="si">}</span><span class="s2"> líneas siguiendo este orden:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">instrucciones</span><span class="si">}</span>
+<span class="s2">        Nunca uses introducciones, títulos ni conclusiones genéricas. Tono académico, directo, impersonal.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente </span><span class="si">{</span><span class="n">lineas</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s2">&quot;línea&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">lineas</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;líneas&quot;</span><span class="si">}</span><span class="s2"> de texto continuo. Sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.subject_analisis.resumen_desglose_curso" class="doc doc-heading">
+            <code>functions.llm.prompts.subject_analisis.resumen_desglose_curso</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el resumen del desglose por curso y cuatrimestre a nivel de asignatura.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.subject_analisis.resumen_desglose_curso-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.subject_analisis.resumen_desglose_curso.PromptResumenDesgloseCurso" class="doc doc-heading">
+            <code>PromptResumenDesgloseCurso</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar el resumen de las tasas de éxito y rendimiento por curso y cuatrimestre.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_curso.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptResumenDesgloseCurso</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar el resumen de las tasas de éxito y rendimiento por curso y cuatrimestre.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por curso y cuatrimestre.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza el rendimiento académico agrupado por Curso y Cuatrimestre de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            Los datos muestran la media de Tasa de Éxito y Tasa de Rendimiento para cada combinación de Curso</span>
+<span class="s2">            y Cuatrimestre. La Tasa de Éxito mide aprobados sobre presentados; la de Rendimiento, aprobados</span>
+<span class="s2">            sobre matriculados totales.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">            1. Identifica la combinación Curso/Cuatrimestre con las tasas más bajas y más altas globalmente.</span>
+<span class="s2">            2. Analiza si existe un patrón por curso o cuatrimestre destacable.</span>
+<span class="s2">            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e interprétala.</span>
+<span class="s2">            4. Describe si las tasas del último curso son más altas o más bajas que las del primero e indica la diferencia numérica.</span>
+<span class="s2">            Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.subject_analisis.resumen_desglose_curso.PromptResumenDesgloseCurso-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.subject_analisis.resumen_desglose_curso.PromptResumenDesgloseCurso.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por curso y cuatrimestre.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_curso.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por curso y cuatrimestre.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza el rendimiento académico agrupado por Curso y Cuatrimestre de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        Los datos muestran la media de Tasa de Éxito y Tasa de Rendimiento para cada combinación de Curso</span>
+<span class="s2">        y Cuatrimestre. La Tasa de Éxito mide aprobados sobre presentados; la de Rendimiento, aprobados</span>
+<span class="s2">        sobre matriculados totales.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">        1. Identifica la combinación Curso/Cuatrimestre con las tasas más bajas y más altas globalmente.</span>
+<span class="s2">        2. Analiza si existe un patrón por curso o cuatrimestre destacable.</span>
+<span class="s2">        3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e interprétala.</span>
+<span class="s2">        4. Describe si las tasas del último curso son más altas o más bajas que las del primero e indica la diferencia numérica.</span>
+<span class="s2">        Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.subject_analisis.resumen_desglose_mencion" class="doc doc-heading">
+            <code>functions.llm.prompts.subject_analisis.resumen_desglose_mencion</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el resumen del desglose por mención a nivel de asignatura.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.subject_analisis.resumen_desglose_mencion-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.subject_analisis.resumen_desglose_mencion.PromptResumenDesgloseMencion" class="doc doc-heading">
+            <code>PromptResumenDesgloseMencion</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar el resumen de las tasas de éxito y rendimiento por mención.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_mencion.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptResumenDesgloseMencion</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar el resumen de las tasas de éxito y rendimiento por mención.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por mención.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza el rendimiento académico por Mención (itinerario de especialización) de la titulación</span>
+<span class="s2">            &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;. Las menciones representan especialidades optativas elegidas por el alumnado</span>
+<span class="s2">            según sus intereses. Los datos muestran la media de Tasa de Éxito y Tasa de Rendimiento por cada</span>
+<span class="s2">            mención. La Tasa de Éxito mide aprobados sobre presentados; la de Rendimiento, aprobados sobre</span>
+<span class="s2">            matriculados totales.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">            1. Identifica la mención con las tasas más altas y la de tasas más bajas en ambas métricas, citando sus valores.</span>
+<span class="s2">            2. Describe si las menciones con las tasas más altas coinciden o difieren de las que tienen las tasas más bajas en cada métrica.</span>
+<span class="s2">            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e indica la diferencia numérica.</span>
+<span class="s2">            4. Indica la diferencia numérica entre la mención con mayor y menor tasa en cada métrica.</span>
+<span class="s2">            Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.subject_analisis.resumen_desglose_mencion.PromptResumenDesgloseMencion-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.subject_analisis.resumen_desglose_mencion.PromptResumenDesgloseMencion.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por mención.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_mencion.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por mención.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza el rendimiento académico por Mención (itinerario de especialización) de la titulación</span>
+<span class="s2">        &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;. Las menciones representan especialidades optativas elegidas por el alumnado</span>
+<span class="s2">        según sus intereses. Los datos muestran la media de Tasa de Éxito y Tasa de Rendimiento por cada</span>
+<span class="s2">        mención. La Tasa de Éxito mide aprobados sobre presentados; la de Rendimiento, aprobados sobre</span>
+<span class="s2">        matriculados totales.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">        1. Identifica la mención con las tasas más altas y la de tasas más bajas en ambas métricas, citando sus valores.</span>
+<span class="s2">        2. Describe si las menciones con las tasas más altas coinciden o difieren de las que tienen las tasas más bajas en cada métrica.</span>
+<span class="s2">        3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento e indica la diferencia numérica.</span>
+<span class="s2">        4. Indica la diferencia numérica entre la mención con mayor y menor tasa en cada métrica.</span>
+<span class="s2">        Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.subject_analisis.resumen_desglose_tipologia" class="doc doc-heading">
+            <code>functions.llm.prompts.subject_analisis.resumen_desglose_tipologia</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el resumen del desglose por tipología a nivel de asignatura.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.subject_analisis.resumen_desglose_tipologia-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.subject_analisis.resumen_desglose_tipologia.PromptResumenDesgloseTipologia" class="doc doc-heading">
+            <code>PromptResumenDesgloseTipologia</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar el resumen de las tasas de éxito y rendimiento por tipología.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_tipologia.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptResumenDesgloseTipologia</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar el resumen de las tasas de éxito y rendimiento por tipología.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por tipología.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza el rendimiento académico por Tipología de asignatura en la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            Las tipologías contempladas son: Formación Básica, Obligatoria, Optativa, Prácticas Externas y</span>
+<span class="s2">            Trabajo Fin de Grado. Los datos muestran la media de Tasa de Éxito y Tasa de Rendimiento por</span>
+<span class="s2">            cada tipología. La Tasa de Éxito mide aprobados sobre presentados; la de Rendimiento, aprobados</span>
+<span class="s2">            sobre matriculados totales.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">            1. Identifica la tipología con las tasas más altas y la de tasas más bajas en ambas métricas, citando sus valores.</span>
+<span class="s2">            2. Contrasta la Tasa de Éxito y Tasa de Rendimiento de Formación Básica/Obligatoria frente a Optativas, y cita los valores de Prácticas Externas y TFG.</span>
+<span class="s2">            3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento dentro de una misma tipología e indica la diferencia numérica.</span>
+<span class="s2">            4. Indica la diferencia numérica entre la tipología con mayor y menor tasa en cada métrica.</span>
+<span class="s2">            Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.subject_analisis.resumen_desglose_tipologia.PromptResumenDesgloseTipologia-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.subject_analisis.resumen_desglose_tipologia.PromptResumenDesgloseTipologia.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por tipología.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_tipologia.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis del resumen de las tasas de éxito y rendimiento por tipología.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza el rendimiento académico por Tipología de asignatura en la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        Las tipologías contempladas son: Formación Básica, Obligatoria, Optativa, Prácticas Externas y</span>
+<span class="s2">        Trabajo Fin de Grado. Los datos muestran la media de Tasa de Éxito y Tasa de Rendimiento por</span>
+<span class="s2">        cada tipología. La Tasa de Éxito mide aprobados sobre presentados; la de Rendimiento, aprobados</span>
+<span class="s2">        sobre matriculados totales.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">        1. Identifica la tipología con las tasas más altas y la de tasas más bajas en ambas métricas, citando sus valores.</span>
+<span class="s2">        2. Contrasta la Tasa de Éxito y Tasa de Rendimiento de Formación Básica/Obligatoria frente a Optativas, y cita los valores de Prácticas Externas y TFG.</span>
+<span class="s2">        3. Señala la mayor brecha entre Tasa de Éxito y Tasa de Rendimiento dentro de una misma tipología e indica la diferencia numérica.</span>
+<span class="s2">        4. Indica la diferencia numérica entre la tipología con mayor y menor tasa en cada métrica.</span>
+<span class="s2">        Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria" class="doc doc-heading">
+            <code>functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el resumen del desglose por convocatoria a nivel de asignatura.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria.PromptResumenDesgloseConvocatoria" class="doc doc-heading">
+            <code>PromptResumenDesgloseConvocatoria</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar el resumen de las tasas de eficiencia y éxito por convocatoria.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_convocatoria.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptResumenDesgloseConvocatoria</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar el resumen de las tasas de eficiencia y éxito por convocatoria.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis del resumen de las tasas de eficiencia y éxito por convocatoria.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza el rendimiento académico por convocatoria de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            Los datos muestran la media de Tasa de Eficiencia y Tasa de Éxito por Curso.</span>
+<span class="s2">            La Tasa de Éxito mide aprobados sobre presentados; la Tasa de Eficiencia relaciona</span>
+<span class="s2">            los créditos superados con los créditos matriculados totales.</span>
+<span class="s2">            Las convocatorias son: Enero, Mayo (ordinaria) y Marzo, Junio, Julio (extraordinaria).</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">            1. Identifica el curso con las tasas más bajas y más altas globalmente.</span>
+<span class="s2">            2. Compara convocatorias ordinarias (Enero, Mayo) frente a extraordinarias (Marzo, Junio, Julio).</span>
+<span class="s2">            3. Señala la mayor brecha entre Tasa de Eficiencia y Tasa de Éxito e interprétala.</span>
+<span class="s2">            4. Describe si las tasas de las convocatorias extraordinarias son más altas o más bajas que las de las ordinarias e indica la diferencia numérica.</span>
+<span class="s2">            Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria.PromptResumenDesgloseConvocatoria-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.subject_analisis.resumen_desglose_convocatoria.PromptResumenDesgloseConvocatoria.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis del resumen de las tasas de eficiencia y éxito por convocatoria.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/subject_analisis/resumen_desglose_convocatoria.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis del resumen de las tasas de eficiencia y éxito por convocatoria.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza el rendimiento académico por convocatoria de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        Los datos muestran la media de Tasa de Eficiencia y Tasa de Éxito por Curso.</span>
+<span class="s2">        La Tasa de Éxito mide aprobados sobre presentados; la Tasa de Eficiencia relaciona</span>
+<span class="s2">        los créditos superados con los créditos matriculados totales.</span>
+<span class="s2">        Las convocatorias son: Enero, Mayo (ordinaria) y Marzo, Junio, Julio (extraordinaria).</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 4 líneas siguiendo este orden:</span>
+<span class="s2">        1. Identifica el curso con las tasas más bajas y más altas globalmente.</span>
+<span class="s2">        2. Compara convocatorias ordinarias (Enero, Mayo) frente a extraordinarias (Marzo, Junio, Julio).</span>
+<span class="s2">        3. Señala la mayor brecha entre Tasa de Eficiencia y Tasa de Éxito e interprétala.</span>
+<span class="s2">        4. Describe si las tasas de las convocatorias extraordinarias son más altas o más bajas que las de las ordinarias e indica la diferencia numérica.</span>
+<span class="s2">        Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 4 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="prompts-a-nivel-de-titulacion">Prompts — A nivel de titulación</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.degree_analisis.tasa_exito" class="doc doc-heading">
+            <code>functions.llm.prompts.degree_analisis.tasa_exito</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el análisis de la tasa de éxito a nivel de titulación.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.degree_analisis.tasa_exito-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.degree_analisis.tasa_exito.PromptTasaExito" class="doc doc-heading">
+            <code>PromptTasaExito</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar la evolución temporal de la tasa de éxito.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_exito.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptTasaExito</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar la evolución temporal de la tasa de éxito.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis de la tasa de éxito.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza la evolución temporal de la Tasa de Éxito de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            La Tasa de Éxito mide la proporción de estudiantes aprobados sobre el total de presentados</span>
+<span class="s2">            a evaluación. Un valor alto indica que quienes se presentan superan la materia, pero no</span>
+<span class="s2">            refleja el abandono o la no presentación previos.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">            1. Indica el valor máximo y mínimo registrados con su año académico exacto, y describe la tendencia general.</span>
+<span class="s2">            2. Señala si existe algún año con variación brusca e interpreta la causa probable.</span>
+<span class="s2">            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.</span>
+<span class="s2">            Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.degree_analisis.tasa_exito.PromptTasaExito-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.degree_analisis.tasa_exito.PromptTasaExito.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis de la tasa de éxito.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_exito.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis de la tasa de éxito.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza la evolución temporal de la Tasa de Éxito de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        La Tasa de Éxito mide la proporción de estudiantes aprobados sobre el total de presentados</span>
+<span class="s2">        a evaluación. Un valor alto indica que quienes se presentan superan la materia, pero no</span>
+<span class="s2">        refleja el abandono o la no presentación previos.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">        1. Indica el valor máximo y mínimo registrados con su año académico exacto, y describe la tendencia general.</span>
+<span class="s2">        2. Señala si existe algún año con variación brusca e interpreta la causa probable.</span>
+<span class="s2">        3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.</span>
+<span class="s2">        Tono académico, directo, sin introducciones ni conclusiones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.degree_analisis.tasa_rendimiento" class="doc doc-heading">
+            <code>functions.llm.prompts.degree_analisis.tasa_rendimiento</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el análisis de la tasa de rendimiento a nivel de titulación.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.degree_analisis.tasa_rendimiento-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.degree_analisis.tasa_rendimiento.PromptTasaRendimiento" class="doc doc-heading">
+            <code>PromptTasaRendimiento</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar la evolución temporal de la tasa de rendimiento.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_rendimiento.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptTasaRendimiento</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar la evolución temporal de la tasa de rendimiento.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis de la tasa de rendimiento.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza la evolución temporal de la Tasa de Rendimiento de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            La Tasa de Rendimiento mide aprobados sobre el total de matriculados, capturando tanto el</span>
+<span class="s2">            abandono como el suspenso: es el indicador más exigente y representativo del desempeño global</span>
+<span class="s2">            del alumnado, puesto que penaliza tanto la no presentación como el fracaso en la evaluación.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">            1. Indica el valor máximo y mínimo con su año exacto, y describe la tendencia general.</span>
+<span class="s2">            2. Identifica años de variación brusca con hipótesis breve (cambio curricular, pandemia, etc.).</span>
+<span class="s2">            3. Señala si la brecha respecto a la Tasa de Éxito es notable e interprétala.</span>
+<span class="s2">            Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.degree_analisis.tasa_rendimiento.PromptTasaRendimiento-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.degree_analisis.tasa_rendimiento.PromptTasaRendimiento.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis de la tasa de rendimiento.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_rendimiento.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis de la tasa de rendimiento.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza la evolución temporal de la Tasa de Rendimiento de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        La Tasa de Rendimiento mide aprobados sobre el total de matriculados, capturando tanto el</span>
+<span class="s2">        abandono como el suspenso: es el indicador más exigente y representativo del desempeño global</span>
+<span class="s2">        del alumnado, puesto que penaliza tanto la no presentación como el fracaso en la evaluación.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">        1. Indica el valor máximo y mínimo con su año exacto, y describe la tendencia general.</span>
+<span class="s2">        2. Identifica años de variación brusca con hipótesis breve (cambio curricular, pandemia, etc.).</span>
+<span class="s2">        3. Señala si la brecha respecto a la Tasa de Éxito es notable e interprétala.</span>
+<span class="s2">        Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.degree_analisis.tasa_abandono" class="doc doc-heading">
+            <code>functions.llm.prompts.degree_analisis.tasa_abandono</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el análisis de la tasa de abandono a nivel de titulación.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.degree_analisis.tasa_abandono-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.degree_analisis.tasa_abandono.PromptTasaAbandono" class="doc doc-heading">
+            <code>PromptTasaAbandono</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar la evolución temporal de la tasa de abandono.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_abandono.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptTasaAbandono</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar la evolución temporal de la tasa de abandono.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis de la tasa de abandono.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza la evolución temporal de la Tasa de Abandono de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            La Tasa de Abandono recoge el porcentaje de estudiantes que interrumpen sus estudios sin</span>
+<span class="s2">            completar la titulación, siendo un indicador crítico de retención y adaptación curricular.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">            1. Indica el valor máximo y mínimo con su año exacto, y describe si la tendencia es ascendente o descendente.</span>
+<span class="s2">            2. Identifica si algún año presenta un pico anómalo y propón una hipótesis explicativa.</span>
+<span class="s2">            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica.</span>
+<span class="s2">            Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.degree_analisis.tasa_abandono.PromptTasaAbandono-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.degree_analisis.tasa_abandono.PromptTasaAbandono.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis de la tasa de abandono.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_abandono.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis de la tasa de abandono.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza la evolución temporal de la Tasa de Abandono de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        La Tasa de Abandono recoge el porcentaje de estudiantes que interrumpen sus estudios sin</span>
+<span class="s2">        completar la titulación, siendo un indicador crítico de retención y adaptación curricular.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">        1. Indica el valor máximo y mínimo con su año exacto, y describe si la tendencia es ascendente o descendente.</span>
+<span class="s2">        2. Identifica si algún año presenta un pico anómalo y propón una hipótesis explicativa.</span>
+<span class="s2">        3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica.</span>
+<span class="s2">        Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.degree_analisis.tasa_eficiencia" class="doc doc-heading">
+            <code>functions.llm.prompts.degree_analisis.tasa_eficiencia</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el análisis de la tasa de eficiencia a nivel de titulación.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.degree_analisis.tasa_eficiencia-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.degree_analisis.tasa_eficiencia.PromptTasaEficiencia" class="doc doc-heading">
+            <code>PromptTasaEficiencia</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar la evolución temporal de la tasa de eficiencia.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_eficiencia.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptTasaEficiencia</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar la evolución temporal de la tasa de eficiencia.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis de la tasa de eficiencia.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza la evolución temporal de la Tasa de Eficiencia de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            La Tasa de Eficiencia relaciona los créditos teóricos necesarios para graduarse con los créditos</span>
+<span class="s2">            realmente matriculados por los graduados, midiendo el sobrecoste académico en repeticiones.</span>
+<span class="s2">            Un valor del 100% implica que los graduados no repitieron ningún crédito; valores inferiores</span>
+<span class="s2">            indican que los estudiantes necesitaron matricularse en más créditos de los previstos.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">            1. Indica el valor máximo y mínimo con su año exacto, y describe si la eficiencia mejora o empeora.</span>
+<span class="s2">            2. Señala si algún año presenta una variación brusca con hipótesis explicativa breve.</span>
+<span class="s2">            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.</span>
+<span class="s2">            Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.degree_analisis.tasa_eficiencia.PromptTasaEficiencia-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.degree_analisis.tasa_eficiencia.PromptTasaEficiencia.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis de la tasa de eficiencia.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_eficiencia.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis de la tasa de eficiencia.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza la evolución temporal de la Tasa de Eficiencia de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        La Tasa de Eficiencia relaciona los créditos teóricos necesarios para graduarse con los créditos</span>
+<span class="s2">        realmente matriculados por los graduados, midiendo el sobrecoste académico en repeticiones.</span>
+<span class="s2">        Un valor del 100% implica que los graduados no repitieron ningún crédito; valores inferiores</span>
+<span class="s2">        indican que los estudiantes necesitaron matricularse en más créditos de los previstos.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">        1. Indica el valor máximo y mínimo con su año exacto, y describe si la eficiencia mejora o empeora.</span>
+<span class="s2">        2. Señala si algún año presenta una variación brusca con hipótesis explicativa breve.</span>
+<span class="s2">        3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.</span>
+<span class="s2">        Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="functions.llm.prompts.degree_analisis.tasa_graduacion" class="doc doc-heading">
+            <code>functions.llm.prompts.degree_analisis.tasa_graduacion</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Prompt para el análisis de la tasa de graduación a nivel de titulación.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h3 id="functions.llm.prompts.degree_analisis.tasa_graduacion-classes">Classes</h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="functions.llm.prompts.degree_analisis.tasa_graduacion.PromptTasaGraduacion" class="doc doc-heading">
+            <code>PromptTasaGraduacion</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="BasePrompt (functions.llm.prompts.base.BasePrompt)" href="#functions.llm.prompts.base.BasePrompt">BasePrompt</a></code></p>
+
+
+
+        <p>Prompt para analizar la evolución temporal de la tasa de graduación.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_graduacion.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PromptTasaGraduacion</span><span class="p">(</span><span class="n">BasePrompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt para analizar la evolución temporal de la tasa de graduación.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Genera el prompt para el análisis de la tasa de graduación.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">            &lt;rol&gt;</span>
+<span class="s2">            Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &lt;/rol&gt;</span>
+
+<span class="s2">            &lt;contexto&gt;</span>
+<span class="s2">            Analiza la evolución temporal de la Tasa de Graduación de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">            La Tasa de Graduación mide el porcentaje de estudiantes de una cohorte que completan la</span>
+<span class="s2">            titulación en el tiempo nominal previsto, siendo el indicador de eficacia terminal más</span>
+<span class="s2">            relevante para la evaluación de la calidad de un título universitario.</span>
+<span class="s2">            &lt;/contexto&gt;</span>
+
+<span class="s2">            &lt;instrucciones&gt;</span>
+<span class="s2">            Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">            1. Indica el valor máximo y mínimo con su año de cohorte, y describe la tendencia general.</span>
+<span class="s2">            2. Señala si algún año registra una variación brusca con hipótesis breve (cambio de plan, COVID, etc.).</span>
+<span class="s2">            3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.</span>
+<span class="s2">            Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">            &lt;/instrucciones&gt;</span>
+
+<span class="s2">            &lt;datos&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">            &lt;/datos&gt;</span>
+
+<span class="s2">            &lt;formato_respuesta&gt;</span>
+<span class="s2">            Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">            &lt;/formato_respuesta&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h5 id="functions.llm.prompts.degree_analisis.tasa_graduacion.PromptTasaGraduacion-functions">Functions</h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="functions.llm.prompts.degree_analisis.tasa_graduacion.PromptTasaGraduacion.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Genera el prompt para el análisis de la tasa de graduación.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/functions/llm/prompts/degree_analisis/tasa_graduacion.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Genera el prompt para el análisis de la tasa de graduación.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        &lt;rol&gt;</span>
+<span class="s2">        Eres un analista experto en calidad educativa universitaria de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">universidad</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &lt;/rol&gt;</span>
+
+<span class="s2">        &lt;contexto&gt;</span>
+<span class="s2">        Analiza la evolución temporal de la Tasa de Graduación de la titulación &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulacion</span><span class="si">}</span><span class="s2">&quot;.</span>
+<span class="s2">        La Tasa de Graduación mide el porcentaje de estudiantes de una cohorte que completan la</span>
+<span class="s2">        titulación en el tiempo nominal previsto, siendo el indicador de eficacia terminal más</span>
+<span class="s2">        relevante para la evaluación de la calidad de un título universitario.</span>
+<span class="s2">        &lt;/contexto&gt;</span>
+
+<span class="s2">        &lt;instrucciones&gt;</span>
+<span class="s2">        Redacta una conclusión técnica de EXACTAMENTE 3 líneas siguiendo este orden:</span>
+<span class="s2">        1. Indica el valor máximo y mínimo con su año de cohorte, y describe la tendencia general.</span>
+<span class="s2">        2. Señala si algún año registra una variación brusca con hipótesis breve (cambio de plan, COVID, etc.).</span>
+<span class="s2">        3. Indica si la tasa en el último año es mayor o menor que en el primero y describe la diferencia numérica entre ambos valores.</span>
+<span class="s2">        Tono académico, directo, sin introducciones genéricas.</span>
+<span class="s2">        &lt;/instrucciones&gt;</span>
+
+<span class="s2">        &lt;datos&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datos</span><span class="si">}</span>
+<span class="s2">        &lt;/datos&gt;</span>
+
+<span class="s2">        &lt;formato_respuesta&gt;</span>
+<span class="s2">        Exactamente 3 líneas de texto continuo, sin numeración, sin guiones, sin encabezados.</span>
+<span class="s2">        &lt;/formato_respuesta&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "toc.integrate", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
