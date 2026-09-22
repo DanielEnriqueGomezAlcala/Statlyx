@@ -114,21 +114,11 @@ def register_callbacks(app):
             filename_conv: Nombre del archivo de convocatorias.
             filename_adicional: Nombre del archivo auxiliar.
         """
-        tabla_1, badge_t1, err_t1 = validate_file(
-            contents_t1, filename_t1, 4, check_table_1
-        )
-        tabla_2, badge_t2, err_t2 = validate_file(
-            contents_t2, filename_t2, 4, check_table_2
-        )
-        tabla_aux, badge_adicional, err_aux = validate_file(
-            contents_adicional, filename_adicional, 0, check_table_1_aux
-        )
-        tabla_4, badge_t4, err_t4 = validate_file(
-            contents_t4, filename_t4, 5, check_table_4
-        )
-        tabla_conv, badge_conv, err_conv = validate_file(
-            contents_conv, filename_conv, 0, check_table_call
-        )
+        tabla_1, badge_t1, err_t1 = validate_file(contents_t1, filename_t1, 4, check_table_1)
+        tabla_2, badge_t2, err_t2 = validate_file(contents_t2, filename_t2, 4, check_table_2)
+        tabla_aux, badge_adicional, err_aux = validate_file(contents_adicional, filename_adicional, 0, check_table_1_aux)
+        tabla_4, badge_t4, err_t4 = validate_file(contents_t4, filename_t4, 5, check_table_4)
+        tabla_conv, badge_conv, err_conv = validate_file(contents_conv, filename_conv, 0, check_table_call)
 
         badges = [
             badge_t1,
@@ -182,9 +172,7 @@ def register_callbacks(app):
             ]
             if c is None
         )
-        if any(
-            df is None for df in [tabla_1, tabla_2, tabla_4, tabla_aux, tabla_conv]
-        ):  # si algun archivo esta vacio se retorna alerta
+        if any(df is None for df in [tabla_1, tabla_2, tabla_4, tabla_aux, tabla_conv]):  # si algun archivo esta vacio se retorna alerta
             msg = dmc.Alert(
                 f"Faltan {pending} archivo{'s' if pending != 1 else ''} por subir",
                 color="gray",
@@ -193,29 +181,19 @@ def register_callbacks(app):
             return empty_return(msg)
 
         try:
-            df_t1t2 = clean_data_t1t2(
-                tabla_1, tabla_2, tabla_aux
-            )  # Se limpian los datos de las tablas 1, 2 y auxiliar y se unen en un único DF
-            df_t4 = clean_data_t4(
-                tabla_4
-            )  # Se limpian los datos de la tabla 4 y se transponen
-            df_conv = clean_data_call(
-                tabla_conv, tabla_aux
-            )  # Se limpian los datos de la tabla de convocatorias y se unen con la tabla auxiliar
+            df_t1t2 = clean_data_t1t2(tabla_1, tabla_2, tabla_aux)  # Se limpian los datos de las tablas 1, 2 y auxiliar y se unen en un único DF
+            df_t4 = clean_data_t4(tabla_4)  # Se limpian los datos de la tabla 4 y se transponen
+            df_conv = clean_data_call(tabla_conv, tabla_aux)  # Se limpian los datos de la tabla de convocatorias y se unen con la tabla auxiliar
 
-            start_years = (
-                df_t1t2["Anio"].dropna().str.extract(r"(\d+)")[0].astype(int)
-            )  # Extraemos años disponibles para el filtro
+            start_years = df_t1t2["Anio"].dropna().str.extract(r"(\d+)")[0].astype(int)  # Extraemos años disponibles para el filtro
             min_year = dt(int(start_years.min()), 1, 1)
-            max_year = dt(int(start_years.max()), 12, 31)
+            max_year = dt(int(start_years.max()) + 1, 12, 31)
 
             tipos = [  # Extraemos las tipologias disponibles para el filtro
-                {"value": v, "label": v}
-                for v in sorted(df_t1t2["Tipologia"].dropna().unique())
+                {"value": v, "label": v} for v in sorted(df_t1t2["Tipologia"].dropna().unique())
             ]
             cursos = [  # Extraemos los cursos disponibles para el filtro
-                {"value": str(v), "label": str(v)}
-                for v in sorted(df_t1t2["Curso"].dropna().unique())
+                {"value": str(v), "label": str(v)} for v in sorted(df_t1t2["Curso"].dropna().unique())
             ]
 
             msg = dmc.Alert(  # Se muestra un mensaje de exito si se procesa y todo va bien
@@ -237,7 +215,5 @@ def register_callbacks(app):
             ]
 
         except Exception as e:
-            error = dmc.Alert(
-                f"Error al procesar los archivos: {str(e)}", color="red", title="Error"
-            )
+            error = dmc.Alert(f"Error al procesar los archivos: {str(e)}", color="red", title="Error")
             return [None, None, None, None, *badges, error, None, None, [], []]

@@ -42,9 +42,7 @@ def enrich_with_inline(item: dict, tpl, width=Mm(150)):
     if item.get("table_chart_path"):
         item["table_chart"] = InlineImage(tpl, item["table_chart_path"], width=width)
     if item.get("resume_chart_path"):
-        item["resume_chart"] = InlineImage(
-            tpl, item["resume_chart_path"], width=Mm(155)
-        )
+        item["resume_chart"] = InlineImage(tpl, item["resume_chart_path"], width=Mm(155))
 
 
 def compute_numbering(contexto: dict) -> dict:
@@ -158,7 +156,7 @@ def write_word(
     df = df.sort_values("Curso").dropna(subset=["Curso"])
 
     anios = df["Anio"].dropna().str.extract(r"(\d{4})")[0].astype(int)
-    rango_anios = f"{anios.min()} — {anios.max()}" if not anios.empty else ""
+    rango_anios = f"{anios.min()} — {anios.max() + 1}" if not anios.empty else ""
 
     tipologias = ", ".join(sorted(df["Tipologia"].dropna().unique()))
 
@@ -295,9 +293,7 @@ def write_word(
         "degree_data": degree_data,
     }
 
-    contexto.update(
-        compute_numbering(contexto)
-    )  # Añade los números y títulos de sección
+    contexto.update(compute_numbering(contexto))  # Añade los números y títulos de sección
 
     tpl.render(contexto)  # Renderiza la plantilla Word
 
@@ -311,8 +307,6 @@ def write_word(
         f"{institucion}_{titulacion}_{datetime.now().strftime('%Y%m%d')}.docx",
     )
     tpl.save(ruta_guardado)
-    logger.info(
-        "Word guardado en %.1fs: %s", time.time() - t0, os.path.basename(ruta_guardado)
-    )
+    logger.info("Word guardado en %.1fs: %s", time.time() - t0, os.path.basename(ruta_guardado))
 
     return ruta_guardado

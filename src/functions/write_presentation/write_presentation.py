@@ -86,7 +86,7 @@ def write_presentation(
     df = df.sort_values("Curso").dropna(subset=["Curso"])
 
     anios = df["Anio"].dropna().str.extract(r"(\d{4})")[0].astype(int)
-    rango_anios = f"{anios.min()} — {anios.max()}" if not anios.empty else ""
+    rango_anios = f"{anios.min()} — {anios.max() + 1}" if not anios.empty else ""
     tipologias = ", ".join(sorted(df["Tipologia"].dropna().unique()))
     cursos_presentes = [c for c in ORDEN_CURSOS if c in df["Curso"].values]
     cursos_str = ", ".join(cursos_presentes)
@@ -197,9 +197,7 @@ def write_presentation(
     if convocatoria_data:
         call_section(prs, convocatoria_data)
 
-    if subject_conclusions.get("conclusion_text") or subject_conclusions.get(
-        "recommendations_bullets"
-    ):
+    if subject_conclusions.get("conclusion_text") or subject_conclusions.get("recommendations_bullets"):
         conclusions_slide(
             prs,
             "Conclusiones y recomendaciones por asignatura",
@@ -212,7 +210,5 @@ def write_presentation(
         f"{institucion}_{titulacion}_{datetime.now().strftime('%Y%m%d')}.pptx",
     )
     prs.save(ruta_guardado)
-    logger.info(
-        "PPTX guardado en %.1fs: %s", time.time() - t0, os.path.basename(ruta_guardado)
-    )
+    logger.info("PPTX guardado en %.1fs: %s", time.time() - t0, os.path.basename(ruta_guardado))
     return ruta_guardado

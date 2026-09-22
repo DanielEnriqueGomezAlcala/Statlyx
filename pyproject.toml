@@ -43,6 +43,7 @@ markers = []
 
 [tool.ruff]
 src = ["src"]
+line-length = 200
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "PT"]

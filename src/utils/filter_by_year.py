@@ -19,4 +19,4 @@ def filter_by_year(df, start_year, end_year) -> pd.DataFrame:
     """
     df = df.dropna(subset=["Anio"]).copy()
     df["start_year"] = df["Anio"].str.extract(r"(\d{4})")[0].astype(int)
-    return df[(df["start_year"] >= start_year) & (df["start_year"] <= end_year)]
+    return df[(df["start_year"] >= start_year) & (df["start_year"] <= end_year - 1)]
