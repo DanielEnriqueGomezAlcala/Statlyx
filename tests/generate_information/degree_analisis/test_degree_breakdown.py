@@ -43,9 +43,7 @@ def test_output_has_expected_keys(df, tmp_path, mocker):
 
 def test_only_present_columns_processed(df, tmp_path, mocker):
     _common_mocks(mocker, json.dumps({"conclusion": "ok", "recomendaciones": []}))
-    result = generate_degree_breakdown(
-        df, str(tmp_path), [], institucion="ULL", titulacion="Informática"
-    )
+    result = generate_degree_breakdown(df, str(tmp_path), [], institucion="ULL", titulacion="Informática")
     names = [t["name"] for t in result["tasas"]]
     assert len(names) == 2
     assert "Tasa de abandono" not in names
@@ -54,8 +52,6 @@ def test_only_present_columns_processed(df, tmp_path, mocker):
 
 def test_invalid_json_resume_does_not_raise(df, tmp_path, mocker):
     _common_mocks(mocker, "esto no es json valido")
-    result = generate_degree_breakdown(
-        df, str(tmp_path), [], institucion="ULL", titulacion="Informática"
-    )
+    result = generate_degree_breakdown(df, str(tmp_path), [], institucion="ULL", titulacion="Informática")
     assert "ERROR" in result["resume_conclusion"]
     assert result["resume_bullets"] == []

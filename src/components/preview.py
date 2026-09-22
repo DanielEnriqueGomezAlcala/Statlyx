@@ -25,9 +25,7 @@ def preview():
                                 [
                                     dmc.Group(
                                         [
-                                            dmc.Title(
-                                                "Previsualización de datos", order=4
-                                            ),
+                                            dmc.Title("Previsualización de datos", order=4),
                                             dmc.SegmentedControl(
                                                 id="table-selector",
                                                 value="t1t2",

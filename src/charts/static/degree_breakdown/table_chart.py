@@ -18,19 +18,13 @@ def static_chart_table(df, rate, lower_is_better=False):
     """
     anios_ordenados = sorted(df["Anio"].unique())  # Se ordenan los años
 
-    header_values = [
-        f"<b>{a}</b>" for a in anios_ordenados
-    ]  # Se crean las etiquetas para la cabecera
+    header_values = [f"<b>{a}</b>" for a in anios_ordenados]  # Se crean las etiquetas para la cabecera
 
     row_values = []  # Se crean las etiquetas para las filas
     for anio in anios_ordenados:
         v = df[df["Anio"] == anio][rate].values
-        val = (
-            v[0] if len(v) > 0 and pd.notna(v[0]) else None
-        )  # Se obtiene el valor de la tasa
-        row_values.append(
-            f"{val:.1f}%" if val is not None else "—"
-        )  # Se añade el valor a la fila
+        val = v[0] if len(v) > 0 and pd.notna(v[0]) else None  # Se obtiene el valor de la tasa
+        row_values.append(f"{val:.1f}%" if val is not None else "—")  # Se añade el valor a la fila
 
     fill_colors = []
     for anio in anios_ordenados:

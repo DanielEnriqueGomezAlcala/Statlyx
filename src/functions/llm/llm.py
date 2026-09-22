@@ -74,14 +74,10 @@ def generate_text(prompt: str) -> str:
     if llm_mode == "no" or _client is None:
         return ""
 
-    key = hashlib.md5(
-        (prompt + llm_mode).encode()
-    ).hexdigest()  # Se genera el hash del prompt y el modo
+    key = hashlib.md5((prompt + llm_mode).encode()).hexdigest()  # Se genera el hash del prompt y el modo
     if key in llm_cache:  # Si el hash está en la caché, se devuelve el texto generado
         logger.info("LLM cache hit (key=%s)", key[:8])
-        return llm_cache[
-            key
-        ]  # Si el hash está en la caché, se devuelve el texto generado
+        return llm_cache[key]  # Si el hash está en la caché, se devuelve el texto generado
 
     if llm_mode == "con-razonamiento":
         model = MODEL_CON_RAZONAMIENTO

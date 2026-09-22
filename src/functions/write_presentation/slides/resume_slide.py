@@ -16,9 +16,7 @@ from functions.write_presentation.helpers import (
 )
 
 
-def resume_slide(
-    presentacion: Presentation, title: str, img_path: str | None, text: str | None
-):
+def resume_slide(presentacion: Presentation, title: str, img_path: str | None, text: str | None):
     """
     Genera la diapositiva de resumen de sección.
 
@@ -48,9 +46,7 @@ def resume_slide(
     img_left = (SLIDE_W - img_w) / 2
 
     if img_path:
-        add_image(
-            slide, img_path, img_left, top_img, img_w
-        )  # Añadimos grafico de resumen
+        add_image(slide, img_path, img_left, top_img, img_w)  # Añadimos grafico de resumen
 
     if text:
         add_text_box(

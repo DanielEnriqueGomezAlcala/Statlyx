@@ -20,9 +20,7 @@ def clean_data_t4(tabla_4):
         "16   -Tasa de eficiencia de los graduados - (IA)": "Tasa eficiencia",
         "14   -Tasa de graduación del título - (IA)": "Tasa graduación",
     }
-    df_filtrado = df[
-        df["Indicador"].isin(mapeo_columnas.keys())
-    ].copy()  # Se filtran las columnas de la tabla 4
+    df_filtrado = df[df["Indicador"].isin(mapeo_columnas.keys())].copy()  # Se filtran las columnas de la tabla 4
     df_filtrado["Indicador"] = df_filtrado["Indicador"].map(mapeo_columnas)
     df_filtrado.set_index("Indicador", inplace=True)
     df_transpuesto = df_filtrado.transpose()  # Se transponen las columnas de la tabla 4

@@ -17,33 +17,21 @@ def static_chart_table(df, rate):
     """
     anios_ordenados = sorted(df["Anio"].unique())
 
-    pivot = df.pivot_table(
-        index="Asignatura", columns="Anio", values=rate, aggfunc="mean"
-    )  # Se crea la tabla pivot
+    pivot = df.pivot_table(index="Asignatura", columns="Anio", values=rate, aggfunc="mean")  # Se crea la tabla pivot
     pivot = pivot.reindex(columns=anios_ordenados)  # Se reindexa la tabla pivot
 
     asignaturas = pivot.index.tolist()
 
-    header_values = ["<b>Asignatura</b>"] + [
-        f"<b>{a}</b>" for a in anios_ordenados
-    ]  # Se crean las etiquetas para la cabecera
+    header_values = ["<b>Asignatura</b>"] + [f"<b>{a}</b>" for a in anios_ordenados]  # Se crean las etiquetas para la cabecera
 
     cell_values = [asignaturas]  # Se crean las etiquetas para las filas
     for anio in anios_ordenados:
-        col = (
-            pivot[anio]
-            if anio in pivot.columns
-            else pd.Series([None] * len(asignaturas))
-        )
+        col = pivot[anio] if anio in pivot.columns else pd.Series([None] * len(asignaturas))
         cell_values.append([f"{v:.1f}%" if pd.notna(v) else "—" for v in col])
 
     fill_colors = [["white"] * len(asignaturas)]
     for anio in anios_ordenados:
-        col = (
-            pivot[anio]
-            if anio in pivot.columns
-            else pd.Series([None] * len(asignaturas))
-        )
+        col = pivot[anio] if anio in pivot.columns else pd.Series([None] * len(asignaturas))
         colors = []
         for v in col:
             if pd.isna(v):

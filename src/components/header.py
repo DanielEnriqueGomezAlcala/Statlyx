@@ -32,15 +32,9 @@ def header():
                                         [
                                             dmc.TabsList(
                                                 [
-                                                    dmc.TabsTab(
-                                                        "Subir archivo", value="upload"
-                                                    ),
-                                                    dmc.TabsTab(
-                                                        "Filtros", value="filters"
-                                                    ),
-                                                    dmc.TabsTab(
-                                                        "Métricas", value="metrics"
-                                                    ),
+                                                    dmc.TabsTab("Subir archivo", value="upload"),
+                                                    dmc.TabsTab("Filtros", value="filters"),
+                                                    dmc.TabsTab("Métricas", value="metrics"),
                                                     dmc.TabsTab(
                                                         "Generar informe",
                                                         value="report",

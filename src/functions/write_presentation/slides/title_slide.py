@@ -14,9 +14,7 @@ from functions.write_presentation.helpers import (
 )
 
 
-def title_slide(
-    presentacion: Presentation, institucion: str, titulacion: str, fecha: str
-):
+def title_slide(presentacion: Presentation, institucion: str, titulacion: str, fecha: str):
     """
     Genera la diapositiva de título.
 

@@ -67,12 +67,7 @@ def register_callbacks(app):
             df_t1t2 = df_t1t2[df_t1t2["Curso"].astype(str).isin(curso_multi_select)]
             df_conv = df_conv[df_conv["Curso"].astype(str).isin(curso_multi_select)]
 
-        if (
-            year_range
-            and isinstance(year_range, list)
-            and len(year_range) == 2
-            and all(year_range)
-        ):
+        if year_range and isinstance(year_range, list) and len(year_range) == 2 and all(year_range):
             start_year = pd.to_datetime(year_range[0]).year
             end_year = pd.to_datetime(year_range[1]).year
             df_t1t2 = filter_by_year(df_t1t2, start_year, end_year)

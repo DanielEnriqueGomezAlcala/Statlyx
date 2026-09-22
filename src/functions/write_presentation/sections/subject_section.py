@@ -19,9 +19,7 @@ def subject_section(presentacion: Presentation, course_data: dict):
         presentacion: Plantilla de PowerPoint.
         course_data: Datos de la asignatura.
     """
-    section_slide(
-        presentacion, "Análisis por asignatura", "Desglose por curso-cuatrimestre"
-    )
+    section_slide(presentacion, "Análisis por asignatura", "Desglose por curso-cuatrimestre")
     resume_slide(
         presentacion,
         "Resumen por curso y cuatrimestre",

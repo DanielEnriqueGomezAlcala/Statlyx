@@ -11,9 +11,7 @@ from utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-def save_chart_image(
-    fig, img_path, width=1200, scale=2, border=0, border_color=(180, 180, 180)
-):
+def save_chart_image(fig, img_path, width=1200, scale=2, border=0, border_color=(180, 180, 180)):
     """
     Exporta una figura Plotly a PNG, recorta el espacio blanco inferior y opcionalmente añade un borde.
 

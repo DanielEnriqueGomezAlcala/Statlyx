@@ -62,16 +62,12 @@ def generate_tipology_breakdown(
     line_chart = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
 
-    for curso, df_curso in df.groupby(
-        "Curso", observed=True
-    ):  # Se agrupan los datos por curso
+    for curso, df_curso in df.groupby("Curso", observed=True):  # Se agrupan los datos por curso
         curso_nombre = CURSOS.get(curso, str(curso))
         logger.info("Tipology breakdown — curso: %s", curso_nombre)
         course_data: dict[str, Any] = {"name": curso_nombre, "tipologies": []}
 
-        for tipologia, df_tipologia in df_curso.groupby(
-            "Tipologia", observed=True
-        ):  # Se agrupan los datos por tipología
+        for tipologia, df_tipologia in df_curso.groupby("Tipologia", observed=True):  # Se agrupan los datos por tipología
             tipologia_nombre = TIPOLOGIAS.get(tipologia, str(tipologia))
             tipologia_data: dict[str, Any] = {"name": tipologia_nombre, "rates": []}
 
@@ -127,38 +123,23 @@ def generate_tipology_breakdown(
                     limite=limit_value,
                     datos=pivot.to_string(),
                 ).build()
-                tasa_data["text"] = generate_text(
-                    prompt
-                )  # Se genera el texto de la tasa
+                tasa_data["text"] = generate_text(prompt)  # Se genera el texto de la tasa
 
-                tipologia_data["rates"].append(
-                    tasa_data
-                )  # Se agrega la tasa a la tipología
+                tipologia_data["rates"].append(tasa_data)  # Se agrega la tasa a la tipología
 
-            course_data["tipologies"].append(
-                tipologia_data
-            )  # Se agrega la tipología a la lista de tipologías
+            course_data["tipologies"].append(tipologia_data)  # Se agrega la tipología a la lista de tipologías
 
-        breakdown_data["breakdown"].append(
-            course_data
-        )  # Se agrega el curso a la lista de cursos
+        breakdown_data["breakdown"].append(course_data)  # Se agrega el curso a la lista de cursos
 
     # Se genera el resumen de las tasas de éxito y rendimiento por tipología
-    df_agrupado = (
-        df[["Tipologia", "Tasa_Exito", "Tasa_Rendimiento"]]
-        .groupby("Tipologia")[["Tasa_Exito", "Tasa_Rendimiento"]]
-        .mean()
-        .reset_index()
-    )
+    df_agrupado = df[["Tipologia", "Tasa_Exito", "Tasa_Rendimiento"]].groupby("Tipologia")[["Tasa_Exito", "Tasa_Rendimiento"]].mean().reset_index()
 
     prompt = PromptResumenDesgloseTipologia(  # Se genera el prompt para el análisis del resumen
         universidad=institucion,
         titulacion=titulacion,
         datos=df_agrupado.to_string(index=False),
     ).build()
-    breakdown_data["resume_text"] = generate_text(
-        prompt
-    )  # Se genera el texto del resumen
+    breakdown_data["resume_text"] = generate_text(prompt)  # Se genera el texto del resumen
 
     fig = static_chart_bars_breakdown_resume(  # Se genera el gráfico de barras del resumen
         df_agrupado, "Resumen de Medias por Tipología"

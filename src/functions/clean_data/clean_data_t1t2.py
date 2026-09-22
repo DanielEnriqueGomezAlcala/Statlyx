@@ -22,9 +22,7 @@ def clean_data_t1t2(tabla_1, tabla_2, tabla_aux):
     tabla_1 = tabla_1.drop_duplicates()
 
     # Limpiar tabla_2
-    tabla_2 = tabla_2[
-        ["Curso Aca", "Cod Asig", "Nummat", "Asignatura", "Tasa Rend", "Tasa Exito"]
-    ]
+    tabla_2 = tabla_2[["Curso Aca", "Cod Asig", "Nummat", "Asignatura", "Tasa Rend", "Tasa Exito"]]
     tabla_2 = tabla_2.rename(
         columns={
             "Curso Aca": "Anio",

@@ -13,14 +13,8 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
     Args:
         df: DataFrame con los datos de las asignaturas.
     """
-    df_medias = df.dropna(
-        subset=["Tasa_Exito", "Tasa_Rendimiento"], how="all"
-    ).sort_values(
-        ["Curso", "Cuatrimestre"]
-    )  # Se eliminan las filas con valores nulos y se ordenan
-    etiquetas_x = (
-        df_medias["Curso"].astype(str) + " - C" + df_medias["Cuatrimestre"].astype(str)
-    )  # Se crean las etiquetas para el eje x
+    df_medias = df.dropna(subset=["Tasa_Exito", "Tasa_Rendimiento"], how="all").sort_values(["Curso", "Cuatrimestre"])  # Se eliminan las filas con valores nulos y se ordenan
+    etiquetas_x = df_medias["Curso"].astype(str) + " - C" + df_medias["Cuatrimestre"].astype(str)  # Se crean las etiquetas para el eje x
 
     fig = go.Figure()
 
@@ -39,9 +33,7 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
             )
         )
 
-    if (
-        "Tasa_Rendimiento" in df_medias.columns
-    ):  # Se añade la traza para la tasa de rendimiento
+    if "Tasa_Rendimiento" in df_medias.columns:  # Se añade la traza para la tasa de rendimiento
         fig.add_trace(
             go.Bar(
                 x=etiquetas_x,

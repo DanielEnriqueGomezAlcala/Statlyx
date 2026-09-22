@@ -15,9 +15,7 @@ from functions.write_presentation.helpers import (
 )
 
 
-def info_slide(
-    presentacion: Presentation, rango_anios: str, tipologias: str, cursos: str
-):
+def info_slide(presentacion: Presentation, rango_anios: str, tipologias: str, cursos: str):
     """
     Genera la diapositiva de información con datos del análisis realizado.
 

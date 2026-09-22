@@ -13,16 +13,10 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
     Args:
         df: DataFrame con los datos de las convocatorias.
     """
-    df_medias = df.dropna(
-        subset=["Tasa_Eficiencia", "Tasa_Exito"], how="all"
-    ).copy()  # Se eliminan las filas con valores nulos
-    df_medias["Convocatoria"] = pd.Categorical(
-        df_medias["Convocatoria"], categories=CONVOCATORIAS_ORDEN, ordered=True
-    )  # Se ordenan las convocatorias
+    df_medias = df.dropna(subset=["Tasa_Eficiencia", "Tasa_Exito"], how="all").copy()  # Se eliminan las filas con valores nulos
+    df_medias["Convocatoria"] = pd.Categorical(df_medias["Convocatoria"], categories=CONVOCATORIAS_ORDEN, ordered=True)  # Se ordenan las convocatorias
     df_medias = df_medias.sort_values(["Curso", "Convocatoria"])  # Se ordenan
-    etiquetas_x = (
-        df_medias["Curso"].astype(str) + " – " + df_medias["Convocatoria"].astype(str)
-    )  # Se crean las etiquetas para el eje x
+    etiquetas_x = df_medias["Curso"].astype(str) + " – " + df_medias["Convocatoria"].astype(str)  # Se crean las etiquetas para el eje x
 
     fig = go.Figure()
 
@@ -41,9 +35,7 @@ def static_chart_bars_breakdown_resume(df, titulo_grafica):
             )
         )
 
-    if (
-        "Tasa_Eficiencia" in df_medias.columns
-    ):  # Se añade la traza para la tasa de eficiencia
+    if "Tasa_Eficiencia" in df_medias.columns:  # Se añade la traza para la tasa de eficiencia
         fig.add_trace(
             go.Bar(
                 x=etiquetas_x,

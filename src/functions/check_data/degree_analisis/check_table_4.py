@@ -29,15 +29,9 @@ def check_table_4(df: pd.DataFrame) -> bool:
     if df.empty:
         raise ValueError("La tabla 4 está vacía.")
 
-    all_values = df.astype(
-        str
-    ).values.flatten()  # Se convierten los valores del DataFrame a strings y se aplanan
-    missing = [
-        row for row in REQUIRED_ROWS if not any(row in val for val in all_values)
-    ]
+    all_values = df.astype(str).values.flatten()  # Se convierten los valores del DataFrame a strings y se aplanan
+    missing = [row for row in REQUIRED_ROWS if not any(row in val for val in all_values)]
     if missing:
-        raise ValueError(
-            f"La tabla 4 no contiene las filas requeridas: {missing}"
-        )  # Se lanza un error si la tabla no contiene las filas requeridas
+        raise ValueError(f"La tabla 4 no contiene las filas requeridas: {missing}")  # Se lanza un error si la tabla no contiene las filas requeridas
 
     return True

@@ -28,29 +28,18 @@ def generate_subject_conclusions(
         institucion: nombre de la institución.
         titulacion: nombre de la titulación.
     """
-    cols = [
-        c for c in ["Asignatura", "Tasa_Exito", "Tasa_Rendimiento"] if c in df.columns
-    ]
+    cols = [c for c in ["Asignatura", "Tasa_Exito", "Tasa_Rendimiento"] if c in df.columns]
     df_filtered = df[cols].copy()
 
     # Filtramos asignaturas sin datos de éxito o con tasa de éxito 0, ya que muy probablemente correspondan a asignaturas que no existen ahora
-    df_filtered = df_filtered[df_filtered["Tasa_Exito"] > 0].dropna(
-        subset=["Tasa_Exito"]
-    )
+    df_filtered = df_filtered[df_filtered["Tasa_Exito"] > 0].dropna(subset=["Tasa_Exito"])
 
     if df_filtered.empty:
         logger.warning("Subject conclusions — no hay datos válidos tras filtrar ceros")
         return {"conclusion_text": None, "recommendations_bullets": []}
 
-    agg_cols = [
-        c for c in ["Tasa_Exito", "Tasa_Rendimiento"] if c in df_filtered.columns
-    ]
-    df_mean = (
-        df_filtered.groupby("Asignatura")[agg_cols]
-        .mean()
-        .round(2)
-        .sort_values("Tasa_Exito")
-    )
+    agg_cols = [c for c in ["Tasa_Exito", "Tasa_Rendimiento"] if c in df_filtered.columns]
+    df_mean = df_filtered.groupby("Asignatura")[agg_cols].mean().round(2).sort_values("Tasa_Exito")
 
     df_worst = df_mean.head(5)
 
@@ -67,9 +56,7 @@ def generate_subject_conclusions(
         conclusion_text = parsed.get("conclusion", "")
         recommendations_bullets = parsed.get("recomendaciones", [])
     except (json.JSONDecodeError, AttributeError):
-        logger.warning(
-            "Subject conclusions — respuesta del LLM no es JSON válido; guardando texto en bruto"
-        )
+        logger.warning("Subject conclusions — respuesta del LLM no es JSON válido; guardando texto en bruto")
         conclusion_text = "ERROR: La respuesta del modelo no es un JSON válido."
         recommendations_bullets = []
 

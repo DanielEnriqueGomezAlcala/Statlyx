@@ -18,12 +18,8 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-RUTA_PLANTILLA_WORD = os.path.join(
-    os.path.dirname(__file__), "..", "..", "templates", "InformePlantilla.docx"
-)
-RUTA_PLANTILLA_PPTX = os.path.join(
-    os.path.dirname(__file__), "..", "..", "templates", "PresentacionPlantilla.pptx"
-)
+RUTA_PLANTILLA_WORD = os.path.join(os.path.dirname(__file__), "..", "..", "templates", "InformePlantilla.docx")
+RUTA_PLANTILLA_PPTX = os.path.join(os.path.dirname(__file__), "..", "..", "templates", "PresentacionPlantilla.pptx")
 SUBITEMS = [
     "desglose-curso",
     "desglose-tipologia",
@@ -137,9 +133,7 @@ def register_callbacks(app):
         Input("filtered-t4", "data"),
         Input("filtered-conv", "data"),
     )
-    def toggle_report_button(
-        institucion, titulacion, filtered_t1_t2, filtered_t4, filtered_conv
-    ):
+    def toggle_report_button(institucion, titulacion, filtered_t1_t2, filtered_t4, filtered_conv):
         """Desactiva los botones de generación si faltan datos obligatorios.
 
         Args:
@@ -149,13 +143,7 @@ def register_callbacks(app):
             filtered_t4: DF con datos de indicadores de titulación.
             filtered_conv: DF con datos de convocatorias.
         """
-        disabled = not (
-            institucion
-            and titulacion
-            and filtered_t1_t2
-            and filtered_t4
-            and filtered_conv
-        )
+        disabled = not (institucion and titulacion and filtered_t1_t2 and filtered_t4 and filtered_conv)
         return disabled, disabled
 
     @app.callback(
@@ -216,9 +204,7 @@ def register_callbacks(app):
             limit_value: Valor límite para tasas de asignatura (Asignatura).
             llm_mode: Modo de generación de texto con IA.
         """
-        set_llm_mode(
-            llm_mode or "sin-razonamiento"
-        )  # por defecto se usa el modo sin razonamiento
+        set_llm_mode(llm_mode or "sin-razonamiento")  # por defecto se usa el modo sin razonamiento
         logger.info(
             "Generando informe Word — secciones: %s, modo LLM: %s",
             chart_selector,
@@ -228,9 +214,7 @@ def register_callbacks(app):
         df_t4 = pd.read_json(io.StringIO(filtered_t4), orient="split")
         df_conv = pd.read_json(io.StringIO(filtered_conv), orient="split")
 
-        directorio = (
-            get_image_dir()
-        )  # directorio donde se guardan las imágenes y el documento final
+        directorio = get_image_dir()  # directorio donde se guardan las imágenes y el documento final
         try:
             ruta_guardado = write_word(
                 df,
@@ -249,15 +233,11 @@ def register_callbacks(app):
                 target_eficiencia,
             )
             logger.info("Informe Word generado: %s", os.path.basename(ruta_guardado))
-            status = dmc.Alert(
-                "Informe Word generado correctamente.", color="green", variant="light"
-            )
+            status = dmc.Alert("Informe Word generado correctamente.", color="green", variant="light")
             return dcc.send_file(ruta_guardado), status, True
         except Exception as e:
             logger.error("Error generando informe Word: %s", e)
-            status = dmc.Alert(
-                f"Error al generar el informe: {e}", color="red", variant="light"
-            )
+            status = dmc.Alert(f"Error al generar el informe: {e}", color="red", variant="light")
             return None, status, False
 
     @app.callback(
@@ -328,9 +308,7 @@ def register_callbacks(app):
         df_t4 = pd.read_json(io.StringIO(filtered_t4), orient="split")
         df_conv = pd.read_json(io.StringIO(filtered_conv), orient="split")
 
-        directorio = (
-            get_image_dir()
-        )  # directorio donde se guardan las imágenes y el documento final
+        directorio = get_image_dir()  # directorio donde se guardan las imágenes y el documento final
         try:
             ruta_guardado = write_presentation(
                 df,
@@ -348,9 +326,7 @@ def register_callbacks(app):
                 target_abandono,
                 target_eficiencia,
             )
-            logger.info(
-                "Presentación PPTX generada: %s", os.path.basename(ruta_guardado)
-            )
+            logger.info("Presentación PPTX generada: %s", os.path.basename(ruta_guardado))
             status = dmc.Alert(
                 "Presentación PowerPoint generada correctamente.",
                 color="green",
@@ -359,9 +335,7 @@ def register_callbacks(app):
             return dcc.send_file(ruta_guardado), status, True
         except Exception as e:
             logger.error("Error generando presentación PPTX: %s", e)
-            status = dmc.Alert(
-                f"Error al generar la presentación: {e}", color="red", variant="light"
-            )
+            status = dmc.Alert(f"Error al generar la presentación: {e}", color="red", variant="light")
             return None, status, False
 
     @app.callback(

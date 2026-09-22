@@ -108,9 +108,7 @@ def generate_degree_breakdown(
             tasa_data["line_chart_path"] = img_path
 
         if table_chart:
-            fig = static_chart_table(
-                df_chart, "Valor", lower_is_better=col in LOWER_IS_BETTER
-            )
+            fig = static_chart_table(df_chart, "Valor", lower_is_better=col in LOWER_IS_BETTER)
             img_path = os.path.join(directory, f"graf_{chart_name}_table.png")
             save_chart_image(fig, img_path)
             tasa_data["table_chart_path"] = img_path
@@ -141,12 +139,8 @@ def generate_degree_breakdown(
         degree_breakdown["resume_conclusion"] = parsed.get("conclusion", "")
         degree_breakdown["resume_bullets"] = parsed.get("recomendaciones", [])
     except (json.JSONDecodeError, AttributeError):
-        logger.warning(
-            "Degree breakdown — respuesta del LLM no es JSON válido; guardando texto en bruto"
-        )
-        degree_breakdown["resume_conclusion"] = (
-            "ERROR: La respuesta del modelo no es un JSON válido."
-        )
+        logger.warning("Degree breakdown — respuesta del LLM no es JSON válido; guardando texto en bruto")
+        degree_breakdown["resume_conclusion"] = "ERROR: La respuesta del modelo no es un JSON válido."
         degree_breakdown["resume_bullets"] = []
 
     return degree_breakdown

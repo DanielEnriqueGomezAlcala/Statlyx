@@ -20,9 +20,7 @@ def static_chart_lines(df, rate, target_value=None, limit_value=None):
 
     asignaturas = df["Asignatura"].unique()
     anios_ordenados = sorted(df["Anio"].unique())
-    bottom_margin = max(
-        80, len(asignaturas) * 38 + 20
-    )  # Se calcula el margen inferior dinamicamente
+    bottom_margin = max(80, len(asignaturas) * 38 + 20)  # Se calcula el margen inferior dinamicamente
     height = 600 + bottom_margin
 
     for i, asignatura in enumerate(asignaturas):
@@ -37,8 +35,7 @@ def static_chart_lines(df, rate, target_value=None, limit_value=None):
                 name=asignatura,
                 line=dict(color=color_actual, width=4),
                 marker=dict(size=12, color=color_actual),
-                hovertemplate="<b>%s</b><br>Año: %%{x}<br>Valor: %%{y:.2f}%%<extra></extra>"
-                % asignatura,
+                hovertemplate="<b>%s</b><br>Año: %%{x}<br>Valor: %%{y:.2f}%%<extra></extra>" % asignatura,
             )
         )
 

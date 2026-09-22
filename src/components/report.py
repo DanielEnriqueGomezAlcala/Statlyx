@@ -94,9 +94,7 @@ def report():
                                     dmc.Center(
                                         dmc.SegmentedControl(
                                             id="llm-mode-selector",
-                                            value="no"
-                                            if not is_api_key_available()
-                                            else "sin-razonamiento",
+                                            value="no" if not is_api_key_available() else "sin-razonamiento",
                                             color=COLORS["primary"],
                                             data=[
                                                 {"value": "no", "label": "No"},
@@ -126,9 +124,7 @@ def report():
                                             "No se ha configurado la API key de OpenAI. Las opciones de IA están desactivadas.",
                                             color="yellow",
                                             variant="light",
-                                            icon=DashIconify(
-                                                icon="tabler:alert-triangle"
-                                            ),
+                                            icon=DashIconify(icon="tabler:alert-triangle"),
                                             mt="xs",
                                         )
                                     )
@@ -192,12 +188,7 @@ def report():
                                                         },
                                                     ),
                                                     html.Div(
-                                                        [
-                                                            checkbox_item(
-                                                                idx, label, desc
-                                                            )
-                                                            for idx, label, desc in SUBITEMS
-                                                        ],
+                                                        [checkbox_item(idx, label, desc) for idx, label, desc in SUBITEMS],
                                                         style=INDENT_STYLE,
                                                     ),
                                                 ]
@@ -390,9 +381,7 @@ def report():
                                                 dmc.Button(
                                                     "Generar informe Word",
                                                     id="generate-report-word-button",
-                                                    leftSection=DashIconify(
-                                                        icon="mdi:download"
-                                                    ),
+                                                    leftSection=DashIconify(icon="mdi:download"),
                                                     color=COLORS["primary"],
                                                     variant="filled",
                                                     disabled=True,
@@ -400,9 +389,7 @@ def report():
                                                 dmc.Button(
                                                     "Generar presentación PowerPoint",
                                                     id="generate-report-pptx-button",
-                                                    leftSection=DashIconify(
-                                                        icon="mdi:presentation"
-                                                    ),
+                                                    leftSection=DashIconify(icon="mdi:presentation"),
                                                     color=COLORS["primary"],
                                                     variant="filled",
                                                     disabled=True,
@@ -432,9 +419,7 @@ def report():
                                                 dmc.Button(
                                                     "Descargar figuras (ZIP)",
                                                     id="download-figures-button",
-                                                    leftSection=DashIconify(
-                                                        icon="mdi:image-multiple"
-                                                    ),
+                                                    leftSection=DashIconify(icon="mdi:image-multiple"),
                                                     color="gray",
                                                     variant="outline",
                                                     disabled=True,
@@ -442,9 +427,7 @@ def report():
                                                 dmc.Button(
                                                     "Descargar tablas filtradas (ZIP)",
                                                     id="download-tables-button",
-                                                    leftSection=DashIconify(
-                                                        icon="mdi:table-arrow-down"
-                                                    ),
+                                                    leftSection=DashIconify(icon="mdi:table-arrow-down"),
                                                     color="gray",
                                                     variant="outline",
                                                     disabled=True,

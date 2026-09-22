@@ -62,9 +62,7 @@ def generate_mention_breakdown(
     line_chart = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
 
-    for mention, df_mention in df.groupby(
-        "Mencion", observed=True
-    ):  # Se agrupan los datos por mención
+    for mention, df_mention in df.groupby("Mencion", observed=True):  # Se agrupan los datos por mención
         logger.info("Mention breakdown — mención: %s", mention)
         mention_data: dict[str, Any] = {"name": mention, "rates": []}
 
@@ -77,9 +75,7 @@ def generate_mention_breakdown(
             if df_rate.empty:
                 continue
 
-            chart_name = f"{mention}_{rate_col}".replace(" ", "_").replace(
-                "/", "-"
-            )  # Nombre que se le pone al archivo con el gráfico
+            chart_name = f"{mention}_{rate_col}".replace(" ", "_").replace("/", "-")  # Nombre que se le pone al archivo con el gráfico
             tasa_data: dict[str, Any] = {"name": rate_name, "text": None}
 
             if line_chart:  # Se genera el gráfico de líneas
@@ -99,50 +95,33 @@ def generate_mention_breakdown(
                 save_chart_image(fig, img_path)
                 tasa_data["table_chart_path"] = img_path
 
-            pivot = (
-                df_rate.pivot_table(
-                    index="Asignatura", columns="Anio", values=rate_col, aggfunc="mean"
-                )
-                .round(1)
-                .fillna("")
-            )
+            pivot = df_rate.pivot_table(index="Asignatura", columns="Anio", values=rate_col, aggfunc="mean").round(1).fillna("")
             pivot.columns = [str(c) for c in pivot.columns]
             pivot.index.name = "Asignatura"
-            prompt = (
-                PromptAnalisisPar(  # Se genera el prompt para el análisis de la tasa
-                    universidad=institucion,
-                    titulacion=titulacion,
-                    contexto_grupo=f"Mención: {mention}",
-                    tasa_nombre=TASAS[rate_col],
-                    objetivo=target_value,
-                    limite=limit_value,
-                    datos=pivot.to_string(),
-                ).build()
-            )
+            prompt = PromptAnalisisPar(  # Se genera el prompt para el análisis de la tasa
+                universidad=institucion,
+                titulacion=titulacion,
+                contexto_grupo=f"Mención: {mention}",
+                tasa_nombre=TASAS[rate_col],
+                objetivo=target_value,
+                limite=limit_value,
+                datos=pivot.to_string(),
+            ).build()
             tasa_data["text"] = generate_text(prompt)  # Se genera el texto de la tasa
 
             mention_data["rates"].append(tasa_data)  # Se agrega la tasa a la mención
 
-        breakdown_data["breakdown"].append(
-            mention_data
-        )  # Se agrega la mención a la lista de menciones
+        breakdown_data["breakdown"].append(mention_data)  # Se agrega la mención a la lista de menciones
 
     # Se genera el resumen de las tasas de éxito y rendimiento por mención
-    df_agrupado = (
-        df[["Mencion", "Tasa_Exito", "Tasa_Rendimiento"]]
-        .groupby("Mencion")[["Tasa_Exito", "Tasa_Rendimiento"]]
-        .mean()
-        .reset_index()
-    )
+    df_agrupado = df[["Mencion", "Tasa_Exito", "Tasa_Rendimiento"]].groupby("Mencion")[["Tasa_Exito", "Tasa_Rendimiento"]].mean().reset_index()
 
     prompt = PromptResumenDesgloseMencion(  # Se genera el prompt para el análisis del resumen
         universidad=institucion,
         titulacion=titulacion,
         datos=df_agrupado.to_string(index=False),
     ).build()
-    breakdown_data["resume_text"] = generate_text(
-        prompt
-    )  # Se genera el texto del resumen
+    breakdown_data["resume_text"] = generate_text(prompt)  # Se genera el texto del resumen
 
     fig = static_chart_bars_breakdown_resume(  # Se genera el gráfico de barras del resumen
         df_agrupado, "Resumen de Medias por Mención"

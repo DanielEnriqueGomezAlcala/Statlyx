@@ -58,9 +58,7 @@ def chart_slide(
     gap_between_chart_and_text = Inches(0.15) if text else Inches(0)
     gap_between_columns = Inches(0.2)
 
-    chart_area_height = (
-        available_height - text_reserved_height - gap_between_chart_and_text
-    )
+    chart_area_height = available_height - text_reserved_height - gap_between_chart_and_text
 
     if img_path and img_path2:
         # Dos imágenes
@@ -69,15 +67,11 @@ def chart_slide(
         right_col_left = MARGIN_L + left_col_width + gap_between_columns
 
         # Ajustamos la imagen de la izquierda para que quepa en su columna sin desbordar
-        left_img_left, left_img_top, left_img_width = fit_image_in_area(
-            img_path, MARGIN_L, content_top, left_col_width, chart_area_height
-        )
+        left_img_left, left_img_top, left_img_width = fit_image_in_area(img_path, MARGIN_L, content_top, left_col_width, chart_area_height)
         add_image(slide, img_path, left_img_left, left_img_top, left_img_width)
 
         # Ajustamos la imagen de la derecha para que quepa en su columna sin desbordar
-        right_img_left, right_img_top, right_img_width = fit_image_in_area(
-            img_path2, right_col_left, content_top, right_col_width, chart_area_height
-        )
+        right_img_left, right_img_top, right_img_width = fit_image_in_area(img_path2, right_col_left, content_top, right_col_width, chart_area_height)
         add_image(slide, img_path2, right_img_left, right_img_top, right_img_width)
 
         # Añadimos el texto si hay debajo de los graficos
@@ -106,9 +100,7 @@ def chart_slide(
             text_col_left = None
 
         # Ajustamos la imagen para que quepa en su columna sin desbordar
-        img_left, img_top, img_width = fit_image_in_area(
-            img_path, MARGIN_L, content_top, image_col_width, available_height
-        )
+        img_left, img_top, img_width = fit_image_in_area(img_path, MARGIN_L, content_top, image_col_width, available_height)
         add_image(slide, img_path, img_left, img_top, img_width)
 
         # Añadimos el texto si hay a la derecha del gráfico

@@ -38,17 +38,12 @@ def upload():
                                         size="sm",
                                     ),
                                     dmc.Accordion(
-                                        [
-                                            upload_bar(uid, label, desc)
-                                            for uid, label, desc in UPLOAD_TABLES
-                                        ],
+                                        [upload_bar(uid, label, desc) for uid, label, desc in UPLOAD_TABLES],
                                         chevronPosition="left",
                                         multiple=True,
                                         variant="contained",
                                     ),
-                                    html.Div(
-                                        id="upload-status", style={"marginTop": "10px"}
-                                    ),
+                                    html.Div(id="upload-status", style={"marginTop": "10px"}),
                                 ],
                                 gap="sm",
                                 style={"padding": "20px"},

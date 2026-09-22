@@ -35,9 +35,7 @@ def filter_section():
                                                 id="year-picker",
                                                 minDate=None,
                                                 maxDate=None,
-                                                leftSection=DashIconify(
-                                                    icon="fa:calendar"
-                                                ),
+                                                leftSection=DashIconify(icon="fa:calendar"),
                                                 type="range",
                                                 label="Selecciona rango de años",
                                                 placeholder="Selecciona años",
@@ -50,9 +48,7 @@ def filter_section():
                                                 data=[],
                                                 clearable=True,
                                                 searchable=True,
-                                                leftSection=DashIconify(
-                                                    icon="mdi:filter"
-                                                ),
+                                                leftSection=DashIconify(icon="mdi:filter"),
                                             ),
                                             dmc.MultiSelect(
                                                 label="Selecciona cursos",
@@ -62,15 +58,11 @@ def filter_section():
                                                 data=[],
                                                 clearable=True,
                                                 searchable=True,
-                                                leftSection=DashIconify(
-                                                    icon="mdi:school"
-                                                ),
+                                                leftSection=DashIconify(icon="mdi:school"),
                                             ),
                                         ]
                                     ),
-                                    html.Div(
-                                        id="filter-status", style={"marginTop": "10px"}
-                                    ),
+                                    html.Div(id="filter-status", style={"marginTop": "10px"}),
                                 ],
                                 gap="sm",
                                 style={"padding": "20px"},

@@ -62,9 +62,7 @@ def generate_subject_breakdown(
     line_chart = "graficas-lineas" in chart_types
     table_chart = "graficas-tablas" in chart_types
 
-    for curso, df_curso in df.groupby(
-        "Curso", observed=True
-    ):  # Se agrupan los datos por curso
+    for curso, df_curso in df.groupby("Curso", observed=True):  # Se agrupan los datos por curso
         curso_nombre = CURSOS.get(curso, str(curso))
         logger.info("Subject breakdown — curso: %s", curso_nombre)
         course_data: dict[str, Any] = {"name": curso_nombre, "quarter": []}
@@ -85,9 +83,7 @@ def generate_subject_breakdown(
                 if rate_col not in df_cuatrimestre.columns:
                     continue
 
-                df_rate = (
-                    df_cuatrimestre[["Asignatura", "Anio", rate_col]].dropna().copy()
-                )
+                df_rate = df_cuatrimestre[["Asignatura", "Anio", rate_col]].dropna().copy()
                 df_rate = df_rate.sort_values("Anio")
                 if df_rate.empty:
                     continue
@@ -135,40 +131,24 @@ def generate_subject_breakdown(
                     limite=limit_value,
                     datos=pivot.to_string(),
                 ).build()
-                tasa_data["text"] = generate_text(
-                    prompt
-                )  # Se genera el texto de la tasa
+                tasa_data["text"] = generate_text(prompt)  # Se genera el texto de la tasa
 
-                cuatrimestre_data["rates"].append(
-                    tasa_data
-                )  # Se agrega la tasa a la cuatrimestre
+                cuatrimestre_data["rates"].append(tasa_data)  # Se agrega la tasa a la cuatrimestre
 
-            course_data["quarter"].append(
-                cuatrimestre_data
-            )  # Se agrega la cuatrimestre a la lista de cuatrimestres
+            course_data["quarter"].append(cuatrimestre_data)  # Se agrega la cuatrimestre a la lista de cuatrimestres
 
-        breakdown_data["breakdown"].append(
-            course_data
-        )  # Se agrega el curso a la lista de cursos
+        breakdown_data["breakdown"].append(course_data)  # Se agrega el curso a la lista de cursos
 
     # Se genera el resumen de las tasas de éxito y rendimiento por curso y cuatrimestre
     df_resume = df[["Curso", "Cuatrimestre", "Tasa_Exito", "Tasa_Rendimiento"]]
-    df_agrupado = (
-        df_resume.groupby(["Curso", "Cuatrimestre"])[["Tasa_Exito", "Tasa_Rendimiento"]]
-        .mean()
-        .reset_index()
-    )
+    df_agrupado = df_resume.groupby(["Curso", "Cuatrimestre"])[["Tasa_Exito", "Tasa_Rendimiento"]].mean().reset_index()
 
-    prompt = (
-        PromptResumenDesgloseCurso(  # Se genera el prompt para el análisis del resumen
-            universidad=institucion,
-            titulacion=titulacion,
-            datos=df_agrupado.to_string(index=False),
-        ).build()
-    )
-    breakdown_data["resume_text"] = generate_text(
-        prompt
-    )  # Se genera el texto del resumen
+    prompt = PromptResumenDesgloseCurso(  # Se genera el prompt para el análisis del resumen
+        universidad=institucion,
+        titulacion=titulacion,
+        datos=df_agrupado.to_string(index=False),
+    ).build()
+    breakdown_data["resume_text"] = generate_text(prompt)  # Se genera el texto del resumen
 
     fig = static_chart_bars_breakdown_resume(  # Se genera el gráfico de barras del resumen
         df_agrupado, "Resumen de Medias por Curso y Cuatrimestre"

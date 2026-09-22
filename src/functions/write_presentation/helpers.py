@@ -10,9 +10,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 
 
-def set_text(
-    text_frame, text: str, size: int, bold: bool, color: tuple, align: PP_ALIGN
-):
+def set_text(text_frame, text: str, size: int, bold: bool, color: tuple, align: PP_ALIGN):
     """
     Modifica el texto de cuadro de texto ya existente.
 
@@ -104,9 +102,7 @@ def real_height(img_path: str, width) -> float:
     return int(width * original_height / original_width)
 
 
-def fit_image_in_area(
-    img_path: str, col_left, content_top, col_width, area_height
-) -> tuple:
+def fit_image_in_area(img_path: str, col_left, content_top, col_width, area_height) -> tuple:
     """
     Calcula la posición y dimensiones de una imagen para que encaje centrada dentro de un área dada.
 

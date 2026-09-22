@@ -20,9 +20,7 @@ def clean_data_call(df_call, df_aux):
     df_call[["Eficiencia", "Exito"]] = df_call[["Eficiencia", "Exito"]] * 100
     df_call[["Eficiencia", "Exito"]] = df_call[["Eficiencia", "Exito"]].round(2)
     # Se seleccionan las columnas necesarias de la tabla de convocatorias
-    df_call = df_call[
-        ["Curso", "Convocatoria", "Asignatura", "Grupo", "Cod", "Eficiencia", "Exito"]
-    ]
+    df_call = df_call[["Curso", "Convocatoria", "Asignatura", "Grupo", "Cod", "Eficiencia", "Exito"]]
     # Se renombran las columnas de la tabla de convocatorias
     df_call = df_call.rename(
         columns={
@@ -34,14 +32,10 @@ def clean_data_call(df_call, df_aux):
             "Exito": "Tasa_Exito",
         }
     )
-    df_call["Convocatoria"] = df_call["Convocatoria"].map(
-        CONVOCATORIAS
-    )  # Se mapean las convocatorias a nombres completos
+    df_call["Convocatoria"] = df_call["Convocatoria"].map(CONVOCATORIAS)  # Se mapean las convocatorias a nombres completos
     df_call = df_call.drop_duplicates()  # Se eliminan duplicados
 
-    df_aux = df_aux[
-        ["Código", "Curso"]
-    ]  # Se seleccionan las columnas necesarias de la tabla auxiliar
+    df_aux = df_aux[["Código", "Curso"]]  # Se seleccionan las columnas necesarias de la tabla auxiliar
     # Se renombran las columnas de la tabla auxiliar
     df_aux = df_aux.rename(
         columns={
@@ -50,7 +44,5 @@ def clean_data_call(df_call, df_aux):
         }
     )
 
-    df = pd.merge(
-        df_call, df_aux, on="Codigo", how="left"
-    )  # Se unen las tablas de convocatorias y auxiliar por el codigo de asignatura
+    df = pd.merge(df_call, df_aux, on="Codigo", how="left")  # Se unen las tablas de convocatorias y auxiliar por el codigo de asignatura
     return df

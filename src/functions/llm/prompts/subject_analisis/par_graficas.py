@@ -26,11 +26,7 @@ class PromptAnalisisPar(BasePrompt):
             umbrales.append(f"- Objetivo (línea verde): {self.objetivo}%")
         if self.limite is not None:
             umbrales.append(f"- Límite mínimo (línea roja): {self.limite}%")
-        umbrales_str = (
-            "\n".join(umbrales)
-            if umbrales
-            else "No se han definido umbrales de referencia."
-        )
+        umbrales_str = "\n".join(umbrales) if umbrales else "No se han definido umbrales de referencia."
 
         hay_umbrales = bool(umbrales)
         lineas = "3" if hay_umbrales else "2"
@@ -42,10 +38,7 @@ class PromptAnalisisPar(BasePrompt):
                 "2. Señala una observación destacada: tendencia ascendente o descendente, o diferencia numérica entre la asignatura con el valor más alto y la de valor más bajo."
             )
         else:
-            instrucciones = (
-                "1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año, "
-                "citando sus valores exactos y la diferencia numérica entre ambas."
-            )
+            instrucciones = "1. Nombra la asignatura con el valor más alto y la de valor más bajo en el último año, citando sus valores exactos y la diferencia numérica entre ambas."
 
         return textwrap.dedent(f"""\
             <rol>

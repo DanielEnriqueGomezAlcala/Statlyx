@@ -19,9 +19,7 @@ def mention_section(presentacion: Presentation, mentions_data: dict):
         presentacion: Plantilla de PowerPoint.
         mentions_data: Datos de la mención.
     """
-    section_slide(
-        presentacion, "Análisis por asignatura", "Desglose por menciones/itinerarios"
-    )
+    section_slide(presentacion, "Análisis por asignatura", "Desglose por menciones/itinerarios")
     resume_slide(
         presentacion,
         "Resumen por mención",
